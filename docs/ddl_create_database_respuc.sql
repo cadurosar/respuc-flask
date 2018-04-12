@@ -87,7 +87,7 @@ drop table if Exists dificuldade;
 
 CREATE TABLE dificuldade (
    Materia     char(20)    Not Null,
-   CPF         integer     Not Null,
+   CPF         bigint     Not Null,
    CONSTRAINT dificuldade_pk PRIMARY KEY (CPF, Materia),
    CONSTRAINT dificuldade_chk_cpf CHECK (CPF > 0),
    CONSTRAINT dificuldade_materia CHECK (length(trim(Materia)) > 0)
@@ -97,7 +97,7 @@ drop table if Exists apoio;
 
 CREATE TABLE apoio (
    Materia     char(20)    Not Null,
-   CPF         integer     Not Null,
+   CPF         bigint     Not Null,
    CONSTRAINT apoio_pk PRIMARY KEY (CPF, Materia),
    CONSTRAINT apoio_chk_cpf CHECK (CPF > 0),
    CONSTRAINT apoio_materia CHECK (length(trim(Materia)) > 0)
@@ -107,7 +107,7 @@ drop table if Exists escola;
 
 CREATE TABLE escola(
    nome  VARCHAR(150) Not Null,
-   telefone INTEGER Not Null,
+   telefone BIGINT Not Null,
 
    CONSTRAINT chk_telefone CHECK((telefone > 0)),
    CONSTRAINT pk_escola_nome PRIMARY KEY (nome)
@@ -150,7 +150,7 @@ CONSTRAINT ck_qtd_alunos CHECK (qtd_alunos > 0)
 drop table if Exists estagio;
 
 CREATE TABLE estagio(
-   cpf INTEGER Not Null,
+   cpf BIGINT Not Null,
    estagio VARCHAR(50) Not Null,
    
    CONSTRAINT pk_estagio PRIMARY KEY (cpf, estagio),
@@ -161,7 +161,7 @@ CREATE TABLE estagio(
 drop table if Exists trabalho;
 
 CREATE TABLE trabalho(
-   cpf INTEGER Not Null,
+   cpf BIGINT Not Null,
    trabalho VARCHAR(50),
    
    CONSTRAINT pk_trabalho PRIMARY KEY (cpf, trabalho),
