@@ -2,7 +2,6 @@
 from flask import abort, Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_migrate import Migrate
 from flask_bootstrap import Bootstrap
 from flask_mail import Message, Mail
 
@@ -42,9 +41,12 @@ def create_app(config_name):
     login_manager.login_message = "Você precisa estar logado para ver esta página."
     login_manager.login_view = "auth.login"
 
-    migrate = Migrate(app, db)
-
     Bootstrap(app)
+
+    #blueprints
+    
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
         
     @app.errorhandler(403)
     def forbidden(error):
