@@ -27,8 +27,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         usuario = Usuario.query.filter_by(email=form.email.data).first()
-        if usuario is not None and usuario.verify_senha(
-                form.senha.data):
+        if usuario is not None and usuario.verify_senha(form.senha.data):
             login_user(usuario)
             if usuario.e_admin:
                 return redirect(url_for('home.admin_dashboard'))

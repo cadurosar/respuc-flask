@@ -1,4 +1,3 @@
-from ..base_form import EnemBaseForm
 from wtforms import PasswordField, StringField, SubmitField, ValidationError, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
 
@@ -19,10 +18,10 @@ class RegistrationForm(EnemBaseForm):
             raise ValidationError('Email já em uso.')
 
     def validate_username(self, field):
-        if Employee.query.filter_by(usuario_id=field.data).first():
+        if Usuario.query.filter_by(usuario_id=field.data).first():
             raise ValidationError('Nome de usuário já em uso.')
 
-class LoginForm(EnemBaseForm):
+class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     senha = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Login')
