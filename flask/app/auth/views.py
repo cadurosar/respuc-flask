@@ -12,7 +12,7 @@ from ..models import Usuario
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
-        usuario = Usuario(email=form.email.data, usuario_id=form.usuario_id.data, nome=form.nome.data, senha=form.senha.data, e_coordenador=form.e_coordenador.data, e_professor=form.e_professor.data)
+        usuario = Usuario(email=form.email.data, senha=form.senha.data, role=form.role.data)
 
         db.session.add(usuario)
         db.session.commit()
@@ -29,7 +29,7 @@ def login():
         usuario = Usuario.query.filter_by(email=form.email.data).first()
         if usuario is not None and usuario.verify_senha(form.senha.data):
             login_user(usuario)
-            if usuario.e_admin:
+            if usuario.role == "admin":
                 return redirect(url_for('home.admin_dashboard'))
             else:
                 return redirect(url_for('home.dashboard'))

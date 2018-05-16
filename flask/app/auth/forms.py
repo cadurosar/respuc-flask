@@ -1,16 +1,14 @@
-from wtforms import PasswordField, StringField, SubmitField, ValidationError, BooleanField
+from wtforms import PasswordField, StringField, SubmitField, ValidationError, BooleanField, SelectField
 from wtforms.validators import DataRequired, Email, EqualTo, Length
+from flask_wtf import FlaskForm
 
 from ..models import Usuario
 
-class RegistrationForm(EnemBaseForm):
+class RegistrationForm(FlaskForm):
+    role = SelectField('Função', choices = [('aprendiz','Aprendiz'),('aluno','Aluno')])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    usuario_id = StringField('Usuário', validators=[DataRequired(), Length(max=10, message ='Tamanho máximo: 10 caracteres.')])
-    nome = StringField('Nome', validators=[DataRequired()])
     senha = PasswordField('Senha', validators=[DataRequired(), EqualTo('confirma_senha')])
     confirma_senha = PasswordField('Confirmar Senha')
-    e_coordenador = BooleanField('Você é um coordenador?', validators=[])
-    e_professor = BooleanField('Você é um professor?', validators=[])
     submit = SubmitField('Registrar')
 
     def validate_email(self, field):

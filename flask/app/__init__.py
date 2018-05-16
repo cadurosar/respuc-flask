@@ -20,10 +20,12 @@ login_manager = LoginManager()
 mail = Mail()
 
 def create_app(config_name):
+    #init
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
-    
+
+    #secret key
     app.secret_key = 'ldCz3GWmhos8QUJPGVt9'
     
     #db
@@ -37,6 +39,7 @@ def create_app(config_name):
     app.config["MAIL_PASSWORD"] = ''
     mail.init_app(app)
     
+    #login manager
     login_manager.init_app(app)
     login_manager.login_message = "Você precisa estar logado para ver esta página."
     login_manager.login_view = "auth.login"
@@ -44,10 +47,14 @@ def create_app(config_name):
     Bootstrap(app)
 
     #blueprints
-    
+
+    from .home import home as home_blueprint
+    app.register_blueprint(home_blueprint)
+
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
-        
+    
+    #error handlers
     @app.errorhandler(403)
     def forbidden(error):
         return render_template('errors/403.html', title='Forbidden'), 403

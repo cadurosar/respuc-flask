@@ -11,6 +11,7 @@
     <h1>Login</h1>
     <br/>
     {{ wtf.quick_form(form) }}
+    <a href="{{ url_for('auth.register') }}">Registre-se</a>
   </div>
 </div>
 {% endblock %}
