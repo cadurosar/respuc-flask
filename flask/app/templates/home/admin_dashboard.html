@@ -9,11 +9,11 @@
         <br/>
         {{ utils.flashed_messages() }}
         <br/>
-        <h1 style="text-align:center;">Usuários</h1>
+        <h1 style="text-align:center;">Usuários com aprovação pendentes:</h1>
         {% if usuarios %}
           <hr class="intro-divider">
           <div class="center">
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="tabela_nconf">
               <thead>
                 <tr>
                   <th width="30%"> Nome </th>
@@ -24,25 +24,16 @@
               </thead>
               <tbody>
               {% for usuario in usuarios %}
-                {% if usuario.e_admin %}
-                    <tr style="background-color: #aec251; color: white;">
-                        <td> <i class="fa fa-key"></i> {{ usuario.email }} </td>
-                        <td>
-                          <a href="#">
-                            <i class="fa fa-pencil"></i> Edit
-                          </a>
-                        </td>
-                    </tr>
-                {% else %}
                 <tr>
+                  <td> %Nome </td>
                   <td> {{ usuario.email }} </td>
-                  <td> {{ usuario.confirmado }} </td>
+                  <td> {{ usuario.role }} </td>
+                  <td>
                     <a href="#">
                       <i class="fa fa-pencil"></i> Edit
                     </a>
                   </td>
                 </tr>
-                {% endif %}
               {% endfor %}
               </tbody>
             </table>
@@ -62,4 +53,34 @@
     </div>
   </div>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('#tabela_nconf').DataTable( {
+    	/*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ usuários por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há usuários com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ usuários)",
+        	"paginate": {
+				"first": "Primeiro",
+				"last": "Último",
+				"next": "Próximo",
+				"previous": "Anterior",
+			},
+			"loadingRecords": "Carregando...",
+			"search": "Filtrar:",
+        	"aria": {
+				"sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+				"sortDescending": ": Ative para odenar a coluna de forma descendente"
+			}
+        },
+
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 2, "desc" ]] 
+    } );
+} );
+</script>
 {% endblock %}
