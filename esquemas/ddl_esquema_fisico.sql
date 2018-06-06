@@ -6,22 +6,6 @@
 	Descrição:
 */
 
-DROP TABLE IF EXISTS aprendiz CASCADE;
-DROP TABLE IF EXISTS aluno CASCADE;
-DROP TABLE IF EXISTS evento CASCADE;
-DROP TABLE IF EXISTS dificuldade CASCADE;
-DROP TABLE IF EXISTS apoio CASCADE;
-DROP TABLE IF EXISTS escola CASCADE;
-DROP TABLE IF EXISTS voluntario CASCADE;
-DROP TABLE IF EXISTS curso CASCADE;
-DROP TABLE IF EXISTS estagio CASCADE;
-DROP TABLE IF EXISTS trabalho CASCADE;
-DROP TABLE IF EXISTS instituicao CASCADE;
-DROP TABLE IF EXISTS atividade CASCADE;
-DROP TABLE IF EXISTS funcionario CASCADE;
-DROP TABLE IF EXISTS aluno_atividade CASCADE;
-DROP TABLE IF EXISTS aprendiz_atividade CASCADE;
-
 /* --------------------------------------------- TABELAS ---------------------------------------------- */
 
 /*
@@ -29,6 +13,8 @@ DROP TABLE IF EXISTS aprendiz_atividade CASCADE;
  *  - No caso do CEP, checa-se se o comprimento da string é igual a 8.
  *  - No caso da UF, checa-se se o comprimento da string é igual a 2.
  */
+DROP TABLE IF EXISTS aprendiz CASCADE;
+
 CREATE TABLE aprendiz
 (
 	cpf char(11) NOT NULL,
@@ -70,6 +56,8 @@ CREATE TABLE aprendiz
  *  - No caso do CEP, checa-se se o comprimento da string é igual a 8.
  *  - No caso da UF, checa-se se o comprimento da string é igual a 2.
  */
+DROP TABLE IF EXISTS aluno CASCADE;
+
 CREATE TABLE aluno
 (
 	cpf char(11) NOT NULL,
@@ -109,6 +97,8 @@ CREATE TABLE aluno
  *  - Garante que a data do evento é uma data passada.
  *  - Garante que o campo Descrição não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS evento CASCADE;
+
 CREATE TABLE evento
 (
 	nome varchar(20) NOT NULL,
@@ -127,6 +117,8 @@ CREATE TABLE evento
  *  - Garante que o valor recebido para CPF não é negativo ou zero.
  *  - Garante que o campo Matéria não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS dificuldade CASCADE;
+
 CREATE TABLE dificuldade
 (
 	materia varchar(20) NOT NULL,
@@ -141,6 +133,8 @@ CREATE TABLE dificuldade
  *  - Garante que o valor recebido para CPF não é negativo ou zero.
  *  - Garante que o campo Matéria não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS apoio CASCADE;
+
 CREATE TABLE apoio
 (
 	materia varchar(20) NOT NULL,
@@ -154,6 +148,8 @@ CREATE TABLE apoio
 /*
  *  - Garante que o campo Telefone não receba uma string composta de apenas zeros.
  */
+DROP TABLE IF EXISTS escola CASCADE;
+
 CREATE TABLE escola
 (
 	nome varchar(150) NOT NULL,
@@ -165,6 +161,8 @@ CREATE TABLE escola
 
 /*
  */
+DROP TABLE IF EXISTS voluntario CASCADE;
+
 CREATE TABLE voluntario
 (
 	cpf char(11) NOT NULL,
@@ -189,6 +187,8 @@ CREATE TABLE voluntario
  *  - Garante que a quantidade de alunos que cursam é positivo.
  *  - Garante que o nome do curso corresponde com os nomes dos cursos oferecidos na PUC-Rio.
  */
+DROP TABLE IF EXISTS curso CASCADE;
+
 CREATE TABLE curso
 (
 	nome varchar(80) NOT NULL,
@@ -205,6 +205,8 @@ CREATE TABLE curso
  *  - Garante que o número do CPF é positivo.
  *  - Garante que o campo Estágio não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS estagio CASCADE;
+
 CREATE TABLE estagio
 (
 	cpf char(11) NOT NULL,
@@ -219,6 +221,8 @@ CREATE TABLE estagio
  *  - Garante que o número do CPF é positivo.
  *  - Garante que o campo Trabalho não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS trabalho CASCADE;
+
 CREATE TABLE trabalho
 (
 	cpf char(11) NOT NULL,
@@ -233,6 +237,8 @@ CREATE TABLE trabalho
  *  - Garante que o número do CPFF é positivo.
  *  - Garante que o campo Trabalho não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS instituicao CASCADE;
+
 CREATE TABLE instituicao
 (
 	nome varchar(1024) NOT NULL,
@@ -249,6 +255,8 @@ CREATE TABLE instituicao
 /*
  *  - Garante que o campo Nome não receba uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS atividade CASCADE;
+
 CREATE TABLE atividade
 (
 	nome varchar(50) NOT NULL,
@@ -260,6 +268,8 @@ CREATE TABLE atividade
 /*
  *  - Garante que os campos Naturalidade, Email e Nome não recebam uma string composta de apenas espaços em branco.
  */
+DROP TABLE IF EXISTS funcionario CASCADE;
+
 CREATE TABLE funcionario
 (
 	cpf char(11) NOT NULL,
@@ -282,6 +292,8 @@ CREATE TABLE funcionario
  *  - Garante que o CPF corresponde ao CPF de um aluno.
  *  - Garante que o nome da atividade corresponde a uma atividade cadastrada.
  */
+DROP TABLE IF EXISTS aluno_atividade CASCADE;
+
 CREATE TABLE aluno_atividade
 (
 	cpf char(11) NOT NULL,
@@ -295,6 +307,8 @@ CREATE TABLE aluno_atividade
  *  - Garante que o CPF corresponde ao CPF de um aprendiz.
  *  - Garante que o nome da atividade corresponde a uma atividade cadastrada.
  */
+DROP TABLE IF EXISTS aprendiz_atividade CASCADE;
+
 CREATE TABLE aprendiz_atividade
 (
 	cpf char(11) NOT NULL,

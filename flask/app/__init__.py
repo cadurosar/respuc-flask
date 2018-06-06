@@ -53,6 +53,9 @@ def create_app(config_name):
 
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
+
+    from .pessoas import pessoas as pessoas_blueprint
+    app.register_blueprint(pessoas_blueprint, url_prefix='/pessoas')
     
     #error handlers
     @app.errorhandler(403)

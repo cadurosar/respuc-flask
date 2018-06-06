@@ -1,8 +1,28 @@
 {% import "bootstrap/utils.html" as utils %}
 {% import "bootstrap/wtf.html" as wtf %}
-{% extends "base.html" %}
-{% block title %}Login{% endblock %}
-{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login | NEAM</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+
+  <!-- DataTables CDN -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
+</head>
+
+<body>
+
 <div class="content-section">
   <br/>
   {{ utils.flashed_messages() }}
@@ -13,5 +33,7 @@
     {{ wtf.quick_form(form) }}
     <a href="{{ url_for('auth.register') }}">Registre-se</a>
   </div>
+  <p>//INDEX: login centrado bonitinho no meio da página com um fundo em tons de azul claro</p>
 </div>
-{% endblock %}
+
+</body>
