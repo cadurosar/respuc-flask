@@ -103,13 +103,13 @@ CREATE TABLE evento
 (
 	nome varchar(20) NOT NULL,
 	presencas integer,
-	dataevento date NOT NULL,
+	data date NOT NULL,
 	descricao varchar(200),
 
-	CONSTRAINT evento_pk PRIMARY KEY (nome, dataevento),
+	CONSTRAINT evento_pk PRIMARY KEY (nome, data),
 	CONSTRAINT evento_ck_nome CHECK (length(trim(nome)) > 0),
 	CONSTRAINT evento_ck_presencas CHECK (presencas > 0),
-	CONSTRAINT evento_ck_dataevento CHECK (isfinite(dataevento)),
+	CONSTRAINT evento_ck_data CHECK (isfinite(data)),
 	CONSTRAINT evento_ck_descricao CHECK ((descricao IS NULL) OR (length(trim(descricao)) > 0))
 );
 
