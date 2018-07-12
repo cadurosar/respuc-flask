@@ -45,7 +45,7 @@
             <h3> Ainda não há nenhum aluno cadastrado. </h3>
             <hr class="intro-divider">
         {% endif %}
-          <a href="#" class="btn btn-default btn-lg">
+          <a href="{{ url_for('pessoas.add_aluno') }}" class="btn btn-default btn-lg">
             <i class="fa fa-plus"></i>
             Adicionar um aluno
           </a>

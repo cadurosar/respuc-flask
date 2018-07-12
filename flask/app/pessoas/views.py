@@ -2,6 +2,7 @@ from flask import flash, redirect, render_template, url_for
 from flask_login import login_required
 
 from . import pessoas
+from .forms import AddAlunoForm
 from .. import db
 from ..models import Usuario
 
@@ -26,6 +27,7 @@ def list_pessoas():
 @pessoas.route('/add', methods=['GET', 'POST'])
 @login_required
 def add_aluno():
+
     """
     Add a usuario to the database
     """
@@ -33,7 +35,7 @@ def add_aluno():
 
     add_aluno = True
 
-    form = AddAluno()
+    form = AddAlunoForm()
     if form.validate_on_submit():
         aluno = Aluno(nome=form.aluno.nome, cpf=form.aluno.cpf, rg=form.aluno.rg, naturalidade=form.aluno.naturalidade, email=form.email.data, data_nascimento=form.aluno.data_nascimento, telefone=form.aluno.telefone, celular=form.aluno.celular, rua=form.aluno.rua, numero=form.aluno.numero, complemento=form.aluno.complemento, bairro=form.aluno.bairro, cidade=form.aluno.cidade, uf=form.aluno.uf, cep=form.aluno.cep, nome_responsavel=form.aluno.nome_reponsavel, cpf_responsavel=form.aluno.cpf_responsavel, telefone_responsavel=form.aluno.telefone_responsavel, profissao_responsavel=form.aluno.profissao_responsavel)
 
@@ -44,9 +46,9 @@ def add_aluno():
         return redirect(url_for('pessoas.list_pessoas'))
 
     # load usuario template
-    return render_template('admin/usuarios/usuario.html', action="Add",
-                           add_usuario=add_usuario, form=form,
-                           title="Add Usuario")
+    return render_template('pessoas/add_aluno.html', action="Add",
+                           add_aluno=add_aluno, form=form,
+                           title="Add Aluno")
 
 
 @pessoas.route('/usuarios/edit/<int:id>', methods=['GET', 'POST'])
