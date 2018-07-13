@@ -241,6 +241,19 @@ CREATE TABLE public.aprendiz_atividade
       ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS public.usuario cascade;
+
+CREATE TABLE usuario(
+usuario_id serial,
+senha_hash varchar(128),
+email varchar(60) unique,
+role varchar(10),
+confirmado boolean,
+
+CONSTRAINT usuario_pk  PRIMARY KEY (id)
+);
+
+
 CREATE OR REPLACE VIEW public.alunos_e_aprendizes AS 
  SELECT subquery.cpf,
     subquery.nome,
