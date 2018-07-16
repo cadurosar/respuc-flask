@@ -250,7 +250,7 @@ email varchar(60) unique,
 role varchar(10),
 confirmado boolean,
 
-CONSTRAINT usuario_pk  PRIMARY KEY (id)
+CONSTRAINT usuario_pk  PRIMARY KEY (usuario_id)
 );
 
 
