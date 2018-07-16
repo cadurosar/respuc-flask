@@ -18,9 +18,10 @@
               <thead>
                 <tr>
                   <th width="30%"> Nome </th>
-                  <th width="40%"> Email </th>
+                  <th width="30%"> Email </th>
                   <th width="20%"> Role </th>
                   <th width="10%"> Editar </th>
+                  <th width="10%"> Deletar </th>
                 </tr>
               </thead>
               <tbody>
@@ -30,8 +31,13 @@
                   <td> {{ aluno.email }} </td>
                   <td> {{ aluno.role }} </td>
                   <td>
-                    <a href="#">
-                      <i class="fa fa-pencil"></i> Edit
+                    <a href="{{ url_for('pessoas.edit_aluno', cpf=aluno.cpf) }}">
+                      <i class="fa fa-pencil"></i> Editar
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('pessoas.delete_aluno', cpf=aluno.cpf) }}">
+                      <i class="fa fa-trash"></i> Deletar
                     </a>
                   </td>
                 </tr>
@@ -60,9 +66,10 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="40%"> Email </th>
+                      <th width="30%"> Email </th>
                       <th width="20%"> Role </th>
                       <th width="10%"> Editar </th>
+                      <th width="10%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -73,7 +80,12 @@
                       <td> {{ aprendiz.role }} </td>
                       <td>
                         <a href="#">
-                          <i class="fa fa-pencil"></i> Edit
+                          <i class="fa fa-pencil"></i> Editar
+                        </a>
+                      </td>
+                      <td>
+                        <a href="#">
+                          <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>
                     </tr>
@@ -103,9 +115,10 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="40%"> Email </th>
+                      <th width="30%"> Email </th>
                       <th width="20%"> Role </th>
                       <th width="10%"> Editar </th>
+                      <th width="10%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -116,9 +129,14 @@
                       <td> {{ voluntario.role }} </td>
                       <td>
                         <a href="#">
-                          <i class="fa fa-pencil"></i> Edit
+                          <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
+                      <td>
+                        <a href="#">
+                          <i class="fa fa-trash"></i> Deletar
+                        </a>
+                      </td>                      
                     </tr>
                   {% endfor %}
                   </tbody>

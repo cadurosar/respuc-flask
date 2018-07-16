@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 
 from ..models import Usuario
 
-class AddAlunoForm(FlaskForm):
+class AddOrEditAlunoForm(FlaskForm):
 
 	"""
 	Form para adição de uma pessoa
@@ -31,4 +31,4 @@ class AddAlunoForm(FlaskForm):
 	telefone_responsavel = StringField('Telefone do responsável', validators=[DataRequired()])
 	profissao_responsavel = StringField('Profissão do responsável', validators=[DataRequired()])
 
-	submit = SubmitField('Cadastrar aluno')
+	submit = SubmitField('Confirmar')
