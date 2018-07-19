@@ -79,12 +79,12 @@
                       <td> {{ aprendiz.email }} </td>
                       <td> {{ aprendiz.role }} </td>
                       <td>
-                        <a href="#">
+                        <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
                           <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
                       <td>
-                        <a href="#">
+                        <a href="{{ url_for('pessoas.delete_aprendiz', cpf=aprendiz.cpf) }}">
                           <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>
@@ -99,7 +99,7 @@
                 <h3> Ainda não há nenhum aprendiz cadastrado. </h3>
                 <hr class="intro-divider">
             {% endif %}
-              <a href="#" class="btn btn-default btn-lg">
+              <a href="{{ url_for('pessoas.add_aprendiz') }}" class="btn btn-default btn-lg">
                 <i class="fa fa-plus"></i>
                 Adicionar um aprendiz
               </a>
@@ -128,12 +128,12 @@
                       <td> {{ voluntario.email }} </td>
                       <td> {{ voluntario.role }} </td>
                       <td>
-                        <a href="#">
+                        <a href="{{ url_for('pessoas.edit_voluntario', cpf=voluntario.cpf) }}">
                           <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
                       <td>
-                        <a href="#">
+                        <a href="{{ url_for('pessoas.delete_voluntario', cpf=voluntario.cpf) }}">
                           <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>                      
@@ -148,7 +148,7 @@
                 <h3> Ainda não há nenhum voluntário cadastrado. </h3>
                 <hr class="intro-divider">
             {% endif %}
-              <a href="#" class="btn btn-default btn-lg">
+              <a href="{{ url_for('pessoas.add_voluntario') }}" class="btn btn-default btn-lg">
                 <i class="fa fa-plus"></i>
                 Adicionar um voluntário
               </a>
