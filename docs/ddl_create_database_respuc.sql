@@ -131,7 +131,9 @@ CREATE TABLE voluntario(
     Cidade VARCHAR(20) NOT NULL,
     uf VARCHAR(2) Not Null,
     CEP CHAR(8) NOT NULL,    
-    matricula char(7) not null UNIQUE
+    matricula char(7) not null UNIQUE,
+
+    CONSTRAINT pk_voluntario_cpf PRIMARY KEY (cpf)
     );
 
 drop table if Exists curso;
@@ -250,7 +252,7 @@ email varchar(60) unique,
 role varchar(10),
 confirmado boolean,
 
-CONSTRAINT usuario_pk  PRIMARY KEY (id)
+CONSTRAINT usuario_pk  PRIMARY KEY (usuario_id)
 );
 
 

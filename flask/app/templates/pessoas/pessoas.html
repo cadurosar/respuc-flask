@@ -18,9 +18,10 @@
               <thead>
                 <tr>
                   <th width="30%"> Nome </th>
-                  <th width="40%"> Email </th>
+                  <th width="30%"> Email </th>
                   <th width="20%"> Role </th>
                   <th width="10%"> Editar </th>
+                  <th width="10%"> Deletar </th>
                 </tr>
               </thead>
               <tbody>
@@ -30,8 +31,13 @@
                   <td> {{ aluno.email }} </td>
                   <td> {{ aluno.role }} </td>
                   <td>
-                    <a href="#">
-                      <i class="fa fa-pencil"></i> Edit
+                    <a href="{{ url_for('pessoas.edit_aluno', cpf=aluno.cpf) }}">
+                      <i class="fa fa-pencil"></i> Editar
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('pessoas.delete_aluno', cpf=aluno.cpf) }}">
+                      <i class="fa fa-trash"></i> Deletar
                     </a>
                   </td>
                 </tr>
@@ -60,9 +66,10 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="40%"> Email </th>
+                      <th width="30%"> Email </th>
                       <th width="20%"> Role </th>
                       <th width="10%"> Editar </th>
+                      <th width="10%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -72,8 +79,13 @@
                       <td> {{ aprendiz.email }} </td>
                       <td> {{ aprendiz.role }} </td>
                       <td>
-                        <a href="#">
-                          <i class="fa fa-pencil"></i> Edit
+                        <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
+                          <i class="fa fa-pencil"></i> Editar
+                        </a>
+                      </td>
+                      <td>
+                        <a href="{{ url_for('pessoas.delete_aprendiz', cpf=aprendiz.cpf) }}">
+                          <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>
                     </tr>
@@ -87,7 +99,7 @@
                 <h3> Ainda não há nenhum aprendiz cadastrado. </h3>
                 <hr class="intro-divider">
             {% endif %}
-              <a href="#" class="btn btn-default btn-lg">
+              <a href="{{ url_for('pessoas.add_aprendiz') }}" class="btn btn-default btn-lg">
                 <i class="fa fa-plus"></i>
                 Adicionar um aprendiz
               </a>
@@ -103,9 +115,10 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="40%"> Email </th>
+                      <th width="30%"> Email </th>
                       <th width="20%"> Role </th>
                       <th width="10%"> Editar </th>
+                      <th width="10%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -115,10 +128,15 @@
                       <td> {{ voluntario.email }} </td>
                       <td> {{ voluntario.role }} </td>
                       <td>
-                        <a href="#">
-                          <i class="fa fa-pencil"></i> Edit
+                        <a href="{{ url_for('pessoas.edit_voluntario', cpf=voluntario.cpf) }}">
+                          <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
+                      <td>
+                        <a href="{{ url_for('pessoas.delete_voluntario', cpf=voluntario.cpf) }}">
+                          <i class="fa fa-trash"></i> Deletar
+                        </a>
+                      </td>                      
                     </tr>
                   {% endfor %}
                   </tbody>
@@ -130,7 +148,7 @@
                 <h3> Ainda não há nenhum voluntário cadastrado. </h3>
                 <hr class="intro-divider">
             {% endif %}
-              <a href="#" class="btn btn-default btn-lg">
+              <a href="{{ url_for('pessoas.add_voluntario') }}" class="btn btn-default btn-lg">
                 <i class="fa fa-plus"></i>
                 Adicionar um voluntário
               </a>

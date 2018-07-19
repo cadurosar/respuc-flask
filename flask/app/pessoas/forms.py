@@ -5,10 +5,10 @@ from flask_wtf import FlaskForm
 
 from ..models import Usuario
 
-class AddAlunoForm(FlaskForm):
+class AddOrEditAlunoForm(FlaskForm):
 
 	"""
-	Form para adição de uma pessoa
+	Form para adição/edição de um aluno
 	"""
 
 	nome = StringField('Nome', validators=[DataRequired()])
@@ -31,4 +31,58 @@ class AddAlunoForm(FlaskForm):
 	telefone_responsavel = StringField('Telefone do responsável', validators=[DataRequired()])
 	profissao_responsavel = StringField('Profissão do responsável', validators=[DataRequired()])
 
-	submit = SubmitField('Cadastrar aluno')
+	submit = SubmitField('Confirmar')
+
+class AddOrEditAprendizForm(FlaskForm):
+
+	"""
+	Form para adição/edição de um aprendiz
+	"""
+
+	nome = StringField('Nome', validators=[DataRequired()])
+	cpf = IntegerField('CPF (somente números)', validators=[DataRequired()])
+	rg = IntegerField('RG (somente números)', validators=[DataRequired()])
+	naturalidade = StringField('Naturalidade', validators=[DataRequired()])
+	email = StringField('Email', validators=[DataRequired(), Email()])
+	data_nascimento = DateField('Data de nascimento', format='%Y-%m-%d', validators=[DataRequired()])
+	telefone = IntegerField('Telefone', validators=[DataRequired()])
+	celular = IntegerField('Celular', validators=[DataRequired()])
+	rua = StringField('Rua', validators=[DataRequired()])
+	numero = IntegerField('Número', validators=[DataRequired()])
+	complemento = StringField('Complemento', validators=[DataRequired()])
+	bairro = StringField('Bairro', validators=[DataRequired()])
+	cidade = StringField('Cidade', validators=[DataRequired()])
+	uf = StringField('UF', validators=[DataRequired()])
+	cep = StringField('CEP', validators=[DataRequired()])
+	trabalho = StringField('Trabalho', validators=[DataRequired()])
+	nome_responsavel = StringField('Nome do responsável', validators=[DataRequired()])
+	cpf_responsavel = StringField('CPF do responsável', validators=[DataRequired()])
+	telefone_responsavel = StringField('Telefone do responsável', validators=[DataRequired()])
+	profissao_responsavel = StringField('Profissão do responsável', validators=[DataRequired()])
+
+	submit = SubmitField('Confirmar')
+
+class AddOrEditVoluntarioForm(FlaskForm):
+
+	"""
+	Form para adição/edição de um voluntario
+	"""
+
+	nome = StringField('Nome', validators=[DataRequired()])
+	cpf = IntegerField('CPF (somente números)', validators=[DataRequired()])
+	rg = IntegerField('RG (somente números)', validators=[DataRequired()])
+	naturalidade = StringField('Naturalidade', validators=[DataRequired()])
+	email = StringField('Email', validators=[DataRequired(), Email()])
+	data_nascimento = DateField('Data de nascimento', format='%Y-%m-%d', validators=[DataRequired()])
+	telefone = IntegerField('Telefone', validators=[DataRequired()])
+	celular = IntegerField('Celular', validators=[DataRequired()])
+	rua = StringField('Rua', validators=[DataRequired()])
+	numero = IntegerField('Número', validators=[DataRequired()])
+	complemento = StringField('Complemento', validators=[DataRequired()])
+	bairro = StringField('Bairro', validators=[DataRequired()])
+	cidade = StringField('Cidade', validators=[DataRequired()])
+	uf = StringField('UF', validators=[DataRequired()])
+	cep = StringField('CEP', validators=[DataRequired()])
+	matricula = StringField('Matrícula', validators=[DataRequired()])
+
+	submit = SubmitField('Confirmar')
