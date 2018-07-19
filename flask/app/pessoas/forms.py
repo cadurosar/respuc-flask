@@ -65,7 +65,7 @@ class AddOrEditAprendizForm(FlaskForm):
 class AddOrEditVoluntarioForm(FlaskForm):
 
 	"""
-	Form para adição/edição de um aprendiz
+	Form para adição/edição de um voluntario
 	"""
 
 	nome = StringField('Nome', validators=[DataRequired()])
