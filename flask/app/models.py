@@ -229,10 +229,10 @@ class Evento(db.Model):
         db.CheckConstraint('presencas > 0'),
         db.CheckConstraint('sfinite(dataevento')
     )
-
-    nome = db.Column(db.String(20), primary_key=True, nullable=False)
+    id_evento = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(20), nullable=False)
     presencas = db.Column(db.Integer)
-    dataevento = db.Column(db.Date, primary_key=True, nullable=False)
+    dataevento = db.Column(db.Date, nullable=False)
     descricao = db.Column(db.String(200))
 
 

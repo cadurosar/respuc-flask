@@ -72,11 +72,12 @@ CREATE TABLE aluno(
 drop table if Exists evento;
 
 CREATE TABLE evento (
+   id_evento   serial      Not Null,
    Nome        char(20)    Not Null,
-   Presencas   integer     Null,
+   Presencas   integer     Null         Default 0,
    DataEvento  date        Not Null,
    Descricao   char(200)   Null,
-   CONSTRAINT evento_pk PRIMARY KEY (Nome, DataEvento),
+   CONSTRAINT evento_pk PRIMARY KEY (id_evento),
    CONSTRAINT evento_chk_nome CHECK (length(trim(Nome)) > 0),
    CONSTRAINT evento_chk_presencas CHECK (Presencas > 0),
    CONSTRAINT evento_chk_dataevento CHECK (isfinite(DataEvento)),
