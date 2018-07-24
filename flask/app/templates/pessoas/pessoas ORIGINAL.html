@@ -31,7 +31,7 @@
                   <td>
                     <i class="fa fa-plus-circle"> </i>
                   </td>
-                  <td class="teste"> {{ aluno.nome }} </td>
+                  <td> {{ aluno.nome }} </td>
                   <td> {{ aluno.email }} </td>
                   <td> {{ aluno.role }} </td>
                   <td>
@@ -162,18 +162,18 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  
+<script>
+
 function format ( d ) {
     // `d` is the original data object for the row
     return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
         '<tr>'+
             '<td>Full name:</td>'+
-            '<td>'+d.name+'</td>'+
+            '<td></td>'+
         '</tr>'+
         '<tr>'+
             '<td>Extension number:</td>'+
-            '<td>'+d.extn+'</td>'+
+            '<td></td>'+
         '</tr>'+
         '<tr>'+
             '<td>Extra info:</td>'+
@@ -192,6 +192,65 @@ $(document).ready(function() {
             "info": "Mostrando _PAGE_ de _PAGES_",
             "infoEmpty": "Não há alunos com esse filtro",
             "infoFiltered": "(filtrado de um total de _MAX_ alunos)",
+        	"paginate": {
+				"first": "Primeiro",
+				"last": "Último",
+				"next": "Próximo",
+				"previous": "Anterior",
+			},
+			"loadingRecords": "Carregando...",
+			"search": "Filtrar:",
+        	"aria": {
+				"sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+				"sortDescending": ": Ative para odenar a coluna de forma descendente"
+			}
+        },
+
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 1, "asc" ]] 
+    } );
+
+    $('#tabela_alunos tbody').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+ 
+        if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+        }
+        else {
+            // Open this row
+            row.child( format(row.data()) ).show();
+            tr.addClass('shown');
+        }
+    } );
+
+} );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function() {
+    $('#tabela_aprendizes').DataTable( {
+      /*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ aprendizes por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há aprendizes com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ aprendizes)",
           "paginate": {
         "first": "Primeiro",
         "last": "Último",
@@ -209,20 +268,34 @@ $(document).ready(function() {
         /*ORDENA POR ROLE POR DEFAULT*/
         "order": [[ 1, "asc" ]] 
     } );
+} );
 
-    $('#tabela_alunos').on('click',  'td.teste', function() {
-      var tr = $(this).closest('tr');
-      var row = table.row( tr );
+$(document).ready(function() {
+    $('#tabela_voluntarios').DataTable( {
+      /*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ volntários por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há volntários com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ volntários)",
+          "paginate": {
+        "first": "Primeiro",
+        "last": "Último",
+        "next": "Próximo",
+        "previous": "Anterior",
+      },
+      "loadingRecords": "Carregando...",
+      "search": "Filtrar:",
+          "aria": {
+        "sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+        "sortDescending": ": Ative para odenar a coluna de forma descendente"
+      }
+        },
 
-      if ( row.child.isShown() ) {
-        row.child.hide();
-        tr.removeClass('shown');
-      }
-      else {
-        row.child( format(row.data()) ).show();
-        tr.addClass('shown');
-      }
-    })
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 1, "asc" ]] 
+    } );
 } );
 </script>
 {% endblock %}
