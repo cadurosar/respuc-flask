@@ -19,13 +19,13 @@ def lista_pessoas():
     #check_admin()
 
     alunos = Aluno.query.all()
-
+    
     aprendizes = Aprendiz.query.all()
 
     voluntarios = Voluntario.query.all()
 
     return render_template('pessoas/pessoas.html',
-                           alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
+                           users=users,alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
 
 
 """
