@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_mail import Message, Mail
+from flask_debugtoolbar import DebugToolbarExtension
 
 import os
 
@@ -18,6 +19,7 @@ login_manager = LoginManager()
 
 #Flask-Mail initialization
 mail = Mail()
+
 
 def create_app(config_name):
     #init
@@ -43,6 +45,9 @@ def create_app(config_name):
     login_manager.init_app(app)
     login_manager.login_message = "Você precisa estar logado para ver esta página."
     login_manager.login_view = "auth.login"
+
+    #debug toolbar
+    toolbar = DebugToolbarExtension(app)
 
     Bootstrap(app)
 
