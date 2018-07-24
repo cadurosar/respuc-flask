@@ -1,0 +1,91 @@
+{% import "bootstrap/utils.html" as utils %}
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="outer">
+    <div class="middle">
+      <div class="inner">
+        <br/>
+        {{ utils.flashed_messages() }}
+        <br/>
+<!-- alunos -->
+        <h1 style="text-align:center;">Eventos:</h1>
+        {% if eventos %}
+          <hr class="intro-divider">
+          <div class="center">
+            <table class="table table-striped table-bordered" id="tabela_eventos">
+              <thead>
+                <tr>
+                  <th width="50%"> Nome </th>
+                  <th width="20%"> Data </th>
+                  <th width="15%"> Editar </th>
+                  <th width="15%"> Deletar </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for evento in eventos %}
+                <tr>
+                  <td> {{ evento.nome }} </td>
+                  <td> {{ evento.data }} </td>
+                  <td>
+                    <a href="{{ url_for('eventos.edit_evento', id=evento.id_evento) }}">
+                      <i class="fa fa-pencil"></i> Editar
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ url_for('eventos.delete_evento', id=evento.id_evento) }}">
+                      <i class="fa fa-trash"></i> Deletar
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <div style="text-align: center">
+        {% else %}
+            <div style="text-align: center">
+            <h3> Ainda não há nenhum evento cadastrado. </h3>
+            <hr class="intro-divider">
+        {% endif %}
+          <a href="{{ url_for('eventos.add_evento') }}" class="btn btn-default btn-lg">
+            <i class="fa fa-plus"></i>
+            Adicionar um evento
+          </a>
+        </div>
+      </div>   
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#tabela_eventos').DataTable( {
+      /*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ usuários por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há eventos com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ eventos)",
+          "paginate": {
+        "first": "Primeiro",
+        "last": "Último",
+        "next": "Próximo",
+        "previous": "Anterior",
+      },
+      "loadingRecords": "Carregando...",
+      "search": "Filtrar:",
+          "aria": {
+        "sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+        "sortDescending": ": Ative para odenar a coluna de forma descendente"
+      }
+        },
+
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 1, "asc" ]] 
+    } );
+} );
+</script>
+{% endblock %}

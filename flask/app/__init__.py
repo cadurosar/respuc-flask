@@ -56,6 +56,9 @@ def create_app(config_name):
 
     from .pessoas import pessoas as pessoas_blueprint
     app.register_blueprint(pessoas_blueprint, url_prefix='/pessoas')
+
+    from .eventos import eventos as eventos_blueprint
+    app.register_blueprint(eventos_blueprint, url_prefix='/eventos')
     
     #error handlers
     @app.errorhandler(403)

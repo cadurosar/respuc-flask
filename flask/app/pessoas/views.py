@@ -28,15 +28,6 @@ def lista_pessoas():
                            alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
 
 
-
-
-
-
-
-
-
-
-
 """
 ALUNOS:
 """
@@ -157,15 +148,6 @@ def delete_aluno(cpf):
     return redirect(url_for('pessoas.lista_pessoas'))
 
     return render_template(title="Deletar aluno")
-
-
-
-
-
-
-
-
-
 
 
 """
@@ -289,15 +271,6 @@ def delete_aprendiz(cpf):
     return redirect(url_for('pessoas.lista_pessoas'))
 
     return render_template(title="Deletar aprendiz")
-
-
-
-
-
-
-
-
-
 
 
 """
