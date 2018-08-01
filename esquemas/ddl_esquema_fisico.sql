@@ -221,3 +221,19 @@ CREATE TABLE aluno_aprendiz_atividade
 	CONSTRAINT aluno_aprendiz_atividade_cpf_fk FOREIGN KEY (cpf) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT aluno_aprendiz_atividade_atividade_fk FOREIGN KEY (atividade) REFERENCES atividade(pk_nome) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+/* --------------------------------------------- USUARIO ---------------------------------------------- */
+
+DROP TABLE IF EXISTS usuario CASCADE;
+
+CREATE TABLE usuario
+(
+	email varchar(60) NOT NULL,
+	login varchar(120) NOT NULL,
+	senha_hash varchar(128) NOT NULL,
+	tipo integer NOT NULL,
+	permissao varchar(60) NOT NULL,
+
+	CONSTRAINT usuario_pk PRIMARY KEY (email),
+);
