@@ -25,7 +25,7 @@ def lista_pessoas():
     voluntarios = Voluntario.query.all()
 
     return render_template('pessoas/pessoas.html',
-                           users=users,alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
+                           alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
 
 
 """
