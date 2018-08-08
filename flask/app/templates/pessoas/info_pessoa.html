@@ -1,0 +1,47 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Info{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="center">
+  	<h1> <b>{{ pessoa.nome }}</b> </h1>
+  	<hr>
+  	<div class="row">
+  		<div class="col-sm-7">
+  			<h2>Dados pessoas</h2>
+  			<br>
+			<p> <b>CPF:</b> {{ pessoa.cpf }}</p>
+			<p> <b>RG: </b>{{ pessoa.rg }}</p>
+			<p> <b>Naturalidade: </b> {{ pessoa.naturalidade }}</p>
+			<p> <b>Data de nascimento: </b> {{ pessoa.data_nascimento }}</p>
+			
+			<h2>Contato</h2>
+			<br>
+			<p> <b>Email: </b> {{ pessoa.email }}</p>
+			<p> <b>Telefone: </b> {{ pessoa.telefone }}</p>
+			<p> <b>Celular: </b> {{ pessoa.celular }}</p>
+			<p> <b>Rua: </b> {{ pessoa.rua }}</p>
+			<p> <b>Número: </b> {{ pessoa.numero }}</p>
+			<p> <b>Complemento: </b>{{ pessoa.complemento }}</p>
+			<p> <b>Bairro: </b>{{ pessoa.bairro }}</p>
+			<p> <b>Cidade; </b>{{ pessoa.cidade }}</p>
+			<p> <b>UF: </b>{{ pessoa.uf }}</p>
+			<p> <b>CEP: </b>{{ pessoa.cep }}</p>
+		</div>
+		<div class="col-sm-5">
+			{% if pessoa.responsavel %}
+			<h2>Responsável</h2>
+			<br>
+			<p> <b>Nome do responsável: </b>{{ pessoa.nome_responsavel }}</p>
+			<p> <b>CPF do responsável: </b>{{ pessoa.cpf_responsavel }}</p>
+			<p> <b>Telefone do responsável: </b>{{ pessoa.telefone_responsavel }}</p>
+			<p> <b>Profissão do responsável: </b>{{ pessoa.profissao_responsavel }}</p>
+			{% endif %}
+
+			<h2>Foto</h2>
+			<br>
+		</div>
+	</div>
+  </div>
+</div>
+{% endblock %}

@@ -25,12 +25,20 @@ def lista_pessoas():
     voluntarios = Voluntario.query.all()
 
     return render_template('pessoas/pessoas.html',
-                           users=users,alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
+                           alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
 
 
 """
 ALUNOS:
 """
+@pessoas.route('/aluno/<string:cpf>', methods=['GET', 'POST'])
+@login_required
+def info_aluno(cpf):
+
+    aluno = Aluno.query.get_or_404(cpf)
+
+    return render_template('pessoas/info_pessoa.html', pessoa=aluno, title="Info")
+
 
 @pessoas.route('/add/aluno', methods=['GET', 'POST'])
 @login_required
@@ -154,6 +162,15 @@ def delete_aluno(cpf):
 APRENDIZES:
 """
 
+@pessoas.route('/aprendiz/<string:cpf>', methods=['GET', 'POST'])
+@login_required
+def info_aprendiz(cpf):
+
+    aprendiz = Aprendiz.query.get_or_404(cpf)
+
+    return render_template('pessoas/info_pessoa.html', pessoa=aprendiz, title="Info")
+
+
 @pessoas.route('/add/aprendiz', methods=['GET', 'POST'])
 @login_required
 def add_aprendiz():
@@ -276,6 +293,15 @@ def delete_aprendiz(cpf):
 """
 VOLUNTARIOS:
 """
+
+@pessoas.route('/voluntario/<string:cpf>', methods=['GET', 'POST'])
+@login_required
+def info_voluntario(cpf):
+
+    voluntario = Voluntario.query.get_or_404(cpf)
+
+    return render_template('pessoas/info_pessoa.html', pessoa=voluntario, title="Info")
+
 
 @pessoas.route('/add/voluntario', methods=['GET', 'POST'])
 @login_required
