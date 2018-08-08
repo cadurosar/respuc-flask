@@ -17,23 +17,21 @@
             <table class="table table-striped table-bordered" id="tabela_alunos">
               <thead>
                 <tr>
-                  <th class=details-control width="5%"> T </th>
-                  <th width="25%"> Nome </th>
-                  <th width="30%"> Email </th>
-                  <th width="20%"> Role </th>
-                  <th width="10%"> Editar </th>
-                  <th width="10%"> Deletar </th>
+                  <th width="30%"> Nome </th>
+                  <th width="40%"> Email </th>
+                  <th width="15%"> Editar </th>
+                  <th width="15%"> Deletar </th>
                 </tr>
               </thead>
               <tbody>
               {% for aluno in alunos %}
                 <tr>
-                  <td>
-                    <i class="fa fa-plus-circle"> </i>
+                  <td> {{ aluno.nome }}
+                    <a style="float:right;" href="{{ url_for('pessoas.info_aluno',cpf=aluno.cpf) }}">
+                      <i class="fa fa-info-circle fa-lg"></i>
+                    </a>
                   </td>
-                  <td class="teste"> {{ aluno.nome }} </td>
                   <td> {{ aluno.email }} </td>
-                  <td> {{ aluno.role }} </td>
                   <td>
                     <a href="{{ url_for('pessoas.edit_aluno', cpf=aluno.cpf) }}">
                       <i class="fa fa-pencil"></i> Editar
@@ -70,18 +68,20 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="30%"> Email </th>
-                      <th width="20%"> Role </th>
-                      <th width="10%"> Editar </th>
-                      <th width="10%"> Deletar </th>
+                      <th width="40%"> Email </th>
+                      <th width="15%"> Editar </th>
+                      <th width="15%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
                   {% for aprendiz in aprendizes %}
                     <tr>
-                      <td> {{ aprendiz.nome }} </td>
+                      <td> {{ aprendiz.nome }}
+                        <a style="float:right;" href="{{ url_for('pessoas.info_aprendiz',cpf=aprendiz.cpf) }}">
+                          <i class="fa fa-info-circle fa-lg"></i>
+                        </a>
+                      </td>
                       <td> {{ aprendiz.email }} </td>
-                      <td> {{ aprendiz.role }} </td>
                       <td>
                         <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
                           <i class="fa fa-pencil"></i> Editar
@@ -119,18 +119,20 @@
                   <thead>
                     <tr>
                       <th width="30%"> Nome </th>
-                      <th width="30%"> Email </th>
-                      <th width="20%"> Role </th>
-                      <th width="10%"> Editar </th>
-                      <th width="10%"> Deletar </th>
+                      <th width="40%"> Email </th>
+                      <th width="15%"> Editar </th>
+                      <th width="15%"> Deletar </th>
                     </tr>
                   </thead>
                   <tbody>
                   {% for voluntario in voluntarios %}
                     <tr>
-                      <td> {{ voluntario.nome }} </td>
+                      <td> {{ voluntario.nome }}
+                        <a style="float:right;" href="{{ url_for('pessoas.info_voluntario',cpf=voluntario.cpf) }}">
+                          <i class="fa fa-info-circle fa-lg"></i>
+                        </a>
+                      </td>
                       <td> {{ voluntario.email }} </td>
-                      <td> {{ voluntario.role }} </td>
                       <td>
                         <a href="{{ url_for('pessoas.edit_voluntario', cpf=voluntario.cpf) }}">
                           <i class="fa fa-pencil"></i> Editar
@@ -162,25 +164,7 @@
   </div>
 </div>
 
-<script type="text/javascript">
-  
-function format ( d ) {
-    // `d` is the original data object for the row
-    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">'+
-        '<tr>'+
-            '<td>Full name:</td>'+
-            '<td>'+d.name+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extension number:</td>'+
-            '<td>'+d.extn+'</td>'+
-        '</tr>'+
-        '<tr>'+
-            '<td>Extra info:</td>'+
-            '<td>And any further details here (images etc)...</td>'+
-        '</tr>'+
-    '</table>';
-}
+<script>
 
 $(document).ready(function() {
     var table = $('#tabela_alunos').DataTable( {
@@ -192,6 +176,34 @@ $(document).ready(function() {
             "info": "Mostrando _PAGE_ de _PAGES_",
             "infoEmpty": "Não há alunos com esse filtro",
             "infoFiltered": "(filtrado de um total de _MAX_ alunos)",
+        	"paginate": {
+				"first": "Primeiro",
+				"last": "Último",
+				"next": "Próximo",
+				"previous": "Anterior",
+			},
+			"loadingRecords": "Carregando...",
+			"search": "Filtrar:",
+        	"aria": {
+				"sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+				"sortDescending": ": Ative para odenar a coluna de forma descendente"
+			}
+        },
+
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 1, "asc" ]] 
+    } );
+} );
+
+$(document).ready(function() {
+    $('#tabela_aprendizes').DataTable( {
+      /*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ aprendizes por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há aprendizes com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ aprendizes)",
           "paginate": {
         "first": "Primeiro",
         "last": "Último",
@@ -209,20 +221,34 @@ $(document).ready(function() {
         /*ORDENA POR ROLE POR DEFAULT*/
         "order": [[ 1, "asc" ]] 
     } );
+} );
 
-    $('#tabela_alunos').on('click',  'td.teste', function() {
-      var tr = $(this).closest('tr');
-      var row = table.row( tr );
+$(document).ready(function() {
+    $('#tabela_voluntarios').DataTable( {
+      /*MUDA LINGUAGEM*/
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ volntários por página",
+            "zeroRecords": "Nada com esse filtro - desculpe",
+            "info": "Mostrando _PAGE_ de _PAGES_",
+            "infoEmpty": "Não há volntários com esse filtro",
+            "infoFiltered": "(filtrado de um total de _MAX_ volntários)",
+          "paginate": {
+        "first": "Primeiro",
+        "last": "Último",
+        "next": "Próximo",
+        "previous": "Anterior",
+      },
+      "loadingRecords": "Carregando...",
+      "search": "Filtrar:",
+          "aria": {
+        "sortAscending": ": Ative para ordenar a coluna de forma ascendente",
+        "sortDescending": ": Ative para odenar a coluna de forma descendente"
+      }
+        },
 
-      if ( row.child.isShown() ) {
-        row.child.hide();
-        tr.removeClass('shown');
-      }
-      else {
-        row.child( format(row.data()) ).show();
-        tr.addClass('shown');
-      }
-    })
+        /*ORDENA POR ROLE POR DEFAULT*/
+        "order": [[ 1, "asc" ]] 
+    } );
 } );
 </script>
 {% endblock %}
