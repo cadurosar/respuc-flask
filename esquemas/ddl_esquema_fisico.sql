@@ -74,8 +74,8 @@ CREATE TABLE aluno
 (
 	fk_cpf char(11) NOT NULL,
 	curso varchar(80) NOT NULL,
-	nome_dificuldade varchar(80),
-	apoio_dificuldade boolean,
+	nome_dificuldade varchar(80) [],
+	apoio_dificuldade boolean [],
 
 	CONSTRAINT aluno_cpf_fk FOREIGN KEY (fk_cpf) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT aluno_ck_curso CHECK (curso IN ('Administração', 'Arquitetura e Urbanismo', 'Artes Cênicas', 'Ciência da Computação', 'Ciências Biológicas', 'Ciências Econômicas', 'Ciências Sociais', 'Comunicação Social - Cinema', 'Comunicação Social - Jornalismo', 'Comunicação Social - Publicidade e Propaganda', 'Design - Comunicação Visual', 'Design - Mídia Digital', 'Design - Moda', 'Design - Projeto de Produto', 'Direito', 'Engenharia Ambiental', 'Engenharia Civil', 'Engenharia da Computação', 'Engenharia de Controle e Automação', 'Engenharia Elétrica', 'Engenharia Mecânica', 'Engenharia de Materiais e Nanotecnologia', 'Engenharia de Petróleo', 'Engenharia de Produção', 'Engenharia Química', 'Filosofia', 'Física', 'Geografia', 'História', 'Letras', 'Matemática', 'Pedagogia','Produção e Gestão de Mídias em Educação', 'Psicologia', 'Química', 'Relações Internacionais', 'Serviço Social', 'Sistemas de Informação', 'Teologia'))
@@ -118,14 +118,14 @@ CREATE TABLE evento
 (
 	pk_nome varchar(20) NOT NULL,
 	pk_data date NOT NULL,
-	presencas integer,
-	descricao varchar(200),
+	pk_presencas integer NOT NULL,
+	pk_descricao varchar(200) NOT NULL,
 
-	CONSTRAINT evento_pk PRIMARY KEY (pk_nome, pk_data),
+	CONSTRAINT evento_pk PRIMARY KEY (pk_nome, pk_data, pk_presencas, pk_descricao),
 	CONSTRAINT evento_ck_nome CHECK (length(trim(pk_nome)) > 0),
-	CONSTRAINT evento_ck_presencas CHECK (presencas > 0),
+	CONSTRAINT evento_ck_presencas CHECK (pk_presencas > 0),
 	CONSTRAINT evento_ck_data CHECK (isfinite(pk_data)),
-	CONSTRAINT evento_ck_descricao CHECK ((descricao IS NULL) OR (length(trim(descricao)) > 0))
+	CONSTRAINT evento_ck_descricao CHECK (length(trim(pk_descricao)) > 0)
 );
 
 
@@ -134,9 +134,9 @@ DROP TABLE IF EXISTS escola CASCADE;
 CREATE TABLE escola
 (
 	pk_nome varchar(150) NOT NULL,
-	telefone varchar(20) NOT NULL,
+	telefone varchar(20),
 
-	CONSTRAINT escola_pk PRIMARY KEY (pk_nome, telefone),
+	CONSTRAINT escola_pk PRIMARY KEY (pk_nome),
 	CONSTRAINT escola_ck_telefone CHECK (CAST(telefone AS bigint) > 0)
 );
 
@@ -210,7 +210,7 @@ CREATE TABLE instituicao
 );
 
 
-DROP TABLE IF EXISTS aluno_atividade CASCADE;
+DROP TABLE IF EXISTS aluno_aprendiz_atividade CASCADE;
 
 CREATE TABLE aluno_aprendiz_atividade
 (
@@ -220,6 +220,22 @@ CREATE TABLE aluno_aprendiz_atividade
 	CONSTRAINT aluno_aprendiz_atividade_pk PRIMARY KEY (cpf, atividade),
 	CONSTRAINT aluno_aprendiz_atividade_cpf_fk FOREIGN KEY (cpf) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT aluno_aprendiz_atividade_atividade_fk FOREIGN KEY (atividade) REFERENCES atividade(pk_nome) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+
+DROP TABLE IF EXISTS pessoa_evento CASCADE;
+
+CREATE TABLE pessoa_evento
+(
+	fk_cpf char(11) NOT NULL,
+	fk_nome varchar(20) NOT NULL,
+	fk_data date NOT NULL,
+	fk_presencas integer NOT NULL,
+	fk_descricao varchar(200) NOT NULL,
+
+	CONSTRAINT pessoa_evento_pk PRIMARY KEY (fk_cpf, fk_nome, fk_data, fk_presencas, fk_descricao),
+	CONSTRAINT pessoa_evento_cpf_fk FOREIGN KEY (fk_cpf) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT pessoa_evento_nome_data_presencas_descricao_fk FOREIGN KEY (fk_nome, fk_data, fk_presencas, fk_descricao) REFERENCES evento(pk_nome, pk_data, pk_presencas, pk_descricao) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -233,7 +249,7 @@ CREATE TABLE usuario
 	login varchar(120) NOT NULL,
 	senha_hash varchar(128) NOT NULL,
 	tipo integer NOT NULL,
-	permissao varchar(60) NOT NULL,
+	permissao varchar(60) [] NOT NULL,
 
-	CONSTRAINT usuario_pk PRIMARY KEY (email),
+	CONSTRAINT usuario_pk PRIMARY KEY (email)
 );
