@@ -113,7 +113,7 @@ CREATE TABLE voluntario
 (
 	fk_cpf_pessoa char(11) NOT NULL,
 	endereco endereco NOT NULL,
-	matricula_puc char(7) NOT NULL,
+	matricula_puc char(7) UNIQUE NOT NULL,
 	curso_puc varchar(80) NOT NULL,
 
 	CONSTRAINT voluntario_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -200,7 +200,7 @@ CREATE TABLE instituicao
 (
 	pk_nome varchar(200) NOT NULL,
 	telefone varchar(16) NOT NULL,
-	email varchar(60) NOT NULL,
+	email varchar(60) UNIQUE NOT NULL,
 	vinculo varchar(200) NOT NULL,
 
 	CONSTRAINT instituicao_pk PRIMARY KEY (pk_nome),
@@ -242,7 +242,7 @@ DROP TABLE IF EXISTS usuario CASCADE;
 
 CREATE TABLE usuario
 (
-	pk_email varchar(60) NOT NULL,
+	pk_email varchar(60) UNIQUE NOT NULL,
 	login varchar(120) NOT NULL,
 	senha_hash varchar(128) NOT NULL,
 	permissao smallint NOT NULL,
