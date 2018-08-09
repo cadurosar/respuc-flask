@@ -1,5 +1,5 @@
 /*
-	DDL do esquema físico
+	DDL antigo do esquema físico
 
 	Projeto: RESPUC-NEAM PUC-Rio
 
