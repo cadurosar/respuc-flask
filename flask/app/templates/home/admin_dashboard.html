@@ -9,78 +9,16 @@
         <br/>
         {{ utils.flashed_messages() }}
         <br/>
-        <h1 style="text-align:center;">Usuários com aprovação pendentes:</h1>
-        {% if usuarios %}
+        <h1 style="text-align:center;"> Bem-Vindo administrador.</h1>
           <hr class="intro-divider">
-          <div class="center">
-            <table class="table table-striped table-bordered" id="tabela_nconf">
-              <thead>
-                <tr>
-                  <th width="30%"> Nome </th>
-                  <th width="40%"> Email </th>
-                  <th width="20%"> Role </th>
-                  <th width="10%"> Editar </th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for usuario in usuarios %}
-                <tr>
-                  <td> %Nome </td>
-                  <td> {{ usuario.email }} </td>
-                  <td> {{ usuario.role }} </td>
-                  <td>
-                    <a href="#">
-                      <i class="fa fa-pencil"></i> Edit
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+          <div class="center text-center">
+            <p>
+              Clique no link "pessoas" acima para administrar alunos, aprendizes e voluntários. Os demais links ainda são páginas em construção.
+            </p>
           </div>
-          <div style="text-align: center">
-        {% else %}
-          <div style="text-align: center">
-            <h3> No usuarios have been added. </h3>
-            <hr class="intro-divider">
-        {% endif %}
-          <a href="#" class="btn btn-default btn-lg">
-            <i class="fa fa-plus"></i>
-            Adicionar um usuario
-          </a>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#tabela_nconf').DataTable( {
-    	/*MUDA LINGUAGEM*/
-        "language": {
-            "lengthMenu": "Mostrar _MENU_ usuários por página",
-            "zeroRecords": "Nada com esse filtro - desculpe",
-            "info": "Mostrando _PAGE_ de _PAGES_",
-            "infoEmpty": "Não há usuários com esse filtro",
-            "infoFiltered": "(filtrado de um total de _MAX_ usuários)",
-        	"paginate": {
-				"first": "Primeiro",
-				"last": "Último",
-				"next": "Próximo",
-				"previous": "Anterior",
-			},
-			"loadingRecords": "Carregando...",
-			"search": "Filtrar:",
-        	"aria": {
-				"sortAscending": ": Ative para ordenar a coluna de forma ascendente",
-				"sortDescending": ": Ative para odenar a coluna de forma descendente"
-			}
-        },
-
-        /*ORDENA POR ROLE POR DEFAULT*/
-        "order": [[ 2, "desc" ]] 
-    } );
-} );
-</script>
 {% endblock %}

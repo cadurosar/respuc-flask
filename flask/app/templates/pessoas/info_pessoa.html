@@ -8,14 +8,17 @@
   	<hr>
   	<div class="row">
   		<div class="col-sm-7">
-  			<h2>Dados pessoas</h2>
+  			<h2>Dados pessoais</h2>
   			<br>
 			<p> <b>CPF:</b> {{ pessoa.cpf }}</p>
 			<p> <b>RG: </b>{{ pessoa.rg }}</p>
 			<p> <b>Naturalidade: </b> {{ pessoa.naturalidade }}</p>
 			<p> <b>Data de nascimento: </b> {{ pessoa.data_nascimento }}</p>
+			{% if pessoa.matricula %}
+			<p> <b>Matricula: </b>{{ pessoa.matricula }}</p>
+			{% endif %}
 			
-			<h2>Contato</h2>
+			<h2>Dados para contato</h2>
 			<br>
 			<p> <b>Email: </b> {{ pessoa.email }}</p>
 			<p> <b>Telefone: </b> {{ pessoa.telefone }}</p>
@@ -29,7 +32,7 @@
 			<p> <b>CEP: </b>{{ pessoa.cep }}</p>
 		</div>
 		<div class="col-sm-5">
-			{% if pessoa.responsavel %}
+			{% if pessoa.cpf_responsavel %}
 			<h2>Responsável</h2>
 			<br>
 			<p> <b>Nome do responsável: </b>{{ pessoa.nome_responsavel }}</p>
@@ -38,7 +41,15 @@
 			<p> <b>Profissão do responsável: </b>{{ pessoa.profissao_responsavel }}</p>
 			{% endif %}
 
+			<h2>Atividades</h2>
+			{% if pessoa.trabalho %}
+			<p> <b>Trabalho: </b>{{ pessoa.trabalho }}</p>
+			{% else %}
+			<p> Essa pessoa não realiza nenhum trabalho, nem está em nenhum evento, atividade ou projeto. </p>
+			{% endif %}
+
 			<h2>Foto</h2>
+			<p> //pegar a foto com json </p>
 			<br>
 		</div>
 	</div>
