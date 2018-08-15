@@ -6,112 +6,115 @@
   <div class="outer">
     <div class="middle">
       <div class="inner">
-        <br/>
         {{ utils.flashed_messages() }}
-        <br/>
 <!-- alunos -->
+        <div class="row alunos">
         <h1 style="text-align:center;">Alunos:</h1>
         {% if alunos %}
           <hr class="intro-divider">
-          <div class="center">
-            <table class="table table-striped table-bordered" id="tabela_alunos">
-              <thead>
-                <tr>
-                  <th width="30%"> Nome </th>
-                  <th width="40%"> Email </th>
-                  <th width="15%"> Editar </th>
-                  <th width="15%"> Deletar </th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for aluno in alunos %}
-                <tr>
-                  <td> {{ aluno.nome }}
-                    <a style="float:right;" href="{{ url_for('pessoas.info_aluno',cpf=aluno.cpf) }}">
-                      <i class="fa fa-info-circle fa-lg"></i>
-                    </a>
-                  </td>
-                  <td> {{ aluno.email }} </td>
-                  <td>
-                    <a href="{{ url_for('pessoas.edit_aluno', cpf=aluno.cpf) }}">
-                      <i class="fa fa-pencil"></i> Editar
-                    </a>
-                  </td>
-                  <td>
-                    <a href="{{ url_for('pessoas.delete_aluno', cpf=aluno.cpf) }}">
-                      <i class="fa fa-trash"></i> Deletar
-                    </a>
-                  </td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <div style="text-align: center">
-        {% else %}
+            <div class="center">
+              <table class="dt-responsive table table-striped table-bordered" id="tabela_alunos">
+                <thead>
+                  <tr>
+                    <th width="30%"> Nome </th>
+                    <th width="40%"> Email </th>
+                    <th width="15%"> Editar </th>
+                    <th width="15%"> Deletar </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for aluno in alunos %}
+                  <tr>
+                    <td> {{ aluno.nome }}
+                      <a style="float:right;" href="{{ url_for('pessoas.info_aluno',cpf=aluno.cpf) }}">
+                        <i class="fa fa-info-circle fa-lg"></i>
+                      </a>
+                    </td>
+                    <td> {{ aluno.email }} </td>
+                    <td>
+                      <a href="{{ url_for('pessoas.edit_aluno', cpf=aluno.cpf) }}">
+                        <i class="fa fa-pencil"></i> Editar
+                      </a>
+                    </td>
+                    <td>
+                      <a href="{{ url_for('pessoas.delete_aluno', cpf=aluno.cpf) }}">
+                        <i class="fa fa-trash"></i> Deletar
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
             <div style="text-align: center">
-            <h3> Ainda não há nenhum aluno cadastrado. </h3>
-            <hr class="intro-divider">
-        {% endif %}
-          <a href="{{ url_for('pessoas.add_aluno') }}" class="btn btn-default btn-lg">
-            <i class="fa fa-plus"></i>
-            Adicionar um aluno
-          </a>
+          {% else %}
+              <div style="text-align: center">
+              <h3> Ainda não há nenhum aluno cadastrado. </h3>
+              <hr class="intro-divider">
+          {% endif %}
+            <a href="{{ url_for('pessoas.add_aluno') }}" class="btn btn-default btn-lg">
+              <i class="fa fa-plus"></i>
+              Adicionar um aluno
+            </a>
+              </div>
+            </div>
         </div>
-      </div>
 <!-- aprendizes -->
+        <div class="row aprendizes">
         <h1 style="text-align:center;">Aprendizes:</h1>
         {% if aprendizes %}
           <hr class="intro-divider">
-          <div class="center">
-                <table class="table table-striped table-bordered" id="tabela_aprendizes">
-                  <thead>
-                    <tr>
-                      <th width="30%"> Nome </th>
-                      <th width="40%"> Email </th>
-                      <th width="15%"> Editar </th>
-                      <th width="15%"> Deletar </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% for aprendiz in aprendizes %}
-                    <tr>
-                      <td> {{ aprendiz.nome }}
-                        <a style="float:right;" href="{{ url_for('pessoas.info_aprendiz',cpf=aprendiz.cpf) }}">
-                          <i class="fa fa-info-circle fa-lg"></i>
-                        </a>
-                      </td>
-                      <td> {{ aprendiz.email }} </td>
-                      <td>
-                        <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
-                          <i class="fa fa-pencil"></i> Editar
-                        </a>
-                      </td>
-                      <td>
-                        <a href="{{ url_for('pessoas.delete_aprendiz', cpf=aprendiz.cpf) }}">
-                          <i class="fa fa-trash"></i> Deletar
-                        </a>
-                      </td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+            <div class="center">
+              <table class="table table-striped table-bordered" id="tabela_aprendizes">
+                <thead>
+                  <tr>
+                    <th width="30%"> Nome </th>
+                    <th width="40%"> Email </th>
+                    <th width="15%"> Editar </th>
+                    <th width="15%"> Deletar </th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for aprendiz in aprendizes %}
+                  <tr>
+                    <td> {{ aprendiz.nome }}
+                      <a style="float:right;" href="{{ url_for('pessoas.info_aprendiz',cpf=aprendiz.cpf) }}">
+                        <i class="fa fa-info-circle fa-lg"></i>
+                      </a>
+                    </td>
+                    <td> {{ aprendiz.email }} </td>
+                    <td>
+                      <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
+                        <i class="fa fa-pencil"></i> Editar
+                      </a>
+                    </td>
+                    <td>
+                      <a href="{{ url_for('pessoas.delete_aprendiz', cpf=aprendiz.cpf) }}">
+                        <i class="fa fa-trash"></i> Deletar
+                      </a>
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div style="text-align: center">
+          {% else %}
               <div style="text-align: center">
-            {% else %}
-                <div style="text-align: center">
-                <h3> Ainda não há nenhum aprendiz cadastrado. </h3>
-                <hr class="intro-divider">
-            {% endif %}
-              <a href="{{ url_for('pessoas.add_aprendiz') }}" class="btn btn-default btn-lg">
-                <i class="fa fa-plus"></i>
-                Adicionar um aprendiz
-              </a>
+              <h3> Ainda não há nenhum aprendiz cadastrado. </h3>
+              <hr class="intro-divider">
+          {% endif %}
+            <a href="{{ url_for('pessoas.add_aprendiz') }}" class="btn btn-default btn-lg">
+              <i class="fa fa-plus"></i>
+              Adicionar um aprendiz
+            </a>
+              </div>
             </div>
           </div>
 
 <!-- voluntarios -->
-        <h1 style="text-align:center;">Voluntário:</h1>
+        <div class="row voluntarios">
+        <h1 style="text-align:center;">Voluntários:</h1>
         {% if voluntarios %}
           <hr class="intro-divider">
           <div class="center">
@@ -159,7 +162,8 @@
                 Adicionar um voluntário
               </a>
             </div>
-          </div>    
+          </div>
+        </div>   
     </div>
   </div>
 </div>

@@ -41,11 +41,38 @@ body, h1, h2, h3 {
   height: auto !important;
   height: 100%;
   margin: 0 auto 0;
-  padding: 0 0 64px;
+  padding: 0 0 0px;
   position: relative;
   background-color: #bbd9f336;
 }
 
+.novidades{
+  padding: 30px;
+}
+
+.novidades-cartao{
+  border: solid #000;
+  border-width: 0.33px 0.33px;
+  background: #f4fcff;
+  min-height: 100%;
+  box-shadow: 8px 8px 40px #474747;
+  margin: 15px 15px;
+}
+
+.alunos{
+  padding: 50px;
+  background-color: #bbd9f336;
+}
+
+.aprendizes{
+  padding: 50px;
+  background-color: #bbf3c745;
+}
+
+.voluntarios{
+  padding: 50px;
+  background-color: #bbd9f336;
+}
 
 .navbar-default {
     background-color: #3667a4;

@@ -1,4 +1,4 @@
-from wtforms import PasswordField, StringField, SubmitField, ValidationError, BooleanField, IntegerField
+from wtforms import PasswordField, StringField, SubmitField, ValidationError, BooleanField, IntegerField, SelectField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from flask_wtf import FlaskForm
@@ -24,7 +24,7 @@ class AddOrEditAlunoForm(FlaskForm):
 	complemento = StringField('Complemento', validators=[DataRequired()])
 	bairro = StringField('Bairro', validators=[DataRequired()])
 	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = StringField('UF', validators=[DataRequired()])
+	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
 	cep = StringField('CEP', validators=[DataRequired()])
 	nome_responsavel = StringField('Nome do responsável', validators=[DataRequired()])
 	cpf_responsavel = StringField('CPF do responsável', validators=[DataRequired()])
@@ -52,7 +52,7 @@ class AddOrEditAprendizForm(FlaskForm):
 	complemento = StringField('Complemento', validators=[DataRequired()])
 	bairro = StringField('Bairro', validators=[DataRequired()])
 	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = StringField('UF', validators=[DataRequired()])
+	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
 	cep = StringField('CEP', validators=[DataRequired()])
 	trabalho = StringField('Trabalho', validators=[DataRequired()])
 	nome_responsavel = StringField('Nome do responsável', validators=[DataRequired()])
@@ -81,7 +81,7 @@ class AddOrEditVoluntarioForm(FlaskForm):
 	complemento = StringField('Complemento', validators=[DataRequired()])
 	bairro = StringField('Bairro', validators=[DataRequired()])
 	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = StringField('UF', validators=[DataRequired()])
+	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
 	cep = StringField('CEP', validators=[DataRequired()])
 	matricula = StringField('Matrícula', validators=[DataRequired()])
 

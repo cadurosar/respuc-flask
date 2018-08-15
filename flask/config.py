@@ -7,6 +7,7 @@ class Config(object):
     """
 
     PERMANENT_SESSION_LIFETIME = datetime.timedelta(hours=3)
+    DEBUG_TB_INTERCEPT_REDIRECTS = False
 
     # Put any configurations here that are common across all environments
 
