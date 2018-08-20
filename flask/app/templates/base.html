@@ -49,7 +49,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li class="disabled"><a href="#">Minha conta</a></li>
         {% if current_user.role == "admin" %}
-        <li><a href="{{ url_for('admin.aprovar_usuarios') }}">Aprovar usuários</a></li>
+        <li class="disabled"><a href="{{ url_for('admin.aprovar_usuarios') }}">Aprovar usuários</a></li>
         {% endif %}
         <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
       </ul>
