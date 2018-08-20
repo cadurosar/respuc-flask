@@ -4,7 +4,7 @@
 	Projeto: RESPUC-NEAM PUC-Rio
 
 	Descrição:
-	Cria no banco de dados as tabelas apresentadas como entidades no esquema conceitual versão 3.
+	Cria no banco de dados as tabelas apresentadas como entidades no esquema conceitual versão 5.
 */
 
 /* ---------------------------------------------- TIPOS ----------------------------------------------- */
@@ -32,25 +32,42 @@ CREATE TYPE dificuldade AS
 );
 
 
+DROP TYPE IF EXISTS responsavel CASCADE;
+
+CREATE TYPE responsavel AS
+(
+	nome varchar(80),
+	celular varchar(200),
+	profissao varchar(200)
+);
+
+
 /* --------------------------------------------- TABELAS ---------------------------------------------- */
 
 DROP TABLE IF EXISTS pessoa CASCADE;
 
 CREATE TABLE pessoa
 (
-	pk_cpf char(11) NOT NULL,
-	rg char(12) NOT NULL,
-	naturalidade varchar(50) NOT NULL,
-	email varchar(60) UNIQUE NOT NULL,
-	nome varchar(70) NOT NULL,
+	pk_rg_numero char(12) NOT NULL,
+	pk_rg_orgao_expedidor varchar(20) NOT NULL,
+	pk_rg_data_expedicao date NOT NULL,
+	nome varchar(80) NOT NULL,
+	sexo smallint NOT NULL,
 	data_nascimento date NOT NULL,
-	telefone varchar(200) NOT NULL,
+	email varchar(60) UNIQUE NOT NULL,
 	celular varchar(200) NOT NULL,
+	endereco endereco NOT NULL,
+	foto varchar(200) NOT NULL,
+	data_desligamento date,
 
-	CONSTRAINT pessoa_pk PRIMARY KEY (pk_cpf),
-	CONSTRAINT pessoa_ck_naturalidade CHECK (length(trim(naturalidade)) > 0),
+	CONSTRAINT pessoa_pk PRIMARY KEY (pk_rg, pk_rg_numero, pk_rg_data_expedicao),
+	CONSTRAINT pessoa_ck_rg_numero_pk CHECK (length(trim(pk_rg_numero)) > 0),
+	CONSTRAINT pessoa_ck_rg_orgao_expedidor_pk CHECK (length(trim(pk_rg_orgao_expedidor)) > 0),
+	CONSTRAINT pessoa_ck_rg_data_expedicao_pk CHECK (length(trim(pk_rg_data_expedicao)) > 0),
+	CONSTRAINT pessoa_ck_nome CHECK (length(trim(nome)) > 0),
 	CONSTRAINT pessoa_ck_email CHECK (length(trim(email)) > 0),
-	CONSTRAINT pessoa_ck_nome CHECK (length(trim(nome)) > 0)
+	CONSTRAINT pessoa_ck_sexo CHECK (sexo >= 0),
+	CONSTRAINT pessoa_ck_data_nascimento CHECK (isfinite(data_nascimento))
 );
 
 
@@ -58,52 +75,12 @@ DROP TABLE IF EXISTS aprendiz_aluno CASCADE;
 
 CREATE TABLE aprendiz_aluno
 (
-	fk_cpf_pessoa char(11) NOT NULL,
-	endereco endereco NOT NULL,
-	nome_responsavel varchar(200) NOT NULL,
-	cpf_responsavel char(11) NOT NULL,
-	telefone_responsavel varchar(200) NOT NULL,
-	profissao_responsavel varchar(200) NOT NULL,
+	fk_rg_numero_pessoa char(12) NOT NULL,
+	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
+	fk_rg_data_expedicao_pessoa date NOT NULL,
+	responsavel responsavel [],
 
-	CONSTRAINT aprendiz_aluno_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-
-DROP TABLE IF EXISTS aprendiz CASCADE;
-
-CREATE TABLE aprendiz
-(
-	fk_cpf_pessoa char(11) NOT NULL,
-	departamento varchar(20) NOT NULL,
-	trabalho varchar(20) [] NOT NULL,
-
-	CONSTRAINT aprendiz_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT aprendiz_ck_departamento CHECK (length(trim(departamento)) > 0)
-);
-
-
-DROP TABLE IF EXISTS aluno CASCADE;
-
-CREATE TABLE aluno
-(
-	fk_cpf_pessoa char(11) NOT NULL,
-	curso varchar(80) NOT NULL,
-	dificuldade dificuldade [],
-
-	CONSTRAINT aluno_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT aluno_ck_curso CHECK (curso IN ('Administração', 'Arquitetura e Urbanismo', 'Artes Cênicas', 'Ciência da Computação', 'Ciências Biológicas', 'Ciências Econômicas', 'Ciências Sociais', 'Comunicação Social - Cinema', 'Comunicação Social - Jornalismo', 'Comunicação Social - Publicidade e Propaganda', 'Design - Comunicação Visual', 'Design - Mídia Digital', 'Design - Moda', 'Design - Projeto de Produto', 'Direito', 'Engenharia Ambiental', 'Engenharia Civil', 'Engenharia da Computação', 'Engenharia de Controle e Automação', 'Engenharia Elétrica', 'Engenharia Mecânica', 'Engenharia de Materiais e Nanotecnologia', 'Engenharia de Petróleo', 'Engenharia de Produção', 'Engenharia Química', 'Filosofia', 'Física', 'Geografia', 'História', 'Letras', 'Matemática', 'Pedagogia','Produção e Gestão de Mídias em Educação', 'Psicologia', 'Química', 'Relações Internacionais', 'Serviço Social', 'Sistemas de Informação', 'Teologia'))
-);
-
-
-DROP TABLE IF EXISTS funcionario CASCADE;
-
-CREATE TABLE funcionario
-(
-	fk_cpf_pessoa char(11) NOT NULL,
-	funcao varchar(20) NOT NULL,
-
-	CONSTRAINT funcionario_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT funcionario_ck_funcao CHECK (length(trim(funcao)) > 0)
+	CONSTRAINT aprendiz_aluno_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -111,29 +88,87 @@ DROP TABLE IF EXISTS voluntario CASCADE;
 
 CREATE TABLE voluntario
 (
-	fk_cpf_pessoa char(11) NOT NULL,
-	endereco endereco NOT NULL,
+	fk_rg_numero_pessoa char(12) NOT NULL,
+	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
+	fk_rg_data_expedicao_pessoa date NOT NULL,
 	matricula_puc char(7) UNIQUE NOT NULL,
 	curso_puc varchar(80) NOT NULL,
 
-	CONSTRAINT voluntario_cpf_pessoa_fk FOREIGN KEY (fk_cpf_pessoa) REFERENCES pessoa(pk_cpf) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT voluntario_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT voluntario_ck_matricula_puc CHECK (length(trim(matricula_puc)) = 7),
-	CONSTRAINT voluntario_ck_curso_puc CHECK (length(trim(curso_puc)) > 0)
-);
+	CONSTRAINT voluntario_ck_curso CHECK (curso_puc IN ('Administração', 'Arquitetura e Urbanismo', 'Artes Cênicas', 'Ciência da Computação', 'Ciências Biológicas', 'Ciências Econômicas', 'Ciências Sociais', 'Comunicação Social - Cinema', 'Comunicação Social - Jornalismo', 'Comunicação Social - Publicidade e Propaganda', 'Design - Comunicação Visual', 'Design - Mídia Digital', 'Design - Moda', 'Design - Projeto de Produto', 'Direito', 'Engenharia Ambiental', 'Engenharia Civil', 'Engenharia da Computação', 'Engenharia de Controle e Automação', 'Engenharia Elétrica', 'Engenharia Mecânica', 'Engenharia de Materiais e Nanotecnologia', 'Engenharia de Petróleo', 'Engenharia de Produção', 'Engenharia Química', 'Filosofia', 'Física', 'Geografia', 'História', 'Letras', 'Matemática', 'Pedagogia','Produção e Gestão de Mídias em Educação', 'Psicologia', 'Química', 'Relações Internacionais', 'Serviço Social', 'Sistemas de Informação', 'Teologia'))
+)
 
 
-DROP TABLE IF EXISTS atividade CASCADE;
+DROP TABLE IF EXISTS aluno CASCADE;
 
-CREATE TABLE atividade
+CREATE TABLE aluno
 (
-	pk_id serial NOT NULL,
-	nome varchar(50) NOT NULL,
-	data date NOT NULL,
+	fk_rg_numero_pessoa char(12) NOT NULL,
+	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
+	fk_rg_data_expedicao_pessoa date NOT NULL,
+	dificuldade dificuldade [],
 
-	CONSTRAINT atividade_pk PRIMARY KEY (pk_id),
-	CONSTRAINT atividade_ck_nome CHECK (length(trim(nome)) > 0),
-	CONSTRAINT atividade_ck_data CHECK (isfinite(data))
+	CONSTRAINT aluno_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
+DROP TABLE IF EXISTS atividade_fora CASCADE;
+
+CREATE TABLE atividade_fora
+(
+	pk_dia date NOT NULL,
+	pk_horario time NOT NULL,
+	pk_descricao varchar(200) NOT NULL,
+
+	CONSTRAINT atividade_fora_pk PRIMARY KEY (pk_dia, pk_horario, pk_descricao)
+);
+
+
+DROP TABLE IF EXISTS instituicao CASCADE;
+
+CREATE TABLE instituicao
+(
+	pk_nome varchar(200) NOT NULL,
+	contato_telefone varchar(16) NOT NULL,
+	contato_nome varchar(200) NOT NULL,
+
+	CONSTRAINT instituicao_pk PRIMARY KEY (pk_nome),
+	CONSTRAINT instituicao_ck_nome_pk CHECK (length(trim(pk_nome)) > 0),
+	CONSTRAINT instituicao_ck_contato_telefone CHECK (length(trim(contato_telefone)) > 0),
+	CONSTRAINT instituicao_ck_contato_nome CHECK (length(trim(contato_nome)) > 0)
+);
+
+
+DROP TABLE IF EXISTS trabalho CASCADE;
+
+CREATE TABLE trabalho
+(
+	pk_local varchar(200) NOT NULL,
+	pk_descricao varchar(200) NOT NULL,
+
+	CONSTRAINT atividade_pk PRIMARY KEY (pk_local, pk_descricao),
+	CONSTRAINT atividade_ck_nome_pk CHECK (length(trim(pk_local)) > 0),
+	CONSTRAINT atividade_ck_nome_pk CHECK (length(trim(pk_descricao)) > 0)
+);
+
+
+DROP TABLE IF EXISTS evento CASCADE;
+
+CREATE TABLE evento
+(
+	pk_nome varchar(200) NOT NULL,
+	pk_data date NOT NULL,
+	descricao varchar(200) NOT NULL,
+
+	CONSTRAINT evento_pk PRIMARY KEY (pk_nome, pk_data),
+	CONSTRAINT evento_ck_nome_pk CHECK (length(trim(pk_nome)) > 0),
+	CONSTRAINT evento_ck_data_pk CHECK (isfinite(pk_data)),
+	CONSTRAINT evento_ck_descricao CHECK (length(trim(descricao)) > 0)
+);
+
+
+----------------------------------------------------------------------
 
 
 DROP TABLE IF EXISTS projeto CASCADE;
@@ -176,37 +211,6 @@ CREATE TABLE aula
 	CONSTRAINT aula_pk PRIMARY KEY (fk_atividade_id),
 	CONSTRAINT aula_atividade_id_fk FOREIGN KEY (fk_atividade_id) REFERENCES atividade(pk_id) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT aula_ck_conteudo CHECK (length(trim(conteudo)) > 0)
-);
-
-
-DROP TABLE IF EXISTS evento CASCADE;
-
-CREATE TABLE evento
-(
-	fk_atividade_id serial NOT NULL,
-	presencas integer NOT NULL,
-	descricao varchar(200) NOT NULL,
-
-	CONSTRAINT evento_pk PRIMARY KEY (fk_atividade_id),
-	CONSTRAINT evento_atividade_id_fk FOREIGN KEY (fk_atividade_id) REFERENCES atividade(pk_id) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT evento_ck_presencas CHECK (presencas > 0),
-	CONSTRAINT evento_ck_descricao CHECK (length(trim(descricao)) > 0)
-);
-
-
-DROP TABLE IF EXISTS instituicao CASCADE;
-
-CREATE TABLE instituicao
-(
-	pk_nome varchar(200) NOT NULL,
-	telefone varchar(16) NOT NULL,
-	email varchar(60) UNIQUE NOT NULL,
-	vinculo varchar(200) NOT NULL,
-
-	CONSTRAINT instituicao_pk PRIMARY KEY (pk_nome),
-	CONSTRAINT instituicao_ck_nome CHECK (length(trim(pk_nome)) > 0),
-	CONSTRAINT instituicao_ck_email CHECK (length(trim(email)) > 0),
-	CONSTRAINT instituicao_ck_telefone CHECK (length(trim(telefone)) > 0)
 );
 
 
