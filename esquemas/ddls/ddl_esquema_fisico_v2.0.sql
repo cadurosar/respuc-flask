@@ -15,11 +15,11 @@ DROP TYPE IF EXISTS endereco CASCADE;
 
 CREATE TYPE endereco AS
 (
-	rua varchar(100),
-	numero varchar(20),
-	complemento varchar(50),
-	bairro varchar(20),
-	cidade varchar(20),
+	rua char(100),
+	numero char(20),
+	complemento char(50),
+	bairro char(20),
+	cidade char(20),
 	uf char(2),
 	cep char(8)
 );
@@ -28,11 +28,19 @@ DROP TYPE IF EXISTS responsavel CASCADE;
 
 CREATE TYPE responsavel AS
 (
-	nome varchar(80),
-	celular varchar(200),
-	profissao varchar(200)
+	nome char(80),
+	telefone char(16),
+	profissao char(60)
 );
 
+DROP TYPE IF EXISTS escolaridade CASCADE;
+
+CREATE TYPE escolaridade AS
+(
+	nivel char(15),
+	status char(10),
+	turno char(5)
+);
 
 /* --------------------------------------------- TABELAS ---------------------------------------------- */
 
@@ -40,21 +48,19 @@ DROP TABLE IF EXISTS pessoa CASCADE;
 
 CREATE TABLE pessoa
 (
-	pk_rg_numero char(12) NOT NULL,
-	pk_rg_orgao_expedidor varchar(20) NOT NULL,
-	pk_rg_data_expedicao date NOT NULL,
-	nome varchar(80) NOT NULL,
-	sexo smallint NOT NULL,
-	data_nascimento date NOT NULL,
-	email varchar(60) UNIQUE NOT NULL,
-	celular varchar(200) NOT NULL,
-	endereco endereco NOT NULL,
-	foto varchar(200) NOT NULL,
+	rg_numero char(12) NOT NULL,
+	rg_orgao_expedidor char(20) NOT NULL,
+	rg_data_expedicao date NOT NULL,
+	nome char(80) NOT NULL,
+	sexo smallint,
+	data_nascimento date,
+	email char(60),
+	celular char(16),
+	endereco endereco,
+	foto char(200),
 	data_desligamento date,
 
-	CONSTRAINT pessoa_pk PRIMARY KEY (pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao),
-	CONSTRAINT pessoa_ck_sexo CHECK (sexo >= 0),
-	CONSTRAINT pessoa_ck_data_nascimento CHECK (isfinite(data_nascimento))
+	CONSTRAINT pessoa_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao)
 );
 
 /* ----------- */
@@ -63,12 +69,21 @@ DROP TABLE IF EXISTS aprendiz_aluno CASCADE;
 
 CREATE TABLE aprendiz_aluno
 (
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
-	responsavel responsavel [],
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	responsavel responsavel NOT NULL,
+	nome_instituicao char(200) NOT NULL,
+	serie char(10),
+	escolaridade escolaridade,
+	local_destino char(200),
+	descricao_destino char(200),
+	data_destino date,
 
-	CONSTRAINT aprendiz_aluno_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
+
+	CONSTRAINT aprendiz_aluno_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao, responsavel, nome_instituicao),
+	CONSTRAINT aprendiz_aluno_pessoa FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT aprendiz_aluno_instituicao FOREIGN KEY (nome_instituicao) REFERENCES instituicao(nome) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* ----------- */
@@ -77,13 +92,14 @@ DROP TABLE IF EXISTS voluntario CASCADE;
 
 CREATE TABLE voluntario
 (
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
-	matricula_puc char(7) UNIQUE NOT NULL,
-	curso_puc varchar(80) NOT NULL,
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	matricula_puc char(7) NOT NULL,
+	curso_puc char(80) NOT NULL,
 
-	CONSTRAINT voluntario_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT voluntario_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao),
+	CONSTRAINT voluntario_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT voluntario_ck_curso CHECK (curso_puc IN ('Administração', 'Arquitetura e Urbanismo', 'Artes Cênicas', 'Ciência da Computação', 'Ciências Biológicas', 'Ciências Econômicas', 'Ciências Sociais', 'Comunicação Social - Cinema', 'Comunicação Social - Jornalismo', 'Comunicação Social - Publicidade e Propaganda', 'Design - Comunicação Visual', 'Design - Mídia Digital', 'Design - Moda', 'Design - Projeto de Produto', 'Direito', 'Engenharia Ambiental', 'Engenharia Civil', 'Engenharia da Computação', 'Engenharia de Controle e Automação', 'Engenharia Elétrica', 'Engenharia Mecânica', 'Engenharia de Materiais e Nanotecnologia', 'Engenharia de Petróleo', 'Engenharia de Produção', 'Engenharia Química', 'Filosofia', 'Física', 'Geografia', 'História', 'Letras', 'Matemática', 'Pedagogia','Produção e Gestão de Mídias em Educação', 'Psicologia', 'Química', 'Relações Internacionais', 'Serviço Social', 'Sistemas de Informação', 'Teologia'))
 );
 
@@ -93,12 +109,13 @@ DROP TABLE IF EXISTS aluno CASCADE;
 
 CREATE TABLE aluno
 (
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
 	dificuldade dificuldade [],
 
-	CONSTRAINT aluno_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT aluno_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao),
+	CONSTRAINT aluno_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* ----------- */
@@ -107,11 +124,11 @@ DROP TABLE IF EXISTS atividade_fora CASCADE;
 
 CREATE TABLE atividade_fora
 (
-	pk_dia date NOT NULL,
-	pk_horario time NOT NULL,
-	pk_descricao varchar(200) NOT NULL,
+	dia date NOT NULL,
+	horario time NOT NULL,
+	descricao char(200) NOT NULL,
 
-	CONSTRAINT atividade_fora_pk PRIMARY KEY (pk_dia, pk_horario, pk_descricao)
+	CONSTRAINT atividade_fora_pk PRIMARY KEY (dia, horario, descricao)
 );
 
 /* ----------- */
@@ -120,42 +137,11 @@ DROP TABLE IF EXISTS instituicao CASCADE;
 
 CREATE TABLE instituicao
 (
-	pk_nome varchar(200) NOT NULL,
-	contato_telefone varchar(16) NOT NULL,
-	contato_nome varchar(200) NOT NULL,
+	nome char(200) NOT NULL,
+	contato_telefone char(16),
+	contato_nome char(200),
 
-	CONSTRAINT instituicao_pk PRIMARY KEY (pk_nome)
-);
-
-/* ----------- */
-
-DROP TABLE IF EXISTS trabalho CASCADE;
-
-CREATE TABLE trabalho
-(
-	pk_local varchar(200) NOT NULL,
-	pk_descricao varchar(200) NOT NULL,
-
-	CONSTRAINT trabalho_pk PRIMARY KEY (pk_local, pk_descricao)
-);
-
-/* ----------- */
-
-DROP TABLE IF EXISTS realiza CASCADE;
-
-CREATE TABLE realiza
-(
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
-	fk_local varchar(200) NOT NULL,
-	fk_descricao varchar(200) NOT NULL,
-	data_ini date NOT NULL,
-	data_fim date NOT NULL,
-
-	CONSTRAINT realiza_pk PRIMARY KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa, fk_local, fk_descricao),
-	CONSTRAINT realiza_pessoa_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT realiza_trabalho_fk FOREIGN KEY (fk_local, fk_descricao) REFERENCES trabalho(pk_local, pk_descricao) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT instituicao_pk PRIMARY KEY (nome)
 );
 
 /* ----------- */
@@ -164,25 +150,48 @@ DROP TABLE IF EXISTS evento CASCADE;
 
 CREATE TABLE evento
 (
-	pk_nome varchar(200) NOT NULL,
-	pk_data date NOT NULL,
-	descricao varchar(200) NOT NULL,
+	nome char(200) NOT NULL,
+	data date NOT NULL,
+	descricao char(200),
 
-	CONSTRAINT evento_pk PRIMARY KEY (pk_nome, pk_data),
-	CONSTRAINT evento_ck_data_pk CHECK (isfinite(pk_data))
+	CONSTRAINT evento_pk PRIMARY KEY (nome, data)
 );
 
 /* ----------- */
 
-DROP TABLE IF EXISTS aula CASCADE;
+DROP TABLE IF EXISTS conjunto_de_aulas CASCADE;
 
-CREATE TABLE aula
+CREATE TABLE conjunto_de_aulas
 (
-	pk_materia varchar(200) NOT NULL,
-	pk_horario varchar(200) NOT NULL,
+	materia char(100) NOT NULL,
+	horario char(100) NOT NULL,
+	matricula_puc char(7) NOT NULL,
+	curso_puc char(80),
+	data_ini date,
+	data_fim date,
 
-	CONSTRAINT aula_pk PRIMARY KEY (pk_materia, pk_horario)
+	CONSTRAINT conjunto_de_aulas_pk (materia, horario)
 );
+
+
+/* ----------- */
+
+DROP TABLE IF EXISTS realiza CASCADE;
+
+CREATE TABLE realiza
+(
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	local char(200) NOT NULL,
+	descricao char(200) NOT NULL,
+	data_ini date,
+	data_fim date,
+
+	CONSTRAINT realiza_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, local, descricao),
+	CONSTRAINT realiza_pessoa_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 
 /* ----------- */
 
@@ -190,37 +199,19 @@ DROP TABLE IF EXISTS cursa CASCADE;
 
 CREATE TABLE cursa
 (
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
-	fk_materia varchar(200) NOT NULL,
-	fk_horario varchar(200) NOT NULL,
-	data_ini date NOT NULL,
-	data_fim date NOT NULL,
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	materia char(200),
+	horario time,
+	data_ini date,
+	data_fim date,
 
-	CONSTRAINT cursa_pk PRIMARY KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa, fk_materia, fk_horario),
-	CONSTRAINT cursa_pessoa_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT cursa_aula_fk FOREIGN KEY (fk_materia, fk_horario) REFERENCES aula(pk_materia, pk_horario) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT cursa_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, materia, horario),
+	CONSTRAINT cursa_pessoa_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT cursa_conjunto_de_aulas_fk FOREIGN KEY (materia, horario) REFERENCES conjunto_de_aulas(materia, horario) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-/* ----------- */
-
-DROP TABLE IF EXISTS leciona CASCADE;
-
-CREATE TABLE leciona
-(
-	fk_rg_numero_pessoa char(12) NOT NULL,
-	fk_rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
-	fk_rg_data_expedicao_pessoa date NOT NULL,
-	fk_materia varchar(200) NOT NULL,
-	fk_horario varchar(200) NOT NULL,
-	data_ini date NOT NULL,
-	data_fim date NOT NULL,
-
-	CONSTRAINT leciona_pk PRIMARY KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa, fk_materia, fk_horario),
-	CONSTRAINT leciona_pessoa_fk FOREIGN KEY (fk_rg_numero_pessoa, fk_rg_orgao_expedidor_pessoa, fk_rg_data_expedicao_pessoa) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT leciona_aula_fk FOREIGN KEY (fk_materia, fk_horario) REFERENCES aula(pk_materia, pk_horario) ON UPDATE CASCADE ON DELETE CASCADE
-);
 
 /* ----------- */
 
@@ -228,31 +219,33 @@ DROP TABLE IF EXISTS participa CASCADE;
 
 CREATE TABLE participa
 (
-	fk_rg_numero char(12) NOT NULL,
-	fk_rg_orgao_expedidor varchar(20) NOT NULL,
-	fk_rg_data_expedicao date NOT NULL,
-	fk_evento_nome varchar(200) NOT NULL,
-	fk_evento_data date NOT NULL,
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	evento_nome char(200),
+	evento_data date,
 
-	CONSTRAINT participa_pk PRIMARY KEY (fk_rg_numero, fk_rg_orgao_expedidor, fk_rg_data_expedicao, fk_evento_nome, fk_evento_data),
-	CONSTRAINT participa_rg_pessoa_fk FOREIGN KEY (fk_rg_numero, fk_rg_orgao_expedidor, fk_rg_data_expedicao) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT participa_evento_fk FOREIGN KEY (fk_evento_nome, fk_evento_data) REFERENCES evento(pk_nome, pk_data) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT participa_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, evento_nome, evento_data),
+	CONSTRAINT participa_rg_pessoa_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT participa_evento_fk FOREIGN KEY (evento_nome, evento_data) REFERENCES evento(nome, data) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* ----------- */
 
-DROP TABLE IF EXISTS oriundo_de CASCADE;
+DROP TABLE IF EXISTS aluno_faz_atividade_fora CASCADE;
 
-CREATE TABLE oriundo_de
+CREATE TABLE aluno_faz_atividade_fora
 (
-	fk_rg_numero char(12) NOT NULL,
-	fk_rg_orgao_expedidor varchar(20) NOT NULL,
-	fk_rg_data_expedicao date NOT NULL,
-	fk_nome_instituicao varchar(200) NOT NULL,
+	rg_numero_pessoa char(12) NOT NULL,
+	rg_orgao_expedidor_pessoa char(20) NOT NULL,
+	rg_data_expedicao_pessoa date NOT NULL,
+	dia_atividade date,
+	horario_atividade time,
+	descricao_atividade char(200),
 
-	CONSTRAINT oriundo_de_pk PRIMARY KEY (fk_rg_numero, fk_rg_orgao_expedidor, fk_rg_data_expedicao, fk_nome_instituicao),
-	CONSTRAINT oriundo_de_cpf_pessoa_fk FOREIGN KEY (fk_rg_numero, fk_rg_orgao_expedidor, fk_rg_data_expedicao) REFERENCES pessoa(pk_rg_numero, pk_rg_orgao_expedidor, pk_rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT oriundo_de_nome_instituicao_fk FOREIGN KEY (fk_nome_instituicao) REFERENCES instituicao(pk_nome) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT aluno_faz_atividade_fora_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, dia_atividade, horario_atividade, descricao_atividade),
+	CONSTRAINT aluno_faz_atividade_fora_fk1 FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT aluno_faz_atividade_fora_fk2 FOREIGN KEY (dia_atividade, horario_atividade, descricao_atividade) REFERENCES atividade_fora(dia, horario, descricao) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* --------------------------------------------- USUARIO ---------------------------------------------- */
@@ -261,13 +254,13 @@ DROP TABLE IF EXISTS usuario CASCADE;
 
 CREATE TABLE usuario
 (
-	pk_email varchar(60) UNIQUE NOT NULL,
-	login varchar(120) NOT NULL,
-	senha_hash varchar(128) NOT NULL,
+	email char(60) UNIQUE NOT NULL,
+	login char(120) NOT NULL,
+	senha_hash char(128) NOT NULL,
 	permissao smallint NOT NULL,
 
-	CONSTRAINT usuario_pk PRIMARY KEY (pk_email),
-	CONSTRAINT usuario_email_pessoa_fk FOREIGN KEY (pk_email) REFERENCES pessoa(email) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT usuario_pk PRIMARY KEY (email),
+	CONSTRAINT usuario_email_pessoa_fk FOREIGN KEY (email) REFERENCES pessoa(email) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* ----------- */
