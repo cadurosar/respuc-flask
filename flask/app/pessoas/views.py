@@ -4,7 +4,7 @@ from flask_login import login_required
 from . import pessoas
 from .forms import AddOrEditAlunoForm, AddOrEditAprendizForm, AddOrEditVoluntarioForm
 from .. import db
-from ..models import Usuario, Aluno, Voluntario, Aprendiz
+from ..models import Usuario, Aluno, Voluntario, AprendizAluno, Pessoa
 
 """
 TODOS:
@@ -18,11 +18,11 @@ def lista_pessoas():
     """
     #check_admin()
 
-    alunos = Aluno.query.all()
+    alunos = db.session.query(Aluno).all()
     
-    aprendizes = Aprendiz.query.all()
+    aprendizes = db.session.query(AprendizAluno).all()
 
-    voluntarios = Voluntario.query.all()
+    voluntarios = db.session.query(Voluntario).all()
 
     return render_template('pessoas/pessoas.html',
                            alunos=alunos, aprendizes=aprendizes, voluntarios=voluntarios, title="Pessoas")
@@ -166,7 +166,7 @@ APRENDIZES:
 @login_required
 def info_aprendiz(cpf):
 
-    aprendiz = Aprendiz.query.get_or_404(cpf)
+    aprendiz = AprendizAluno.query.get_or_404(cpf)
 
     return render_template('pessoas/info_pessoa.html', pessoa=aprendiz, title="Info")
 
@@ -184,7 +184,7 @@ def add_aprendiz():
 
     form = AddOrEditAprendizForm()
     if form.validate_on_submit():
-        aprendiz = Aprendiz(nome=form.nome.data, cpf=form.cpf.data, rg=form.rg.data, naturalidade=form.naturalidade.data, email=form.email.data, data_nascimento=form.data_nascimento.data, telefone=form.telefone.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data, trabalho=form.trabalho.data, nome_responsavel=form.nome_responsavel.data, cpf_responsavel=form.cpf_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data)
+        aprendiz = AprendizAluno(nome=form.nome.data, cpf=form.cpf.data, rg=form.rg.data, naturalidade=form.naturalidade.data, email=form.email.data, data_nascimento=form.data_nascimento.data, telefone=form.telefone.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data, trabalho=form.trabalho.data, nome_responsavel=form.nome_responsavel.data, cpf_responsavel=form.cpf_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data)
 
         db.session.add(aprendiz)
         db.session.commit()
@@ -208,7 +208,7 @@ def edit_aprendiz(cpf):
 
     add_aprendiz = False
 
-    aprendiz = Aprendiz.query.get_or_404(cpf)
+    aprendiz = AprendizAluno.query.get_or_404(cpf)
 
     form = AddOrEditAprendizForm(obj=aprendiz)
 
@@ -279,7 +279,7 @@ def delete_aprendiz(cpf):
     """
     #check_admin()
 
-    aprendiz = Aprendiz.query.get_or_404(cpf)
+    aprendiz = AprendizAluno.query.get_or_404(cpf)
     db.session.delete(aprendiz)
     db.session.commit()
     flash('Aprendiz foi deletado com sucesso')
@@ -412,3 +412,4 @@ def delete_voluntario(cpf):
     return redirect(url_for('pessoas.lista_pessoas'))
 
     return render_template(title="Deletar voluntario")
+    

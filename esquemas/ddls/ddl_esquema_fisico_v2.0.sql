@@ -1,7 +1,5 @@
 /*
-	DDL do esquema físico 
-
-	Feito em: 22/08/2018
+	DDL do esquema físico
 
 	Projeto: RESPUC-NEAM PUC-Rio
 
@@ -9,40 +7,11 @@
 	Cria no banco de dados as tabelas apresentadas como entidades no esquema conceitual versão 5.
 */
 
-/* ---------------------------------------------- TIPOS ----------------------------------------------- */
-
-DROP TYPE IF EXISTS endereco CASCADE;
-
-CREATE TYPE endereco AS
-(
-	rua char(100),
-	numero char(20),
-	complemento char(50),
-	bairro char(20),
-	cidade char(20),
-	uf char(2),
-	cep char(8)
-);
-
-DROP TYPE IF EXISTS responsavel CASCADE;
-
-CREATE TYPE responsavel AS
-(
-	nome char(80),
-	telefone char(16),
-	profissao char(60)
-);
-
-DROP TYPE IF EXISTS escolaridade CASCADE;
-
-CREATE TYPE escolaridade AS
-(
-	nivel char(15),
-	status char(10),
-	turno char(5)
-);
-
 /* --------------------------------------------- TABELAS ---------------------------------------------- */
+
+/* COMO INSERIR EM PESSOA:
+EX: insert into pessoa values ('111111111111', 'detran', (to_date('2017-09-01', 'YYYY-MM-DD')), 'Joao', 1, (to_date('1999-09-01', 'YYYY-MM-DD')), 'joao@gmail.com', '12345678', ('rua a', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null)
+*/
 
 DROP TABLE IF EXISTS pessoa CASCADE;
 
@@ -56,11 +25,31 @@ CREATE TABLE pessoa
 	data_nascimento date,
 	email char(60),
 	celular char(16),
-	endereco endereco,
+	rua char(100),
+	numero char(20),
+	complemento char(50),
+	bairro char(20),
+	cidade char(20),
+	uf char(2),
+	cep char(8),
 	foto char(200),
 	data_desligamento date,
 
 	CONSTRAINT pessoa_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao)
+);
+
+
+/* ----------- */
+
+DROP TABLE IF EXISTS instituicao CASCADE;
+
+CREATE TABLE instituicao
+(
+	nome char(200) NOT NULL,
+	contato_telefone char(16),
+	contato_nome char(200),
+
+	CONSTRAINT instituicao_pk PRIMARY KEY (nome)
 );
 
 /* ----------- */
@@ -72,16 +61,20 @@ CREATE TABLE aprendiz_aluno
 	rg_numero_pessoa char(12) NOT NULL,
 	rg_orgao_expedidor_pessoa char(20) NOT NULL,
 	rg_data_expedicao_pessoa date NOT NULL,
-	responsavel responsavel NOT NULL,
+	nome_responsavel char(80),
+	telefone_responsavel char(16),
+	profissao_responsavel char(60),
 	nome_instituicao char(200) NOT NULL,
 	serie char(10),
-	escolaridade escolaridade,
+	nivel_escolaridade char(15),
+	status_escolaridade char(10),
+	turno char(5),
 	local_destino char(200),
 	descricao_destino char(200),
 	data_destino date,
 
 
-	CONSTRAINT aprendiz_aluno_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao, responsavel, nome_instituicao),
+	CONSTRAINT aprendiz_aluno_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, nome_responsavel, nome_instituicao),
 	CONSTRAINT aprendiz_aluno_pessoa FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT aprendiz_aluno_instituicao FOREIGN KEY (nome_instituicao) REFERENCES instituicao(nome) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -98,7 +91,7 @@ CREATE TABLE voluntario
 	matricula_puc char(7) NOT NULL,
 	curso_puc char(80) NOT NULL,
 
-	CONSTRAINT voluntario_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao),
+	CONSTRAINT voluntario_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa),
 	CONSTRAINT voluntario_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT voluntario_ck_curso CHECK (curso_puc IN ('Administração', 'Arquitetura e Urbanismo', 'Artes Cênicas', 'Ciência da Computação', 'Ciências Biológicas', 'Ciências Econômicas', 'Ciências Sociais', 'Comunicação Social - Cinema', 'Comunicação Social - Jornalismo', 'Comunicação Social - Publicidade e Propaganda', 'Design - Comunicação Visual', 'Design - Mídia Digital', 'Design - Moda', 'Design - Projeto de Produto', 'Direito', 'Engenharia Ambiental', 'Engenharia Civil', 'Engenharia da Computação', 'Engenharia de Controle e Automação', 'Engenharia Elétrica', 'Engenharia Mecânica', 'Engenharia de Materiais e Nanotecnologia', 'Engenharia de Petróleo', 'Engenharia de Produção', 'Engenharia Química', 'Filosofia', 'Física', 'Geografia', 'História', 'Letras', 'Matemática', 'Pedagogia','Produção e Gestão de Mídias em Educação', 'Psicologia', 'Química', 'Relações Internacionais', 'Serviço Social', 'Sistemas de Informação', 'Teologia'))
 );
@@ -112,9 +105,9 @@ CREATE TABLE aluno
 	rg_numero_pessoa char(12) NOT NULL,
 	rg_orgao_expedidor_pessoa char(20) NOT NULL,
 	rg_data_expedicao_pessoa date NOT NULL,
-	dificuldade dificuldade [],
+	dificuldade char(50) [] ,
 
-	CONSTRAINT aluno_pk PRIMARY KEY (rg_numero, rg_orgao_expedidor, rg_data_expedicao),
+	CONSTRAINT aluno_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa),
 	CONSTRAINT aluno_fk FOREIGN KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa) REFERENCES pessoa(rg_numero, rg_orgao_expedidor, rg_data_expedicao) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -129,19 +122,6 @@ CREATE TABLE atividade_fora
 	descricao char(200) NOT NULL,
 
 	CONSTRAINT atividade_fora_pk PRIMARY KEY (dia, horario, descricao)
-);
-
-/* ----------- */
-
-DROP TABLE IF EXISTS instituicao CASCADE;
-
-CREATE TABLE instituicao
-(
-	nome char(200) NOT NULL,
-	contato_telefone char(16),
-	contato_nome char(200),
-
-	CONSTRAINT instituicao_pk PRIMARY KEY (nome)
 );
 
 /* ----------- */
@@ -164,13 +144,13 @@ DROP TABLE IF EXISTS conjunto_de_aulas CASCADE;
 CREATE TABLE conjunto_de_aulas
 (
 	materia char(100) NOT NULL,
-	horario char(100) NOT NULL,
+	horario time NOT NULL,
 	matricula_puc char(7) NOT NULL,
 	curso_puc char(80),
 	data_ini date,
 	data_fim date,
 
-	CONSTRAINT conjunto_de_aulas_pk (materia, horario)
+	CONSTRAINT conjunto_de_aulas_pk PRIMARY KEY(materia, horario)
 );
 
 
@@ -254,13 +234,10 @@ DROP TABLE IF EXISTS usuario CASCADE;
 
 CREATE TABLE usuario
 (
+	usuario_id serial NOT NULL,
 	email char(60) UNIQUE NOT NULL,
-	login char(120) NOT NULL,
 	senha_hash char(128) NOT NULL,
-	permissao smallint NOT NULL,
+	permissao smallint NOT NULL DEFAULT 0,
 
-	CONSTRAINT usuario_pk PRIMARY KEY (email),
-	CONSTRAINT usuario_email_pessoa_fk FOREIGN KEY (email) REFERENCES pessoa(email) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT usuario_pk PRIMARY KEY (usuario_id, email)
 );
-
-/* ----------- */

@@ -8,10 +8,10 @@ from ..models import Usuario
 @admin.route('/admin/dashboard')
 def aprovar_usuarios():
 
-	if not current_user.role == "admin":
+	if not current_user.permissao == 1:
 		abort(403)
 
-	usuarios = Usuario.query.filter_by(confirmado=False).all()
+	usuarios = Usuario.query.filter_by(permissao=0).all()
 
 
 	return render_template('admin/aprovar_usuarios.html', title="Admin Dashboard", usuarios=usuarios)

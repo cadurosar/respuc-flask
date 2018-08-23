@@ -22,13 +22,11 @@ def dashboard():
 @home.route('/admin/dashboard')
 def admin_dashboard():
 
-	if not current_user.role == "admin":
+	if not current_user.permissao == 1:
 		abort(403)
 
-	usuarios = Usuario.query.filter_by(confirmado=False).all()
+	return render_template('home/admin_dashboard.html', title="Admin Dashboard")
 
-
-	return render_template('home/admin_dashboard.html', title="Admin Dashboard", usuarios=usuarios)
 """
 @home.route('/dashboard')
 @login_required
