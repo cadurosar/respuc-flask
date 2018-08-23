@@ -4,7 +4,7 @@ from flask_login import login_required
 from . import pessoas
 from .forms import AddOrEditAlunoForm, AddOrEditAprendizForm, AddOrEditVoluntarioForm
 from .. import db
-from ..models import Usuario, Aluno, Voluntario, AprendizAluno, Pessoa
+from ..models import Usuario, Aluno, Voluntario, AprendizAluno, Pessoa, Realiza
 
 """
 TODOS:
@@ -53,8 +53,17 @@ def add_aluno():
 
     form = AddOrEditAlunoForm()
     if form.validate_on_submit():
-        aluno = Aluno(nome=form.nome.data, cpf=form.cpf.data, rg=form.rg.data, naturalidade=form.naturalidade.data, email=form.email.data, data_nascimento=form.data_nascimento.data, telefone=form.telefone.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data, nome_responsavel=form.nome_responsavel.data, cpf_responsavel=form.cpf_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data)
+        pessoa = Pessoa(rg_numero=form.rg_numero.data, rg_orgao_expedidor=form.rg_orgao_expedidor.data, rg_data_expedicao=form.rg_data_expedicao.data, nome=form.nome.data, sexo=form.sexo.data, email=form.email.data, data_nascimento=form.data_nascimento.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data)
 
+        aprendizaluno = AprendizAluno(rg_numero_pessoa=form.rg_numero.data, rg_orgao_expedidor_pessoa=form.rg_orgao_expedidor.data, rg_data_expedicao_pessoa=form.rg_data_expedicao.data, nome_responsavel=form.nome_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data, nome_instituicao=form.nome_instituicao.data, serie=form.serie.data, nivel_escolaridade=form.nivel_escolaridade.data, status_escolaridade=form.status_escolaridade.data, turno=form.turno.data)
+
+        aluno = Aluno(rg_numero_pessoa=form.rg_numero.data, rg_orgao_expedidor_pessoa=form.rg_orgao_expedidor.data, rg_data_expedicao_pessoa=form.rg_data_expedicao.data)
+
+        #commita pessoa primeiro para nao dar erro de violacao de fk no commit de aluno
+        db.session.add(pessoa)
+        db.session.commit()
+
+        db.session.add(aprendizaluno)
         db.session.add(aluno)
         db.session.commit()
         flash('Aluno criado com sucesso')
@@ -184,9 +193,18 @@ def add_aprendiz():
 
     form = AddOrEditAprendizForm()
     if form.validate_on_submit():
-        aprendiz = AprendizAluno(nome=form.nome.data, cpf=form.cpf.data, rg=form.rg.data, naturalidade=form.naturalidade.data, email=form.email.data, data_nascimento=form.data_nascimento.data, telefone=form.telefone.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data, trabalho=form.trabalho.data, nome_responsavel=form.nome_responsavel.data, cpf_responsavel=form.cpf_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data)
+        pessoa = Pessoa(rg_numero=form.rg_numero.data, rg_orgao_expedidor=form.rg_orgao_expedidor.data, rg_data_expedicao=form.rg_data_expedicao.data, nome=form.nome.data, sexo=form.sexo.data, email=form.email.data, data_nascimento=form.data_nascimento.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data)
 
-        db.session.add(aprendiz)
+        aprendizaluno = AprendizAluno(rg_numero_pessoa=form.rg_numero.data, rg_orgao_expedidor_pessoa=form.rg_orgao_expedidor.data, rg_data_expedicao_pessoa=form.rg_data_expedicao.data, nome_responsavel=form.nome_responsavel.data, telefone_responsavel=form.telefone_responsavel.data, profissao_responsavel=form.profissao_responsavel.data, nome_instituicao=form.nome_instituicao.data, serie=form.serie.data, nivel_escolaridade=form.nivel_escolaridade.data, status_escolaridade=form.status_escolaridade.data, turno=form.turno.data)
+
+        realiza = Realiza(rg_numero_pessoa=form.rg_numero.data, rg_orgao_expedidor_pessoa=form.rg_orgao_expedidor.data, rg_data_expedicao_pessoa=form.rg_data_expedicao.data, local=form.trabalho_local.data, descricao=form.trabalho_descricao.data, data_ini=form.trabalho_data_ini.data, data_fim=form.trabalho_data_fim.data)
+
+        #commita pessoa primeiro pra evitar erro de fk
+        db.session.add(pessoa)
+        db.session.commit()
+
+        db.session.add(aprendizaluno)
+        db.session.add(realiza)
         db.session.commit()
         flash('Aprendiz criado com sucesso')
         # redirect to usuarios page
@@ -316,8 +334,13 @@ def add_voluntario():
 
     form = AddOrEditVoluntarioForm()
     if form.validate_on_submit():
-        voluntario = Voluntario(nome=form.nome.data, cpf=form.cpf.data, rg=form.rg.data, naturalidade=form.naturalidade.data, email=form.email.data, data_nascimento=form.data_nascimento.data, telefone=form.telefone.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data, matricula=form.matricula.data)
+        pessoa = Pessoa(rg_numero=form.rg_numero.data, rg_orgao_expedidor=form.rg_orgao_expedidor.data, rg_data_expedicao=form.rg_data_expedicao.data, nome=form.nome.data, sexo=form.sexo.data, email=form.email.data, data_nascimento=form.data_nascimento.data, celular=form.celular.data, rua=form.rua.data, numero=form.numero.data, complemento=form.complemento.data, bairro=form.bairro.data, cidade=form.cidade.data, uf=form.uf.data, cep=form.cep.data)
 
+        voluntario = Voluntario(rg_numero_pessoa=form.rg_numero.data, rg_orgao_expedidor_pessoa=form.rg_orgao_expedidor.data, rg_data_expedicao_pessoa=form.rg_data_expedicao.data, matricula_puc=form.matricula.data, curso_puc=form.curso.data)
+
+
+        db.session.add(pessoa)
+        db.session.commit()
         db.session.add(voluntario)
         db.session.commit()
         flash('Voluntario criado com sucesso')

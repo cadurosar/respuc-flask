@@ -111,7 +111,7 @@ class Pessoa(db.Model):
     cidade = db.Column(db.String(20))
     uf = db.Column(db.String(2))
     cep = db.Column(db.String(8))
-    foto = db.Column(db.String(200))
+    foto = db.Column(db.String(200), nullable=True)
     data_desligamento = db.Column(db.Date)
 
 
