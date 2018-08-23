@@ -8,7 +8,7 @@ from markupsafe import Markup
 
 from . import relatorios
 from .. import db
-from ..models import Pessoa
+from ..models import Pessoa, AprendizAluno
 
 @relatorios.route('/relatorios', methods=['GET', 'POST'])
 @login_required
@@ -37,7 +37,7 @@ def relatorio():
                 'font': {
                     'size': 18
                 },
-                'x': 0.2,
+                'x': 0.1,
                 'y': 0
             }
         }
@@ -54,6 +54,9 @@ def relatorio():
     qtd_14_15_anos = db.session.query(Pessoa.rg_numero).filter(Pessoa.data_nascimento.between('2003-08-22', '2004-08-22')).count()
     qtd_16_17_anos = db.session.query(Pessoa.rg_numero).filter(Pessoa.data_nascimento.between('2002-08-22', '2003-08-22')).count()
     qtd_18_anos = db.session.query(Pessoa.rg_numero).filter(Pessoa.data_nascimento >= '2002-08-22').count()
+
+    print('XXXXXXXXXXXXX')
+    print(qtd_16_17_anos)
 
     trace_idade = {
         'values': [qtd_14_15_anos, qtd_16_17_anos, qtd_18_anos],
@@ -72,7 +75,7 @@ def relatorio():
                 'font': {
                     'size': 18
                 },
-                'x': 0.2,
+                'x': 0.1,
                 'y': 0
             }
         }
@@ -82,6 +85,44 @@ def relatorio():
 
     #######################################################################
 
+     ################  GRÁFICO PIZZA DIVISAO POR ESCOLARIDADE ###############
+
+    
+    qtd_fundamental_incomp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Fundamental").filter(AprendizAluno.status_escolaridade == "Cursando").count()
+    qtd_fundamental_comp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Fundamental").filter(AprendizAluno.status_escolaridade == "Concluído").count()
+    qtd_medio_incomp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Médio").filter(AprendizAluno.status_escolaridade == "Cursando").count()
+    qtd_medio_comp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Médio").filter(AprendizAluno.status_escolaridade == "Concluído").count()
+    qtd_tecnico_incomp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Técnico").filter(AprendizAluno.status_escolaridade == "Cursando").count()
+    qtd_tecnico_comp = db.session.query(AprendizAluno).filter(AprendizAluno.nivel_escolaridade == "Técnico").filter(AprendizAluno.status_escolaridade == "Concluído").count()
+    
+
+    trace_escolaridade = {
+        'values': [qtd_fundamental_incomp, qtd_fundamental_comp, qtd_medio_incomp, qtd_medio_comp, qtd_tecnico_incomp, qtd_tecnico_comp],
+        'labels': ['Fundamental Incompleto', 'Fundamental Completo', 'Ensino Médio Incompleto', 'Ensino Médio Completo', 'Técnico Incompleto', 'Técnico Completo'],
+        'hoverinfo': 'label+percent',
+        'type': 'pie'
+    }
+
+    figure_escolaridade = {
+        'data': [trace_escolaridade],
+        'layout': {
+            'height': 600,
+            'plot_bgcolor': 'rgba(0,0,0,0)',
+            'paper_bgcolor': 'rgba(0,0,0,0)',
+            'legend': {
+                'font': {
+                    'size': 18
+                },
+                'x': -0.05,
+                'y': 0
+            }
+        }
+    }
+
+    grafico_divisao_escolaridade = plot(figure_escolaridade, output_type='div')
+
+    #######################################################################
 
 
-    return render_template('pessoas/relatorios.html', chartSexo=Markup(grafico_divisao_sexo), chartIdade=Markup(grafico_divisao_idade) ,title="Relatórios")
+
+    return render_template('pessoas/relatorios.html', chartSexo=Markup(grafico_divisao_sexo), chartIdade=Markup(grafico_divisao_idade), chartEscolaridade=Markup(grafico_divisao_escolaridade) ,title="Relatórios")
