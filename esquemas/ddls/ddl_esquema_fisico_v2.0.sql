@@ -118,7 +118,7 @@ DROP TABLE IF EXISTS atividade_fora CASCADE;
 CREATE TABLE atividade_fora
 (
 	dia date NOT NULL,
-	horario time NOT NULL,
+	horario varchar(20) NOT NULL,
 	descricao varchar(200) NOT NULL,
 
 	CONSTRAINT atividade_fora_pk PRIMARY KEY (dia, horario, descricao)
@@ -144,7 +144,7 @@ DROP TABLE IF EXISTS conjunto_de_aulas CASCADE;
 CREATE TABLE conjunto_de_aulas
 (
 	materia varchar(100) NOT NULL,
-	horario time NOT NULL,
+	horario varchar(20) NOT NULL,
 	matricula_puc varchar(7) NOT NULL,
 	curso_puc varchar(80),
 	data_ini date,
@@ -183,7 +183,7 @@ CREATE TABLE cursa
 	rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
 	rg_data_expedicao_pessoa date NOT NULL,
 	materia varchar(200),
-	horario time,
+	horario varchar(20),
 	data_ini date,
 	data_fim date,
 
@@ -220,7 +220,7 @@ CREATE TABLE aluno_faz_atividade_fora
 	rg_orgao_expedidor_pessoa varchar(20) NOT NULL,
 	rg_data_expedicao_pessoa date NOT NULL,
 	dia_atividade date,
-	horario_atividade time,
+	horario_atividade varchar(20),
 	descricao_atividade varchar(200),
 
 	CONSTRAINT aluno_faz_atividade_fora_pk PRIMARY KEY (rg_numero_pessoa, rg_orgao_expedidor_pessoa, rg_data_expedicao_pessoa, dia_atividade, horario_atividade, descricao_atividade),
