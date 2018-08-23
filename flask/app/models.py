@@ -57,7 +57,7 @@ def load_user(usuario_id):
 class AtividadeFora(db.Model):
     __tablename__ = 'atividade_fora'
 
-    dia = db.Column(Date, primary_key=True, nullable=False)
+    dia = db.Column(db.Date, primary_key=True, nullable=False)
     horario = db.Column(db.String, primary_key=True, nullable=False)
     descricao = db.Column(db.String(200), primary_key=True, nullable=False)
 
@@ -71,15 +71,15 @@ class ConjuntoDeAula(db.Model):
     horario = db.Column(db.String, primary_key=True, nullable=False)
     matricula_puc = db.Column(db.String(7), nullable=False)
     curso_puc = db.Column(db.String(80))
-    data_ini = db.Column(Date)
-    data_fim = db.Column(Date)
+    data_ini = db.Column(db.Date)
+    data_fim = db.Column(db.Date)
 
 
 class Evento(db.Model):
     __tablename__ = 'evento'
 
     nome = db.Column(db.String(200), primary_key=True, nullable=False)
-    data = db.Column(Date, primary_key=True, nullable=False)
+    data = db.Column(db.Date, primary_key=True, nullable=False)
     descricao = db.Column(db.String(200))
 
     pessoa = relationship('Pessoa', secondary='participa')
@@ -98,10 +98,10 @@ class Pessoa(db.Model):
 
     rg_numero = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao = db.Column(db.Date, primary_key=True, nullable=False)
     nome = db.Column(db.String(80), nullable=False)
     sexo = db.Column(db.SmallInteger)
-    data_nascimento = db.Column(Date)
+    data_nascimento = db.Column(db.Date)
     email = db.Column(db.String(60))
     celular = db.Column(db.String(16))
     rua = db.Column(db.String(100))
@@ -112,7 +112,7 @@ class Pessoa(db.Model):
     uf = db.Column(db.String(2))
     cep = db.Column(db.String(8))
     foto = db.Column(db.String(200))
-    data_desligamento = db.Column(Date)
+    data_desligamento = db.Column(db.Date)
 
 
 class Aluno(db.Model):
@@ -123,7 +123,7 @@ class Aluno(db.Model):
 
     rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
     dificuldade = db.Column(ARRAY(db.String(length=50)))
 
 
@@ -136,7 +136,7 @@ class Voluntario(db.Model):
 
     rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
     matricula_puc = db.Column(db.String(7), nullable=False)
     curso_puc = db.Column(db.String(80), nullable=False)
 
@@ -149,12 +149,12 @@ class AlunoFazAtividadeFora(db.Model):
         ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
     )
 
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False),
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False),
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False),
-    dia_atividade = db.Column(Date, primary_key=True, nullable=False),
-    horario_atividade = db.Column(db.String, primary_key=True, nullable=False),
-    descricao_atividade = db.Column(db.String(200), primary_key=True, nullable=False),
+    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
+    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
+    dia_atividade = db.Column(db.Date, primary_key=True, nullable=False)
+    horario_atividade = db.Column(db.String, primary_key=True, nullable=False)
+    descricao_atividade = db.Column(db.String(200), primary_key=True, nullable=False)
 
 
 class AprendizAluno(db.Model):
@@ -165,7 +165,7 @@ class AprendizAluno(db.Model):
 
     rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
     nome_responsavel = db.Column(db.String(80), primary_key=True, nullable=False)
     telefone_responsavel = db.Column(db.String(16))
     profissao_responsavel = db.Column(db.String(60))
@@ -176,7 +176,7 @@ class AprendizAluno(db.Model):
     turno = db.Column(db.String(5))
     local_destino = db.Column(db.String(200))
     descricao_destino = db.Column(db.String(200))
-    data_destino = db.Column(Date)
+    data_destino = db.Column(db.Date)
 
     instituicao = relationship('Instituicao')
     pessoa = relationship('Pessoa')
@@ -191,11 +191,11 @@ class Cursa(db.Model):
 
     rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
     materia = db.Column(db.String(200), primary_key=True, nullable=False)
     horario = db.Column(db.String, primary_key=True, nullable=False)
-    data_ini = db.Column(Date)
-    data_fim = db.Column(Date)
+    data_ini = db.Column(db.Date)
+    data_fim = db.Column(db.Date)
 
     conjunto_de_aula = relationship('ConjuntoDeAula')
     pessoa = relationship('Pessoa')
@@ -208,21 +208,20 @@ class Participa(db.Model):
         ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
     )
 
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False),
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False),
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False),
-    evento_nome = db.Column(db.String(200), primary_key=True, nullable=False),
-    evento_data = db.Column(Date, primary_key=True, nullable=False),
+    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
+    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
+    evento_nome = db.Column(db.String(200), primary_key=True, nullable=False)
+    evento_data = db.Column(db.Date, primary_key=True, nullable=False)
 
 
 # t_participa = Table(
 #     'participa', metadata,
 #     db.Column('rg_numero_pessoa', db.String(12), primary_key=True, nullable=False),
 #     db.Column('rg_orgao_expedidor_pessoa', db.String(20), primary_key=True, nullable=False),
-#     db.Column('rg_data_expedicao_pessoa', Date, primary_key=True, nullable=False),
+#     db.Column('rg_data_expedicao_pessoa', db.Date, primary_key=True, nullable=False),
 #     db.Column('evento_nome', db.String(200), primary_key=True, nullable=False),
-#     db.Column('evento_data', Date, primary_key=True, nullable=False),
+#     db.Column('evento_data', db.Date, primary_key=True, nullable=False),
 #     ForeignKeyConstraint(['evento_nome', 'evento_data'], ['evento.nome', 'evento.data'], ondelete='CASCADE', onupdate='CASCADE'),
 #     ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
 # )
@@ -237,10 +236,10 @@ class Realiza(db.Model):
 
     rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
     rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(Date, primary_key=True, nullable=False)
+    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
     local = db.Column(db.String(200), primary_key=True, nullable=False)
     descricao = db.Column(db.String(200), primary_key=True, nullable=False)
-    data_ini = db.Column(Date)
-    data_fim = db.Column(Date)
+    data_ini = db.Column(db.Date)
+    data_fim = db.Column(db.Date)
 
     pessoa = relationship('Pessoa')
