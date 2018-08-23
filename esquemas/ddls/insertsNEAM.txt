@@ -1,0 +1,45 @@
+insert into pessoa values ('111111111111', 'detran', (to_date('01-09-2017', 'DD-MM-YYYY')), 'Joao', 1, (to_date('01-09-2000', 'DD-MM-YYYY')), 'joao@gmail.com', '12345678', ('rua a', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('222222222222', 'detran', (to_date('01-01-2017', 'DD-MM-YYYY')), 'Maria', 0, (to_date('01-01-2000', 'DD-MM-YYYY')), 'maria@gmail.com', '12345678', ('rua b', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('333333333333', 'detran', (to_date('02-02-2017', 'DD-MM-YYYY')), 'Joana', 0, (to_date('02-02-2000', 'DD-MM-YYYY')), 'joana@gmail.com', '12345678', ('rua c', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('444444444444', 'detran', (to_date('01-09-2017', 'DD-MM-YYYY')), 'Leticia', 0, (to_date('01-01-2004', 'DD-MM-YYYY')), 'leticia@gmail.com', '12345678', ('rua d', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('555555555555', 'detran', (to_date('02-04-2017', 'DD-MM-YYYY')), 'Carla', 0, (to_date('02-04-2002', 'DD-MM-YYYY')), 'carla@gmail.com', '12345678', ('rua e', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('666666666666', 'detran', (to_date('05-05-2017', 'DD-MM-YYYY')), 'Vitoria', 0, (to_date('05-05-2004', 'DD-MM-YYYY')), 'vitoria@gmail.com', '12345678', ('rua f', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('777777777777', 'detran', (to_date('03-05-2017', 'DD-MM-YYYY')), 'Luana', 0, (to_date('03-05-2002', 'DD-MM-YYYY')), 'luana@gmail.com', '12345678', ('rua g', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('888888888888', 'detran', (to_date('05-09-2017', 'DD-MM-YYYY')), 'Stefano', 1, (to_date('05-09-2003', 'DD-MM-YYYY')), 'stefano@gmail.com', '12345678', ('rua h', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('999999999999', 'detran', (to_date('11-11-2017', 'DD-MM-YYYY')), 'Gabriel', 1, (to_date('11-11-2003', 'DD-MM-YYYY')), 'gabriel@gmail.com', '12345678', ('rua i', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+insert into pessoa values ('123456789123', 'detran', (to_date('23-04-2017', 'DD-MM-YYYY')), 'Alex', 1, (to_date('04-07-2004', 'DD-MM-YYYY')), 'alex@gmail.com', '12345678', ('rua j', 'numero 2', 'casa 1', 'barra', 'RJ', 'RJ', '12345678'), null, null);
+
+
+
+
+ APRENDIZ ALUNO
+
+
+insert into aprendiz_aluno values ('111111111111', 'detran', (to_date('01-09-2017', 'DD-MM-YYYY')), 'Jorge', '1546' , 'Comerciante', 'Instituto Reação', null, 'Médio', 'Cursando', 'Noite', null, null, null );
+
+insert into aprendiz_aluno values ('222222222222', 'detran', (to_date('01-01-2017', 'DD-MM-YYYY')), 'Carlos', '4542', 'Porteiro', 'Instituto Reação', null, 'Fundamental', 'Cursando', 'Manhã', null, null, null);
+
+insert into aprendiz_aluno values ('333333333333', 'detran', (to_date('02-02-2017', 'DD-MM-YYYY')), 'Rosane', '8795', 'Motorista', 'Instituto Reação', null, 'Médio', 'Concluído', 'Tarde', null, null, null);
+
+insert into aprendiz_aluno values ('444444444444', 'detran', (to_date('01-09-2017', 'DD-MM-YYYY')), 'Gleici', '1234', 'Porteiro', 'Instituto Reação' , null, 'Fundamental', 'Concluído', 'Tarde', null, null, null);
+
+insert into aprendiz_aluno values ('555555555555', 'detran', (to_date('02-04-2017', 'DD-MM-YYYY')), 'Antonio', '4597' , 'Comerciante', 'Fundação Estudar' , null, 'Médio', 'Concluído', 'Tarde', null, null, null);
+
+insert into aprendiz_aluno values ('666666666666', 'detran', (to_date('05-05-2017', 'DD-MM-YYYY')), 'Manoel', '4921', 'Motorista', 'Fundação Estudar', null, 'Médio', 'Cursando', 'Manhã', null, null, null );
+
+insert into aprendiz_aluno values ('777777777777', 'detran', (to_date('03-05-2017', 'DD-MM-YYYY')), 'Luciana', '1678', 'Professor', 'Fundação Estudar', null, 'Fundamental', 'Concluído', 'Tarde', null, null, null);
+
+insert into aprendiz_aluno values ('888888888888', 'detran', (to_date('05-09-2017', 'DD-MM-YYYY')), 'Henrique', '1645' , 'Comerciante', 'Fundação Estudar', null, 'Médio', 'Cursando', 'Manhã', null, null, null);
+
+insert into aprendiz_aluno values ('999999999999', 'detran', (to_date('11-11-2017', 'DD-MM-YYYY')), 'Jose', '9762', 'Porteiro', 'Fundação Estudar', null, 'Médio', 'Cursando', 'Manhã', null, null, null );
+
+insert into aprendiz_aluno values ('123456789123', 'detran', (to_date('23-04-2017', 'DD-MM-YYYY')), 'Pablo', '3365', 'Professor', 'Fundação Estudar', null, 'Técnico', 'Concluído', 'Manhã', null, null, null);
+
+
+
+
+INSTITUICAO
+
+
+insert into instituicao values ('Instituto Reação', '45879531', 'Fátima')
+insert into instituicao values ('Fundação Estudar', '45584265', 'Carlos')
