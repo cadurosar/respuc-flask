@@ -18,9 +18,10 @@ def lista_pessoas():
     """
     #check_admin()
 
-    alunos = db.session.query(Aluno).all()
+    #nao é um full outer join que pega todos os atributos de todas as tabelas, fica faltando dificuldade
+    alunos= db.session.query(Pessoa).join(Aluno).all()
     
-    aprendizes = db.session.query(AprendizAluno).all()
+    aprendizes = db.session.query(Pessoa).join(AprendizAluno).all()
 
     voluntarios = db.session.query(Voluntario).all()
 
@@ -31,13 +32,15 @@ def lista_pessoas():
 """
 ALUNOS:
 """
-@pessoas.route('/aluno/<string:cpf>', methods=['GET', 'POST'])
+@pessoas.route('/aluno/<string:rg_numero>/<rg_data_expedicao>/<string:rg_orgao_expedidor>', methods=['GET', 'POST'])
 @login_required
-def info_aluno(cpf):
+def info_aluno(rg_numero, rg_data_expedicao, rg_orgao_expedidor):
 
-    aluno = Aluno.query.get_or_404(cpf)
+    pessoa = db.session.query(Pessoa).get_or_404([rg_numero, rg_orgao_expedidor, rg_data_expedicao])
 
-    return render_template('pessoas/info_pessoa.html', pessoa=aluno, title="Info")
+    aluno = db.session.query(Aluno).get_or_404([rg_numero, rg_orgao_expedidor, rg_data_expedicao])
+
+    return render_template('pessoas/info_pessoa.html', pessoa=pessoa, aluno=aluno, title="Info")
 
 
 @pessoas.route('/add/aluno', methods=['GET', 'POST'])
@@ -76,9 +79,9 @@ def add_aluno():
                            title="Add Aluno")
 
 
-@pessoas.route('/edit/aluno/<string:cpf>', methods=['GET', 'POST'])
+@pessoas.route('/edit/aluno/<string:rg_numero>/<rg_data_expedicao>/<string:rg_orgao_expedidor>', methods=['GET', 'POST'])
 @login_required
-def edit_aluno(cpf):
+def edit_aluno(rg_numero, rg_data_expedicao, rg_orgao_expedidor):
     """
     Edita um aluno do banco
     """
@@ -86,32 +89,32 @@ def edit_aluno(cpf):
 
     add_aluno = False
 
-    aluno = Aluno.query.get_or_404(cpf)
+    pessoa = db.session.query(Pessoa).get_or_404([rg_numero, rg_orgao_expedidor, rg_data_expedicao])
 
-    form = AddOrEditAlunoForm(obj=aluno)
+    form = AddOrEditAlunoForm(obj=pessoa)
 
 
     if form.validate_on_submit():
 
-        aluno.nome = form.nome.data
-        aluno.cpf = form.cpf.data
-        aluno.rg = form.rg.data
-        aluno.naturalidade = form.naturalidade.data
-        aluno.email = form.email.data
-        aluno.data_nascimento = form.data_nascimento.data
-        aluno.telefone = form.telefone.data
-        aluno.celular = form.celular.data
-        aluno.rua = form.rua.data
-        aluno.numero = form.numero.data
-        aluno.complemento = form.complemento.data
-        aluno.bairro = form.bairro.data
-        aluno.cidade = form.cidade.data
-        aluno.uf = form.uf.data
-        aluno.cep = form.cep.data
-        aluno.nome_responsavel = form.nome_responsavel.data
-        aluno.cpf_responsavel = form.cpf_responsavel.data
-        aluno.telefone_responsavel = form.telefone_responsavel.data
-        aluno.profissao_responsavel = form.profissao_responsavel.data
+        pessoa.nome = form.nome.data
+        pessoa.rg_numero = form.rg_numero.data
+        pessoa.rg_orgao_expedidor = form.rg_orgao_expedidor.data
+        pessoa.rg_data_expedicao = form.rg_data_expedicao.data
+        pessoa.email = form.email.data
+        pessoa.data_nascimento = form.data_nascimento.data
+        pessoa.celular = form.celular.data
+        pessoa.rua = form.rua.data
+        pessoa.numero = form.numero.data
+        pessoa.complemento = form.complemento.data
+        pessoa.bairro = form.bairro.data
+        pessoa.cidade = form.cidade.data
+        pessoa.uf = form.uf.data
+        pessoa.cep = form.cep.data
+        
+        # pessoa.nome_responsavel = form.nome_responsavel.data
+        # pessoa.cpf_responsavel = form.cpf_responsavel.data
+        # pessoa.telefone_responsavel = form.telefone_responsavel.data
+        # pessoa.profissao_responsavel = form.profissao_responsavel.data
         
         db.session.commit()
         flash('Aluno editado com sucesso.')
@@ -122,42 +125,46 @@ def edit_aluno(cpf):
     #inicializa os campos do form com os dados do banco
     #da pra fazer isso de um jeito mais esperto, com loop; refazer
 
-    form.nome.data = aluno.nome
-    form.cpf.data = aluno.cpf
-    form.rg.data = aluno.rg
-    form.naturalidade.data = aluno.naturalidade
-    form.email.data = aluno.email
-    form.data_nascimento.data = aluno.data_nascimento
-    form.telefone.data = aluno.telefone
-    form.celular.data = aluno.celular
-    form.rua.data = aluno.rua
-    form.numero.data = aluno.numero
-    form.complemento.data = aluno.complemento
-    form.bairro.data = aluno.bairro
-    form.cidade.data = aluno.cidade
-    form.uf.data = aluno.uf
-    form.cep.data = aluno.cep
-    form.nome_responsavel.data = aluno.nome_responsavel
-    form.cpf_responsavel.data = aluno.cpf_responsavel
-    form.telefone_responsavel.data = aluno.telefone_responsavel
-    form.profissao_responsavel.data = aluno.profissao_responsavel
+    form.nome.data = pessoa.nome
+    form.rg_numero.data = pessoa.rg_numero
+    form.rg_orgao_expedidor.data = pessoa.rg_orgao_expedidor
+    form.rg_data_expedicao.data = pessoa.rg_data_expedicao
+    form.email.data = pessoa.email
+    form.data_nascimento.data = pessoa.data_nascimento
+    form.celular.data = pessoa.celular
+    form.rua.data = pessoa.rua
+    form.numero.data = pessoa.numero
+    form.complemento.data = pessoa.complemento
+    form.bairro.data = pessoa.bairro
+    form.cidade.data = pessoa.cidade
+    form.uf.data = pessoa.uf
+    form.cep.data = pessoa.cep
+
+    # form.nome_responsavel.data = pessoa.nome_responsavel
+    # form.cpf_responsavel.data = pessoa.cpf_responsavel
+    # form.telefone_responsavel.data = pessoa.telefone_responsavel
+    # form.profissao_responsavel.data = pessoa.profissao_responsavel
 
     return render_template('pessoas/add_or_edit_aluno.html', action="Edit",
                            add_aluno=add_aluno, form=form,
-                           aluno=aluno, title="Edit Aluno")
+                           aluno=pessoa, title="Edit Aluno")
 
 
-@pessoas.route('/delete/aluno/<string:cpf>', methods=['GET', 'POST'])
+@pessoas.route('/delete/aluno/<string:rg_numero>/<rg_data_expedicao>/<string:rg_orgao_expedidor>', methods=['GET', 'POST'])
 @login_required
-def delete_aluno(cpf):
+def delete_aluno(rg_numero, rg_data_expedicao, rg_orgao_expedidor):
 
     """
     Deleta um aluno do banco
     """
     #check_admin()
 
-    aluno = Aluno.query.get_or_404(cpf)
+    pessoa = db.session.query(Pessoa).get_or_404([rg_numero, rg_orgao_expedidor, rg_data_expedicao])
+
+    aluno = db.session.query(Aluno).get_or_404([rg_numero, rg_orgao_expedidor, rg_data_expedicao])
+
     db.session.delete(aluno)
+    db.session.delete(pessoa)
     db.session.commit()
     flash('Aluno foi deletado com sucesso')
 

@@ -10,9 +10,7 @@
   		<div class="col-sm-7">
   			<h2>Dados pessoais</h2>
   			<br>
-			<p> <b>CPF:</b> {{ pessoa.cpf }}</p>
-			<p> <b>RG: </b>{{ pessoa.rg }}</p>
-			<p> <b>Naturalidade: </b> {{ pessoa.naturalidade }}</p>
+			<p> <b>RG: </b>{{ pessoa.rg_numero }}, {{ pessoa.rg_orgao_expedidor }}, {{ pessoa.rg_data_expedicao }}</p>
 			<p> <b>Data de nascimento: </b> {{ pessoa.data_nascimento }}</p>
 			{% if pessoa.matricula %}
 			<p> <b>Matricula: </b>{{ pessoa.matricula }}</p>
@@ -21,7 +19,6 @@
 			<h2>Dados para contato</h2>
 			<br>
 			<p> <b>Email: </b> {{ pessoa.email }}</p>
-			<p> <b>Telefone: </b> {{ pessoa.telefone }}</p>
 			<p> <b>Celular: </b> {{ pessoa.celular }}</p>
 			<p> <b>Rua: </b> {{ pessoa.rua }}</p>
 			<p> <b>Número: </b> {{ pessoa.numero }}</p>
