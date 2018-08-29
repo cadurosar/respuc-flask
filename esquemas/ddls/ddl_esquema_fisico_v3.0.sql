@@ -47,7 +47,7 @@ CREATE TABLE pessoa
 	desligamento_motivo varchar(100),
 	sexo char(1),	/* M, F ou O */
 	data_nascimento date,
-	identificador_tipo smallint NOT NULL,	/* certidao, rg ou cpf */ // ENUM??????
+	identificador_tipo smallint NOT NULL,	/* certidao, rg ou cpf */
 	identificador_numero varchar(32) NOT NULL,
 	identificador_complemento char(2),
 	endereco_numero smallint,
@@ -228,3 +228,17 @@ CREATE OR REPLACE FUNCTION verifica_requisitos_voluntario() RETURNS trigger as $
 $tg_requisitos_voluntario$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tg_requisitos_voluntario BEFORE INSERT OR UPDATE ON pessoa FOR EACH ROW EXECUTE PROCEDURE verifica_requisitos_voluntario();
+
+/* --------------------------------------------- USUARIO ---------------------------------------------- */
+
+DROP TABLE IF EXISTS usuario CASCADE;
+
+CREATE TABLE usuario
+(
+	usuario_id serial NOT NULL,
+	email varchar(60) UNIQUE NOT NULL,
+	senha_hash varchar(128) NOT NULL,
+	permissao integer NOT NULL DEFAULT 0,
+	
+	CONSTRAINT usuario_pk PRIMARY KEY (email)
+);
