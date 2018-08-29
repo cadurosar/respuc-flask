@@ -2,7 +2,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-from sqlalchemy import CheckConstraint, Column, Date, ForeignKey, Integer, String, Table, Text, SmallInteger, ForeignKeyConstraint, ARRAY
+from sqlalchemy import ARRAY, Column, Date, Enum, Float, ForeignKey, ForeignKeyConstraint, Integer, SmallInteger, String, Table, Time, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import FetchedValue
 from flask_sqlalchemy import SQLAlchemy
@@ -51,35 +51,27 @@ class Usuario(UserMixin, db.Model):
 def load_user(usuario_id):
     return Usuario.query.get(usuario_id)
 
-
-#abaixo codigo gerado com flask-sqlcodegen
+# ---
 
 class AtividadeFora(db.Model):
     __tablename__ = 'atividade_fora'
 
-    dia = db.Column(db.Date, primary_key=True, nullable=False)
-    horario = db.Column(db.String, primary_key=True, nullable=False)
-    descricao = db.Column(db.String(200), primary_key=True, nullable=False)
-
-    pessoa = relationship('Pessoa', secondary='aluno_faz_atividade_fora')
+    pk_atividade_nome = db.Column(db.String(100), primary_key=True)
+    atividade_local = db.Column(db.String(100))
 
 
-class ConjuntoDeAula(db.Model):
-    __tablename__ = 'conjunto_de_aulas'
+class AtividadeNeam(db.Model):
+    __tablename__ = 'atividade_neam'
 
-    materia = db.Column(db.String(100), primary_key=True, nullable=False)
-    horario = db.Column(db.String, primary_key=True, nullable=False)
-    matricula_puc = db.Column(db.String(7), nullable=False)
-    curso_puc = db.Column(db.String(80))
-    data_ini = db.Column(db.Date)
-    data_fim = db.Column(db.Date)
+    pk_nome_atividade_neam = db.Column(db.String(100), primary_key=True)
+    hora_ini = db.Column(db.Time)
 
 
 class Evento(db.Model):
     __tablename__ = 'evento'
 
-    nome = db.Column(db.String(200), primary_key=True, nullable=False)
-    data = db.Column(db.Date, primary_key=True, nullable=False)
+    pk_nome = db.Column(db.String(200), primary_key=True, nullable=False)
+    pk_data = db.Column(db.Date, primary_key=True, nullable=False)
     descricao = db.Column(db.String(200))
 
     pessoa = relationship('Pessoa', secondary='participa')
@@ -88,158 +80,114 @@ class Evento(db.Model):
 class Instituicao(db.Model):
     __tablename__ = 'instituicao'
 
-    nome = db.Column(db.String(200), primary_key=True)
-    contato_telefone = db.Column(db.String(16))
-    contato_nome = db.Column(db.String(200))
+    pk_nome = db.Column(db.String(200), primary_key=True)
+    contato_nome = db.Column(db.String(100))
+    contato_telefone = db.Column(db.CHAR(10))
+
+
+class Trabalho(db.Model):
+    __tablename__ = 'trabalho'
+
+    pk_local_puc = db.Column(db.String(50), primary_key=True, nullable=False)
+    pk_funcao = db.Column(db.String(50), primary_key=True, nullable=False)
 
 
 class Pessoa(db.Model):
     __tablename__ = 'pessoa'
 
-    rg_numero = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao = db.Column(db.Date, primary_key=True, nullable=False)
-    nome = db.Column(db.String(80), nullable=False)
-    sexo = db.Column(db.SmallInteger)
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(50), unique=True)
+    celular = db.Column(db.CHAR(50))
+    foto = db.Column(db.CHAR(200))
+    desligamento_data = db.Column(db.Date)
+    desligamento_motivo = db.Column(db.String(100))
+    sexo = db.Column(db.CHAR(1))
     data_nascimento = db.Column(db.Date)
-    email = db.Column(db.String(60))
-    celular = db.Column(db.String(16))
-    rua = db.Column(db.String(100))
-    numero = db.Column(db.String(20))
-    complemento = db.Column(db.String(50))
-    bairro = db.Column(db.String(20))
-    cidade = db.Column(db.String(20))
-    uf = db.Column(db.String(2))
-    cep = db.Column(db.String(8))
-    foto = db.Column(db.String(200), nullable=True)
-    data_desligamento = db.Column(db.Date)
-
-
-class Aluno(db.Model):
-    __tablename__ = 'aluno'
-    __table_args__ = (
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE'),
-    )
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
+    identificador_tipo = db.Column(db.SmallInteger, nullable=False)
+    identificador_numero = db.Column(db.String(32), nullable=False)
+    identificador_complemento = db.Column(db.CHAR(2))
+    endereco_numero = db.Column(db.SmallInteger)
+    endereco_rua = db.Column(db.String(100))
+    endereco_complemento = db.Column(db.String(50))
+    endereco_bairro = db.Column(db.String(20))
+    endereco_cidade = db.Column(db.String(20))
+    endereco_uf = db.Column(db.CHAR(2))
+    endereco_cep = db.Column(db.CHAR(8))
+    pk_matricula_neam = db.Column(db.Integer, primary_key=True, server_default=text("nextval('pessoa_pk_matricula_neam_seq'::regclass)"))
+    tipo = db.Column(Enum('voluntario', 'aprendiz', 'aluno', name='tipo_pessoa'), nullable=False)
+    nome_responsavel = db.Column(ARRAY(db.String(length=100)), nullable=False)
+    telefone_responsavel = db.Column(ARRAY(db.CHAR(length=10)))
+    profissao_responsavel = db.Column(ARRAY(db.String(length=50)))
+    curso_puc = db.Column(db.String(50))
+    matricula_puc = db.Column(db.CHAR(7), unique=True)
     dificuldade = db.Column(ARRAY(db.String(length=50)))
-
-
-class Voluntario(db.Model):
-    __tablename__ = 'voluntario'
-    __table_args__ = (
-        CheckConstraint("curso_puc = ANY (ARRAY['Administração'::bpchar, 'Arquitetura e Urbanismo'::bpchar, 'Artes Cênicas'::bpchar, 'Ciência da Computação'::bpchar, 'Ciências Biológicas'::bpchar, 'Ciências Econômicas'::bpchar, 'Ciências Sociais'::bpchar, 'Comunicação Social - Cinema'::bpchar, 'Comunicação Social - Jornalismo'::bpchar, 'Comunicação Social - Publicidade e Propaganda'::bpchar, 'Design - Comunicação Visual'::bpchar, 'Design - Mídia Digital'::bpchar, 'Design - Moda'::bpchar, 'Design - Projeto de Produto'::bpchar, 'Direito'::bpchar, 'Engenharia Ambiental'::bpchar, 'Engenharia Civil'::bpchar, 'Engenharia da Computação'::bpchar, 'Engenharia de Controle e Automação'::bpchar, 'Engenharia Elétrica'::bpchar, 'Engenharia Mecânica'::bpchar, 'Engenharia de Materiais e Nanotecnologia'::bpchar, 'Engenharia de Petróleo'::bpchar, 'Engenharia de Produção'::bpchar, 'Engenharia Química'::bpchar, 'Filosofia'::bpchar, 'Física'::bpchar, 'Geografia'::bpchar, 'História'::bpchar, 'Letras'::bpchar, 'Matemática'::bpchar, 'Pedagogia'::bpchar, 'Produção e Gestão de Mídias em Educação'::bpchar, 'Psicologia'::bpchar, 'Química'::bpchar, 'Relações Internacionais'::bpchar, 'Serviço Social'::bpchar, 'Sistemas de Informação'::bpchar, 'Teologia'::bpchar])"),
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
-    )
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    matricula_puc = db.Column(db.String(7), nullable=False)
-    curso_puc = db.Column(db.String(80), nullable=False)
-
-
-class AlunoFazAtividadeFora(db.Model):
-
-    __tablename__ = 'aluno_faz_atividade_fora'
-    __table_args__ = (
-        ForeignKeyConstraint(['dia_atividade', 'horario_atividade', 'descricao_atividade'], ['atividade_fora.dia', 'atividade_fora.horario', 'atividade_fora.descricao'], ondelete='CASCADE', onupdate='CASCADE'),
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
-    )
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    dia_atividade = db.Column(db.Date, primary_key=True, nullable=False)
-    horario_atividade = db.Column(db.String, primary_key=True, nullable=False)
-    descricao_atividade = db.Column(db.String(200), primary_key=True, nullable=False)
-
-
-class AprendizAluno(db.Model):
-    __tablename__ = 'aprendiz_aluno'
-    __table_args__ = (
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE'),
-    )
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    nome_responsavel = db.Column(db.String(80), primary_key=True, nullable=False)
-    telefone_responsavel = db.Column(db.String(16))
-    profissao_responsavel = db.Column(db.String(60))
-    nome_instituicao = db.Column(ForeignKey('instituicao.nome', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
     serie = db.Column(db.String(10))
-    nivel_escolaridade = db.Column(db.String(15))
-    status_escolaridade = db.Column(db.String(10))
-    turno = db.Column(db.String(5))
-    local_destino = db.Column(db.String(200))
-    descricao_destino = db.Column(db.String(200))
-    data_destino = db.Column(db.Date)
+    escolaridade_nivel = db.Column(db.String(30))
+    escolaridade_turno = db.Column(db.String(10))
+    nome_instituicao = db.Column(ForeignKey('instituicao.pk_nome', ondelete='CASCADE', onupdate='CASCADE'))
 
     instituicao = relationship('Instituicao')
-    pessoa = relationship('Pessoa')
 
 
-class Cursa(db.Model):
+class Cursa(Pessoa):
     __tablename__ = 'cursa'
-    __table_args__ = (
-        ForeignKeyConstraint(['materia', 'horario'], ['conjunto_de_aulas.materia', 'conjunto_de_aulas.horario'], ondelete='CASCADE', onupdate='CASCADE'),
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
-    )
 
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    materia = db.Column(db.String(200), primary_key=True, nullable=False)
-    horario = db.Column(db.String, primary_key=True, nullable=False)
+    pk_matricula_neam_pessoa = db.Column(ForeignKey('pessoa.pk_matricula_neam', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, server_default=text("nextval('cursa_pk_matricula_neam_pessoa_seq'::regclass)"))
+    pk_nome_atividade_neam = db.Column(ForeignKey('atividade_neam.pk_nome_atividade_neam', ondelete='CASCADE', onupdate='CASCADE'), nullable=False)
+    nota = db.Column(db.Float)
     data_ini = db.Column(db.Date)
     data_fim = db.Column(db.Date)
 
-    conjunto_de_aula = relationship('ConjuntoDeAula')
+    atividade_neam = relationship('AtividadeNeam')
+
+
+class AulaReforco(db.Model):
+    __tablename__ = 'aula_reforco'
+
+    pk_materia = db.Column(db.String(20), primary_key=True, nullable=False)
+    pk_matricula_neam_pessoa = db.Column(ForeignKey('pessoa.pk_matricula_neam', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, server_default=text("nextval('aula_reforco_pk_matricula_neam_pessoa_seq'::regclass)"))
+    pk_matricula_puc_pessoa = db.Column(ForeignKey('pessoa.matricula_puc', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, unique=True)
+    hora_ini = db.Column(db.Time)
+    data = db.Column(db.Date)
+
+    pessoa = relationship('Pessoa', primaryjoin='AulaReforco.pk_matricula_neam_pessoa == Pessoa.pk_matricula_neam')
+    pessoa1 = relationship('Pessoa', uselist=False, primaryjoin='AulaReforco.pk_matricula_puc_pessoa == Pessoa.matricula_puc')
+
+
+class Faz(db.Model):
+    __tablename__ = 'faz'
+
+    pk_matricula_neam_pessoa = db.Column(ForeignKey('pessoa.pk_matricula_neam', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, server_default=text("nextval('faz_pk_matricula_neam_pessoa_seq'::regclass)"))
+    pk_nome_atividade_fora = db.Column(ForeignKey('atividade_fora.pk_atividade_nome', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False)
+    hora_ini = db.Column(db.Time)
+    hora_fim = db.Column(db.Time)
+    dia_semana = db.Column(db.String(15))
+    frequencia = db.Column(db.CHAR(4))
+
     pessoa = relationship('Pessoa')
+    atividade_fora = relationship('AtividadeFora')
 
 
-class Participa(db.Model):
-    __tablename__ = 'participa'
-    __table_args__ = (
-        ForeignKeyConstraint(['evento_nome', 'evento_data'], ['evento.nome', 'evento.data'], ondelete='CASCADE', onupdate='CASCADE'),
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
-    )
-
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    evento_nome = db.Column(db.String(200), primary_key=True, nullable=False)
-    evento_data = db.Column(db.Date, primary_key=True, nullable=False)
-
-
-# t_participa = Table(
-#     'participa', metadata,
-#     db.Column('rg_numero_pessoa', db.String(12), primary_key=True, nullable=False),
-#     db.Column('rg_orgao_expedidor_pessoa', db.String(20), primary_key=True, nullable=False),
-#     db.Column('rg_data_expedicao_pessoa', db.Date, primary_key=True, nullable=False),
-#     db.Column('evento_nome', db.String(200), primary_key=True, nullable=False),
-#     db.Column('evento_data', db.Date, primary_key=True, nullable=False),
-#     ForeignKeyConstraint(['evento_nome', 'evento_data'], ['evento.nome', 'evento.data'], ondelete='CASCADE', onupdate='CASCADE'),
-#     ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE')
-# )
-
+t_participa = Table(
+    'participa', metadata,
+    db.Column('pk_matricula_neam_pessoa', ForeignKey('pessoa.pk_matricula_neam', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, server_default=text("nextval('participa_pk_matricula_neam_pessoa_seq'::regclass)")),
+    db.Column('pk_data_evento', db.Date, primary_key=True, nullable=False),
+    db.Column('pk_nome_evento', db.String(100), primary_key=True, nullable=False),
+    ForeignKeyConstraint(['pk_data_evento', 'pk_nome_evento'], ['evento.pk_data', 'evento.pk_nome'], ondelete='CASCADE', onupdate='CASCADE')
+)
 
 
 class Realiza(db.Model):
     __tablename__ = 'realiza'
     __table_args__ = (
-        ForeignKeyConstraint(['rg_numero_pessoa', 'rg_orgao_expedidor_pessoa', 'rg_data_expedicao_pessoa'], ['pessoa.rg_numero', 'pessoa.rg_orgao_expedidor', 'pessoa.rg_data_expedicao'], ondelete='CASCADE', onupdate='CASCADE'),
+        ForeignKeyConstraint(['pk_local_puc_trabalho', 'pk_funcao_trabalho'], ['trabalho.pk_local_puc', 'trabalho.pk_funcao'], ondelete='CASCADE', onupdate='CASCADE'),
     )
 
-    rg_numero_pessoa = db.Column(db.String(12), primary_key=True, nullable=False)
-    rg_orgao_expedidor_pessoa = db.Column(db.String(20), primary_key=True, nullable=False)
-    rg_data_expedicao_pessoa = db.Column(db.Date, primary_key=True, nullable=False)
-    local = db.Column(db.String(200), primary_key=True, nullable=False)
-    descricao = db.Column(db.String(200), primary_key=True, nullable=False)
-    data_ini = db.Column(db.Date)
+    pk_matricula_neam_pessoa = db.Column(ForeignKey('pessoa.pk_matricula_neam', ondelete='CASCADE', onupdate='CASCADE'), primary_key=True, nullable=False, server_default=text("nextval('realiza_pk_matricula_neam_pessoa_seq'::regclass)"))
+    pk_local_puc_trabalho = db.Column(db.String(50), primary_key=True, nullable=False)
+    pk_funcao_trabalho = db.Column(db.String(50), primary_key=True, nullable=False)
+    data_ini = db.Column(db.Date, nullable=False)
     data_fim = db.Column(db.Date)
 
+    trabalho = relationship('Trabalho')
     pessoa = relationship('Pessoa')
