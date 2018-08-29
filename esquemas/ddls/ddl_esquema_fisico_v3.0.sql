@@ -60,7 +60,7 @@ CREATE TABLE pessoa
 	pk_matricula_neam serial NOT NULL,
 	tipo tipo_pessoa NOT NULL,		/* voluntário, aprendiz ou aluno */
 	nome_responsavel varchar(100) [] NOT NULL,
-	telefone_responsavel char(10) [],
+	telefone_responsavel char(20) [],
 	profissao_responsavel varchar(50) [],
 	curso_puc varchar(50),
 	matricula_puc char(7) UNIQUE,
