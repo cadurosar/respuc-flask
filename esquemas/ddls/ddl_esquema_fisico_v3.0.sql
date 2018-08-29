@@ -2,13 +2,18 @@
 ESSE É O RASCUNHO DO DDL V3: TODAS AS TABEALS JA ESTAO EXPLICITADAS COM SEUS ATRIBUTOS, FALTA APENAS COLOAR EM LINGUAGEM SQL E ESCREVER AS RESTRICOES DE FK E PK.
 
 juntei entidade pessoa, menor, aluno e voluntario em uma mesma tabela; isso some com tabelas aprendiz, menor e voluntario
+
 coloquei um pk_matricula_neam em pessoa para servir como pk para nao precisarmos lidar com pks compostas
+
 fusao de colunas de oriundo_de com pessoa (1:n); pk de instituicao deve estar presente na tabela pessoa
-oriundo_de.escolaridade_nivel e oriundo_de.escolaridade_status juntados em escolaridade_nivel, que agora assume valores como "fundamental completo","fundamental incompleto", etc ?????????
+
+oriundo_de.escolaridade_nivel e oriundo_de.escolaridade_status juntados em escolaridade_nivel, que agora assume valores como "fundamental completo","fundamental incompleto", etc
+
 tabela participa criada por relacionamento entre entidades ser (n:n)
 tabela realiza criada por relacionamento entre entidades ser (n:n)
 tabela faz criada por relacionamento entre entidades ser (n:n)
 tabela cursa criada por relacionamento entre entidades ser (n:n)
+
 fim dos comentarios */
 
 DROP TYPE IF EXISTS tipo_pessoa CASCADE;
@@ -170,43 +175,6 @@ CREATE TABLE cursa
 	CONSTRAINT cursa_pessoa_fk FOREIGN KEY (pk_matricula_neam_pessoa) REFERENCES pessoa(pk_matricula_neam) ON UPDATE CASCADE ON DELETE CASCADE,
 	CONSTRAINT cursa_atividade_neam_fk FOREIGN KEY (pk_nome_atividade_neam) REFERENCES atividade_neam(pk_nome_atividade_neam) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-/*DROP TABLE IF EXISTS aula_reforco CASCADE;
-
-CREATE TABLE aula_reforco
-(
-	pk_materia varchar(20) NOT NULL,
-
-	CONSTRAINT aula_reforco_pk PRIMARY KEY (pk_materia)
-);
-
-DROP TABLE IF EXISTS da CASCADE;
-
-CREATE TABLE da
-(
-	pk_matricula_neam_pessoa serial NOT NULL,
-	pk_matricula_puc_pessoa char(7) NOT NULL,
-	pk_materia_aula_reforco varchar(20) NOT NULL,
-	hora_ini time,
-	data date,
-
-	CONSTRAINT da_pk PRIMARY KEY (pk_matricula_neam_pessoa, pk_matricula_puc_pessoa, pk_materia_aula_reforco),
-	CONSTRAINT da_pessoa_fk FOREIGN KEY (pk_matricula_neam_pessoa, pk_matricula_puc_pessoa) REFERENCES pessoa(pk_matricula_neam, matricula_puc) ON UPDATE CASCADE ON DELETE CASCADE,
-	CONSTRAINT da_aula_reforco_fk FOREIGN KEY (pk_materia_aula_reforco) REFERENCES aula_reforco(pk_materia) ON UPDADE CASCADE ON DELETE CASCADE
-);
-
-DROP TABLE IF EXISTS recebe CASCADE;
-
-CREATE TABLE recebe
-(
-	pk_matricula_neam_pessoa serial NOT NULL,
-	pk_matricula_puc_pessoa char(7) NOT NULL,
-
-	CONSTRAINT recebe_pk PRIMARY KEY (pk_matricula_neam_pessoa, pk_matricula_puc_pessoa)
-);
-*/
-
-/* ALTERNATIVA -> TABELAS AULA_REFORCO, DA E RECEBE JUNTAS EM UMA SÓ */
 
 DROP TABLE IF EXISTS aula_reforco CASCADE;
 
