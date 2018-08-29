@@ -10,40 +10,40 @@
   		<div class="col-sm-7">
   			<h2>Dados pessoais</h2>
   			<br>
-			<p> <b>RG: </b>{{ pessoa.rg_numero }}, {{ pessoa.rg_orgao_expedidor }}, {{ pessoa.rg_data_expedicao }}</p>
+			<p> <b>{{ pessoa.identificador_tipo }}: </b>{{ pessoa.identificador_numero }}</p>
 			<p> <b>Data de nascimento: </b> {{ pessoa.data_nascimento }}</p>
-			{% if pessoa.matricula %}
+			<p> <b>Sexo: </b> {{ pessoa.sexo }}
+<!-- 			{% if pessoa.matricula %}
 			<p> <b>Matricula: </b>{{ pessoa.matricula }}</p>
-			{% endif %}
+			{% endif %} -->
 			
 			<h2>Dados para contato</h2>
 			<br>
 			<p> <b>Email: </b> {{ pessoa.email }}</p>
 			<p> <b>Celular: </b> {{ pessoa.celular }}</p>
-			<p> <b>Rua: </b> {{ pessoa.rua }}</p>
-			<p> <b>Número: </b> {{ pessoa.numero }}</p>
-			<p> <b>Complemento: </b>{{ pessoa.complemento }}</p>
-			<p> <b>Bairro: </b>{{ pessoa.bairro }}</p>
-			<p> <b>Cidade; </b>{{ pessoa.cidade }}</p>
-			<p> <b>UF: </b>{{ pessoa.uf }}</p>
-			<p> <b>CEP: </b>{{ pessoa.cep }}</p>
+			<p> <b>Rua: </b> {{ pessoa.endereco_rua }}</p>
+			<p> <b>Número: </b> {{ pessoa.endereco_numero }}</p>
+			<p> <b>Complemento: </b>{{ pessoa.endereco_complemento }}</p>
+			<p> <b>Bairro: </b>{{ pessoa.endereco_bairro }}</p>
+			<p> <b>Cidade; </b>{{ pessoa.endereco_cidade }}</p>
+			<p> <b>UF: </b>{{ pessoa.endereco_uf }}</p>
+			<p> <b>CEP: </b>{{ pessoa.endereco_cep }}</p>
 		</div>
 		<div class="col-sm-5">
-			{% if pessoa.cpf_responsavel %}
+			{% if pessoa.nome_responsavel %}
 			<h2>Responsável</h2>
 			<br>
 			<p> <b>Nome do responsável: </b>{{ pessoa.nome_responsavel }}</p>
-			<p> <b>CPF do responsável: </b>{{ pessoa.cpf_responsavel }}</p>
 			<p> <b>Telefone do responsável: </b>{{ pessoa.telefone_responsavel }}</p>
 			<p> <b>Profissão do responsável: </b>{{ pessoa.profissao_responsavel }}</p>
 			{% endif %}
 
-			<h2>Atividades</h2>
+			<!-- <h2>Atividades</h2>
 			{% if pessoa.trabalho %}
 			<p> <b>Trabalho: </b>{{ pessoa.trabalho }}</p>
 			{% else %}
 			<p> Essa pessoa não realiza nenhum trabalho, nem está em nenhum evento, atividade ou projeto. </p>
-			{% endif %}
+			{% endif %} -->
 
 			<h2>Foto</h2>
 			<p> //pegar a foto com json </p>

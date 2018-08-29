@@ -74,7 +74,7 @@ class Evento(db.Model):
     pk_data = db.Column(db.Date, primary_key=True, nullable=False)
     descricao = db.Column(db.String(200))
 
-    pessoa = relationship('Pessoa', secondary='participa')
+    
 
 
 class Instituicao(db.Model):

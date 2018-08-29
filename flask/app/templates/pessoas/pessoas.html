@@ -26,18 +26,18 @@
                 {% for aluno in alunos %}
                   <tr>
                     <td> {{ aluno.nome }}
-                      <a style="float:right;" href="{{ url_for('pessoas.info_aluno', rg_numero=aluno.rg_numero, rg_data_expedicao=aluno.rg_data_expedicao, rg_orgao_expedidor=aluno.rg_orgao_expedidor) }}">
+                      <a style="float:right;" href="{{ url_for('pessoas.info_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-info-circle fa-lg"></i>
                       </a>
                     </td>
                     <td> {{ aluno.email }} </td>
                     <td>
-                      <a href="{{ url_for('pessoas.edit_aluno', rg_numero=aluno.rg_numero, rg_data_expedicao=aluno.rg_data_expedicao, rg_orgao_expedidor=aluno.rg_orgao_expedidor) }}">
+                      <a href="{{ url_for('pessoas.edit_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-pencil"></i> Editar
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_aluno', rg_numero=aluno.rg_numero, rg_data_expedicao=aluno.rg_data_expedicao, rg_orgao_expedidor=aluno.rg_orgao_expedidor) }}">
+                      <a href="{{ url_for('pessoas.delete_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>
@@ -52,7 +52,7 @@
               <h3> Ainda não há nenhum aluno cadastrado. </h3>
               <hr class="intro-divider">
           {% endif %}
-            <a href="{{ url_for('pessoas.add_aluno') }}" class="btn btn-default btn-lg">
+            <a href="{{ url_for('pessoas.add_pessoa', tipo='aluno') }}" class="btn btn-default btn-lg">
               <i class="fa fa-plus"></i>
               Adicionar um aluno
             </a>
@@ -78,18 +78,18 @@
                 {% for aprendiz in aprendizes %}
                   <tr>
                     <td> {{ aprendiz.nome }}
-                      <a style="float:right;" href="{{ url_for('pessoas.info_aprendiz',cpf=aprendiz.cpf) }}">
+                      <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-info-circle fa-lg"></i>
                       </a>
                     </td>
                     <td> {{ aprendiz.email }} </td>
                     <td>
-                      <a href="{{ url_for('pessoas.edit_aprendiz', cpf=aprendiz.cpf) }}">
+                      <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-pencil"></i> Editar
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_aprendiz', cpf=aprendiz.cpf) }}">
+                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>
@@ -104,7 +104,7 @@
               <h3> Ainda não há nenhum aprendiz cadastrado. </h3>
               <hr class="intro-divider">
           {% endif %}
-            <a href="{{ url_for('pessoas.add_aprendiz') }}" class="btn btn-default btn-lg">
+            <a href="{{ url_for('pessoas.add_pessoa', tipo='aprendiz') }}" class="btn btn-default btn-lg">
               <i class="fa fa-plus"></i>
               Adicionar um aprendiz
             </a>
@@ -131,18 +131,18 @@
                   {% for voluntario in voluntarios %}
                     <tr>
                       <td> {{ voluntario.nome }}
-                        <a style="float:right;" href="{{ url_for('pessoas.info_voluntario',cpf=voluntario.cpf) }}">
+                        <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                           <i class="fa fa-info-circle fa-lg"></i>
                         </a>
                       </td>
                       <td> {{ voluntario.email }} </td>
                       <td>
-                        <a href="{{ url_for('pessoas.edit_voluntario', cpf=voluntario.cpf) }}">
+                        <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                           <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
                       <td>
-                        <a href="{{ url_for('pessoas.delete_voluntario', cpf=voluntario.cpf) }}">
+                        <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                           <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>                      
@@ -157,7 +157,7 @@
                 <h3> Ainda não há nenhum voluntário cadastrado. </h3>
                 <hr class="intro-divider">
             {% endif %}
-              <a href="{{ url_for('pessoas.add_voluntario') }}" class="btn btn-default btn-lg">
+              <a href="{{ url_for('pessoas.add_pessoa', tipo='voluntario') }}" class="btn btn-default btn-lg">
                 <i class="fa fa-plus"></i>
                 Adicionar um voluntário
               </a>

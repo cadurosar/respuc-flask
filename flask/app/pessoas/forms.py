@@ -5,115 +5,37 @@ from flask_wtf import FlaskForm
 
 from ..models import Usuario
 
-class AddOrEditAlunoForm(FlaskForm):
+class AddOrEditPessoaForm(FlaskForm):
 
 	"""
 	Form para adição/edição de um aluno
 	"""
 
-	#para pessoas e alunoaprendiz
-	rg_numero = IntegerField('RG (somente números)', validators=[DataRequired()])
-	rg_orgao_expedidor = StringField('Orgão expedidor (RG)', validators=[DataRequired()])
-	rg_data_expedicao = DateField('Data de expedição', format='%Y-%m-%d', validators=[DataRequired()])
-
-	#para pessoa
 	nome = StringField('Nome', validators=[DataRequired()])
-	sexo = IntegerField('Sexo',validators=[DataRequired()])
-	data_nascimento = DateField('Data de nascimento', format='%Y-%m-%d', validators=[DataRequired()])
 	email = StringField('Email', validators=[DataRequired(), Email()])
 	celular = IntegerField('Celular', validators=[DataRequired()])
-	rua = StringField('Rua', validators=[DataRequired()])
-	numero = IntegerField('Número', validators=[DataRequired()])
-	complemento = StringField('Complemento', validators=[DataRequired()])
-	bairro = StringField('Bairro', validators=[DataRequired()])
-	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
-	cep = StringField('CEP', validators=[DataRequired()])
-
-    # para alunos e aprendizes:
-	nome_responsavel = StringField('Nome do responsável', validators=[DataRequired()])
-	telefone_responsavel = StringField('Telefone do responsável', validators=[DataRequired()])
-	profissao_responsavel = StringField('Profissão do responsável', validators=[DataRequired()])
-
-	nome_instituicao = StringField('Nome da instituicao de origem', validators=[DataRequired()])
-    
-	serie = StringField('Série/Ano', validators=[DataRequired()])
-	nivel_escolaridade = SelectField('Nível de escolaridade', choices=[('Fundamental','Fundamental'), ('Médio','Médio'), ('Técnico', 'Técnico')])
-	status_escolaridade = SelectField('Status', choices=[('Cursando','Cursando'),('Concluído','Concluído')])
-	turno = SelectField('Turno', choices=[('Manhã','Manhã'),('Noite','Noite')])
-
-	submit = SubmitField('Confirmar')
-
-class AddOrEditAprendizForm(FlaskForm):
-
-	"""
-	Form para adição/edição de um aprendiz
-	"""
-	#para realiza, pessoas e alunoaprendiz
-	rg_numero = IntegerField('RG (somente números)', validators=[DataRequired()])
-	rg_orgao_expedidor = StringField('Orgão expedidor (RG)', validators=[DataRequired()])
-	rg_data_expedicao = DateField('Data de expedição', format='%Y-%m-%d', validators=[DataRequired()])
-
-	#para pessoa
-	nome = StringField('Nome', validators=[DataRequired()])
-	sexo = IntegerField('Sexo',validators=[DataRequired()])
+	foto = StringField('Foto', validators=[Optional()]) #???????????????
+	sexo = SelectField('Sexo', choices=[('M','Masculino'), ('F','Feminino'), ('O', 'Outro')])
 	data_nascimento = DateField('Data de nascimento', format='%Y-%m-%d', validators=[DataRequired()])
-	email = StringField('Email', validators=[DataRequired(), Email()])
-	celular = IntegerField('Celular', validators=[DataRequired()])
-	rua = StringField('Rua', validators=[DataRequired()])
-	numero = IntegerField('Número', validators=[DataRequired()])
-	complemento = StringField('Complemento', validators=[DataRequired()])
-	bairro = StringField('Bairro', validators=[DataRequired()])
-	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
-	cep = StringField('CEP', validators=[DataRequired()])
-
-    #para alunoaprendiz:
-	nome_responsavel = StringField('Nome do responsável', validators=[DataRequired()])
-	telefone_responsavel = StringField('Telefone do responsável', validators=[DataRequired()])
-	profissao_responsavel = StringField('Profissão do responsável', validators=[DataRequired()])
-
-	nome_instituicao = StringField('Nome da instituicao de origem', validators=[DataRequired()])
-    
-	serie = StringField('Série/Ano', validators=[DataRequired()])
-	nivel_escolaridade = SelectField('Nível de escolaridade', choices=[('Fundamental','Fundamental'), ('Médio','Médio'), ('Técnico', 'Técnico')])
-	status_escolaridade = SelectField('Status', choices=[('Cursando','Cursando'),('Concluído','Concluído')])
-	turno = SelectField('Turno', choices=[('Manhã','Manhã'),('Noite','Noite')])
-
-	#para realiza
-	trabalho_local = StringField('Local de trabalho', validators=[DataRequired()])
-	trabalho_descricao = StringField('Descrição do trabalho', validators=[DataRequired()])
-	trabalho_data_ini = DateField('Data de inicio do trabalho', format='%Y-%m-%d', validators=[DataRequired()])
-	trabalho_data_fim = DateField('Data de inicio do trabalho', format='%Y-%m-%d', validators=[DataRequired()])
-
-	submit = SubmitField('Confirmar')
-
-class AddOrEditVoluntarioForm(FlaskForm):
-
-	"""
-	Form para adição/edição de um voluntario
-	"""
-	#para pessoa e voluntario
-	rg_numero = IntegerField('RG (somente números)', validators=[DataRequired()])
-	rg_orgao_expedidor = StringField('Orgão expedidor (RG)', validators=[DataRequired()])
-	rg_data_expedicao = DateField('Data de expedição', format='%Y-%m-%d', validators=[DataRequired()])
-
-	#para pessoa
-	nome = StringField('Nome', validators=[DataRequired()])
-	sexo = IntegerField('Sexo',validators=[DataRequired()])
-	data_nascimento = DateField('Data de nascimento', format='%Y-%m-%d', validators=[DataRequired()])
-	email = StringField('Email', validators=[DataRequired(), Email()])
-	celular = IntegerField('Celular', validators=[DataRequired()])
-	rua = StringField('Rua', validators=[DataRequired()])
-	numero = IntegerField('Número', validators=[DataRequired()])
-	complemento = StringField('Complemento', validators=[DataRequired()])
-	bairro = StringField('Bairro', validators=[DataRequired()])
-	cidade = StringField('Cidade', validators=[DataRequired()])
-	uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
-	cep = StringField('CEP', validators=[DataRequired()])
+	identificador_tipo = IntegerField('Tipo de identificador', validators=[DataRequired()])	
+	identificador_numero = StringField('Número do identificador', validators=[DataRequired()])
+	identificador_complemento = StringField('Complemento do identificador', validators=[Optional()])
+	endereco_numero = IntegerField('Número', validators=[DataRequired()])
+	endereco_rua = StringField('Rua', validators=[DataRequired()])
+	endereco_complemento = StringField('Complemento', validators=[DataRequired()])
+	endereco_bairro = StringField('Bairro', validators=[DataRequired()])
+	endereco_cidade = StringField('Cidade', validators=[DataRequired()])
+	endereco_uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])
+	endereco_cep = StringField('CEP', validators=[DataRequired()])
+	nome_responsavel = StringField('Nome do responsável', validators=[Optional()])
+	telefone_responsavel = StringField('Telefone do responsável', validators=[Optional()])
+	profissao_responsavel = StringField('Profissão do responsável', validators=[Optional()])
+	curso_puc = StringField('Curso na PUC', validators=[Optional()])
+	matricula_puc = StringField('Matrícula na PUC', validators=[Optional()])
+	dificuldade = StringField('Dificuldade do aluno', validators=[Optional()])
+	serie = StringField('Série/Ano', validators=[Optional()])
+	escolaridade_nivel = SelectField('Nível de escolaridade', choices=[('Fundamental Completo','Fundamental Completo'), ('Fundamental Incompleto','Fundamental Incompleto'), ('Médio Completo','Médio Completo'), ('Médio Incompleto','Médio Incompleto'), ('Técnico Completo', 'Técnico Completo'), ('Técnico Incompleto', 'Técnico Incompleto')])
+	escolaridade_turno = SelectField('Turno', choices=[('Manha','Manhã'), ('Tarde','Tarde'), ('Noite','Noite')])
+	nome_instituicao = StringField('Nome da instituição de origem', validators=[Optional()])
 	
-	#para voluntario
-	matricula = StringField('Matrícula', validators=[DataRequired()])
-	curso = SelectField('Cruso', choices=[('Administração','Administração'), ('Arquitetura e Urbanismo','Arquitetura e Urbanismo')])
-
 	submit = SubmitField('Confirmar')
