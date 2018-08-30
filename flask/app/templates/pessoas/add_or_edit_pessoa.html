@@ -5,86 +5,59 @@
 <div class="content-section">
   <div class="center">
 
-  	{% if tipo == 'aluno' %}
+	{% if add_aluno or add_aprendiz or add_voluntario %}
+    	<h1>Adicionar um {{ tipo }}</h1>
+    {% else %}
+    	<h1>Editar um {{ tipo }}</h1>
+    {% endif %}
 
-	  	{% if add_aluno %}
-	    	<h1>Adicionar um aluno</h1>
-	    {% else %}
-	    	<h1>Editar um aluno</h1>
-	    {% endif %}
-
-	     <form id='form-pessoas' class="form form-horizontal" method="post" role="form" action=" {{ url_for('pessoas.add_pessoa', tipo='aluno') }} ">
-
-	{% elif tipo == 'aprendiz' %}
-	  	{% if add_aprendiz %}
-	    	<h1>Adicionar um aprendiz</h1>
-	    {% else %}
-	    	<h1>Editar um aprendiz</h1>
-	    {% endif %}
-
-	    <form id='form-pessoas' class="form form-horizontal" method="post" role="form" action=" {{ url_for('pessoas.add_pessoa', tipo='aprendiz') }} ">
-	    
-	{% else %}
-	  	{% if add_voluntario %}
-	    	<h1>Adicionar um voluntario</h1>
-	    {% else %}
-	    	<h1>Editar um voluntario</h1>
-	    {% endif %}
-
-	    <form id='form-pessoas' class="form form-horizontal" method="post" role="form" action=" {{ url_for('pessoas.add_pessoa', tipo='voluntario') }} ">
-
-	{% endif %}
     <br/>
 
+	<form id='form-pessoas' class="form form-horizontal" method="post" role="form" action=" {{ url_for('pessoas.add_pessoa', tipo=tipo) }} ">
 
-    		 {{ form.hidden_tag() }}
-	         {{ wtf.form_errors(form, hiddens="only") }}
+		 {{ form.hidden_tag() }}
+         {{ wtf.form_errors(form, hiddens="only") }}
 
-	         {{ wtf.form_field(form.nome) }}
-	         {{ wtf.form_field(form.email) }}
-	         {{ wtf.form_field(form.celular) }}
-	         {{ wtf.form_field(form.foto) }}
-	         {{ wtf.form_field(form.sexo) }}
-	         {{ wtf.form_field(form.data_nascimento) }}
-	         {{ wtf.form_field(form.identificador_tipo) }}
-	         {{ wtf.form_field(form.identificador_numero) }}
-	         {{ wtf.form_field(form.identificador_complemento) }}
-	         {{ wtf.form_field(form.endereco_numero) }}
-	         {{ wtf.form_field(form.endereco_rua) }}
-	         {{ wtf.form_field(form.endereco_complemento) }}
-	         {{ wtf.form_field(form.endereco_bairro) }}
-	         {{ wtf.form_field(form.endereco_cidade) }}
-	         {{ wtf.form_field(form.endereco_uf) }}
-	         {{ wtf.form_field(form.endereco_cep) }}
+         {{ wtf.form_field(form.nome) }}
+         {{ wtf.form_field(form.email) }}
+         {{ wtf.form_field(form.celular) }}
+         {{ wtf.form_field(form.foto) }}
+         {{ wtf.form_field(form.sexo) }}
+         {{ wtf.form_field(form.data_nascimento) }}
+         {{ wtf.form_field(form.identificador_tipo) }}
+         {{ wtf.form_field(form.identificador_numero) }}
+         {{ wtf.form_field(form.identificador_complemento) }}
+         {{ wtf.form_field(form.endereco_numero) }}
+         {{ wtf.form_field(form.endereco_rua) }}
+         {{ wtf.form_field(form.endereco_complemento) }}
+         {{ wtf.form_field(form.endereco_bairro) }}
+         {{ wtf.form_field(form.endereco_cidade) }}
+         {{ wtf.form_field(form.endereco_uf) }}
+         {{ wtf.form_field(form.endereco_cep) }}
 
-	         {% if tipo == 'aluno' or tipo == 'aprendiz' %}
-	         	{{ wtf.form_field(form.nome_responsavel) }}
-	         	{{ wtf.form_field(form.telefone_responsavel) }}
-	         	{{ wtf.form_field(form.profissao_responsavel) }}
-	         	{{ wtf.form_field(form.dificuldade) }}
-	         	{{ wtf.form_field(form.serie) }}
-	         	{{ wtf.form_field(form.escolaridade_nivel) }}
-	         	{{ wtf.form_field(form.escolaridade_turno) }}
-	         	{{ wtf.form_field(form.nome_instituicao) }}
-	         {% endif %}
+         {% if tipo == 'aluno' or tipo == 'aprendiz' %}
+         	{{ wtf.form_field(form.nome_responsavel) }}
+         	{{ wtf.form_field(form.telefone_responsavel) }}
+         	{{ wtf.form_field(form.profissao_responsavel) }}
+         	{{ wtf.form_field(form.dificuldade) }}
+         	{{ wtf.form_field(form.serie) }}
+         	{{ wtf.form_field(form.escolaridade_nivel) }}
+         	{{ wtf.form_field(form.escolaridade_turno) }}
+         	{{ wtf.form_field(form.nome_instituicao) }}
+         {% endif %}
 
-			 {% if tipo == 'voluntario' %}
-	         	{{ wtf.form_field(form.curso_puc) }}
-	         	{{ wtf.form_field(form.matricula_puc) }}
-	         {% endif %}
+		 {% if tipo == 'voluntario' %}
+         	{{ wtf.form_field(form.curso_puc) }}
+         	{{ wtf.form_field(form.matricula_puc) }}
+         {% endif %}
 
-	         {{ wtf.form_field(form.submit) }}	         
+         {{ wtf.form_field(form.submit) }}	         
 
 
-	     </form>
+     </form>
 
   </div>
 </div>
-
-<script type="text/javascript">
-
-
-</script>
 
 {% endblock %}
 

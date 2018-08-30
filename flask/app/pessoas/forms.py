@@ -22,7 +22,7 @@ class AddOrEditPessoaForm(FlaskForm):
 	identificador_complemento = StringField('Complemento do identificador', validators=[Optional()])
 	endereco_numero = IntegerField('Número', validators=[DataRequired()])
 	endereco_rua = StringField('Rua', validators=[DataRequired()])
-	endereco_complemento = StringField('Complemento', validators=[DataRequired()])
+	endereco_complemento = StringField('Complemento', validators=[Optional()])
 	endereco_bairro = StringField('Bairro', validators=[DataRequired()])
 	endereco_cidade = StringField('Cidade', validators=[DataRequired()])
 	endereco_uf = SelectField('UF', choices=[('AC','AC'), ('AL','AL'), ('AP','AP'), ('AM','AM'), ('BA','BA'), ('CE','CE'), ('DF','DF'), ('ES','ES'), ('GO','GO'), ('MA','MA'), ('MT','MT'), ('MS','MS'), ('MG','MG'), ('PA','PA'), ('PB','PB'), ('PR','PR'), ('PE','PE'), ('PI','PI'), ('RJ','RJ'), ('RN','RN'), ('RS','RS'), ('RO','RO'), ('RR','RR'), ('SC','SC'), ('SP','SP'), ('SE','SE'), ('TO', 'TO')], validators=[DataRequired()])

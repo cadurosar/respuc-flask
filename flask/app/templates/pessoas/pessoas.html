@@ -26,18 +26,18 @@
                 {% for aluno in alunos %}
                   <tr>
                     <td> {{ aluno.nome }}
-                      <a style="float:right;" href="{{ url_for('pessoas.info_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-info-circle fa-lg"></i>
                       </a>
                     </td>
                     <td> {{ aluno.email }} </td>
                     <td>
-                      <a href="{{ url_for('pessoas.edit_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-pencil"></i> Editar
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_aluno', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>

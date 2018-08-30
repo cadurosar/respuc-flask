@@ -70,8 +70,8 @@ CREATE TABLE pessoa
 	escolaridade_turno varchar(10),
 	nome_instituicao varchar(200),
 
-	CONSTRAINT pessoa_pk PRIMARY KEY (pk_matricula_neam),
-	CONSTRAINT nome_instituicao_fk FOREIGN KEY (nome_instituicao) REFERENCES instituicao(pk_nome) ON UPDATE CASCADE ON DELETE CASCADE
+	CONSTRAINT pessoa_pk PRIMARY KEY (pk_matricula_neam)
+	-- ,CONSTRAINT nome_instituicao_fk FOREIGN KEY (nome_instituicao) REFERENCES instituicao(pk_nome) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS evento CASCADE;
@@ -228,6 +228,45 @@ CREATE OR REPLACE FUNCTION verifica_requisitos_voluntario() RETURNS trigger as $
 $tg_requisitos_voluntario$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tg_requisitos_voluntario BEFORE INSERT OR UPDATE ON pessoa FOR EACH ROW EXECUTE PROCEDURE verifica_requisitos_voluntario();
+
+
+
+/* trigger para inserir nova instituicao, caso não exista, quando um aluno / aprendiz é cadastrado */
+CREATE OR REPLACE FUNCTION insere_nova_instituicao() RETURNS trigger as $tg_insere_instituicao$
+	DECLARE 
+		nome_instituicao_lida varchar(200);
+		ja_existe integer;
+
+		cursor1 cursor is
+			select pk_nome
+			from instituicao;
+
+	BEGIN
+		IF NEW.nome_instituicao IS NOT NULL THEN
+			OPEN cursor1;
+			ja_existe = 0;
+			LOOP
+				fetch cursor1 into nome_instituicao_lida;
+
+				IF NOT FOUND THEN EXIT; END IF;
+
+				IF nome_instituicao_lida = NEW.nome_instituicao THEN
+					ja_existe = 1;
+				END IF;
+			END LOOP;
+
+			IF ja_existe = 0 THEN
+				INSERT INTO instituicao VALUES (NEW.nome_instituicao, null, null);
+			END IF;
+
+		END IF;
+
+		RETURN NEW;
+	END;
+$tg_insere_instituicao$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tg_insere_instituicao BEFORE INSERT OR UPDATE ON pessoa FOR EACH ROW EXECUTE PROCEDURE insere_nova_instituicao();
+
 
 /* --------------------------------------------- USUARIO ---------------------------------------------- */
 
