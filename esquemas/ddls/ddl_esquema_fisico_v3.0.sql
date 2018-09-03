@@ -69,7 +69,7 @@ CREATE TABLE pessoa
 	telefone_responsavel char(20) [],
 	profissao_responsavel varchar(50) [],
 	curso_puc varchar(50),
-	matricula_puc char(7) UNIQUE,
+	matricula_puc char(7),
 	dificuldade varchar(50) [],
 	serie varchar(10),
 	escolaridade_nivel varchar(30),
@@ -223,10 +223,14 @@ CREATE OR REPLACE FUNCTION verifica_requisitos_voluntario() RETURNS trigger as $
 
 		IF (NEW.tipo = 'voluntario') THEN
 
-			IF NEW.matricula_puc IS NULL OR NEW.curso_puc IS NULL THEN
+			IF NEW.matricula_puc IS NULL OR NEW.matricula_puc = '' OR NEW.curso_puc IS NULL OR NEW.curso_puc = '' THEN
 				RAISE EXCEPTION 'Um voluntário deve possuir os dados de matrícula e curso na PUC.';
 				RETURN NULL;
+			ELSIF (SELECT 1 FROM pessoa WHERE matricula_puc = NEW.matricula_puc) > 0 AND OLD.matricula_puc != NEW.matricula_puc THEN 
+				RAISE EXCEPTION 'A matrícula do voluntário já foi cadastrada';
+				RETURN NULL;
 			END IF;
+
 		END IF;
 
 		RETURN NEW;

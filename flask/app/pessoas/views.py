@@ -101,12 +101,12 @@ def edit_pessoa(pk_matricula_neam):
         pessoa.endereco_bairro = form.endereco_bairro.data
         pessoa.endereco_uf = form.endereco_uf.data
         pessoa.endereco_cep = form.endereco_cep.data
-        pessoa.nome_responsavel = '{"'+form.nome_responsavel.data+'"}'
+        pessoa.nome_responsavel = '{"'+ form.nome_responsavel.data+'"}'
         pessoa.telefone_responsavel = '{"' + form.telefone_responsavel.data +'"}'
-        pessoa.profissao_responsavel =  '{"' +form.profissao_responsavel.data +'"}'
+        pessoa.profissao_responsavel =  '{"' + form.profissao_responsavel.data +'"}'
         pessoa.curso_puc = form.curso_puc.data
         pessoa.matricula_puc = form.matricula_puc.data
-        pessoa.dificuldade =  '{"' +form.dificuldade.data +'"}'
+        pessoa.dificuldade =  '{"' + form.dificuldade.data +'"}'
         pessoa.serie = form.serie.data
         pessoa.escolaridade_nivel = form.escolaridade_nivel.data
         pessoa.escolaridade_turno = form.escolaridade_turno.data

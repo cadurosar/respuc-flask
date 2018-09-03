@@ -119,7 +119,7 @@ class Pessoa(db.Model):
     telefone_responsavel = db.Column(ARRAY(db.CHAR(length=10)))
     profissao_responsavel = db.Column(ARRAY(db.String(length=50)))
     curso_puc = db.Column(db.String(50))
-    matricula_puc = db.Column(db.CHAR(7), unique=True)
+    matricula_puc = db.Column(db.CHAR(7))
     dificuldade = db.Column(ARRAY(db.String(length=50)))
     serie = db.Column(db.String(10))
     escolaridade_nivel = db.Column(db.String(30))
