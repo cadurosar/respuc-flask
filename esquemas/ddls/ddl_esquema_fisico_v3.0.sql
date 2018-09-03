@@ -204,8 +204,8 @@ CREATE OR REPLACE FUNCTION verifica_requisitos_aprendiz_aluno() RETURNS trigger 
 
 		IF (NEW.tipo = 'aprendiz' OR NEW.tipo = 'aluno') THEN
 	
-			IF NEW.escolaridade_nivel IS NULL OR NEW.escolaridade_turno IS NULL OR NEW.nome_responsavel IS NULL OR NEW.telefone_responsavel IS NULL OR NEW.profissao_responsavel IS NULL THEN
-				RAISE EXCEPTION 'Um aprendiz ou aluno deve possuir os dados de escolaridade e do seu responsável completos.';
+			IF NEW.nome_responsavel IS NULL OR NEW.nome_responsavel = '{""}' OR NEW.telefone_responsavel IS NULL OR NEW.telefone_responsavel = '{""}' OR NEW.profissao_responsavel IS NULL OR NEW.profissao_responsavel = '{""}' THEN
+				RAISE EXCEPTION 'Um aprendiz ou aluno deve possuir os dados do seu responsável completos.';
 				RETURN NULL;
 			END IF;
 		END IF;
