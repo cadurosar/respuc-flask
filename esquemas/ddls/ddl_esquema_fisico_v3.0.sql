@@ -24,6 +24,12 @@ CREATE TYPE tipo_pessoa AS ENUM (
 	'aluno'
 );
 
+CREATE TYPE tipo_identificador AS ENUM (
+	'CPF',
+	'RG',
+	'Certidão'
+);
+
 DROP TABLE IF EXISTS instituicao CASCADE;
 
 CREATE TABLE instituicao
@@ -47,7 +53,7 @@ CREATE TABLE pessoa
 	desligamento_motivo varchar(100),
 	sexo char(1),	/* M, F ou O */
 	data_nascimento date,
-	identificador_tipo smallint NOT NULL,	/* certidao, rg ou cpf */
+	identificador_tipo tipo_identificador NOT NULL,	/* certidao, rg ou cpf */
 	identificador_numero varchar(32) NOT NULL,
 	identificador_complemento char(2),
 	endereco_numero smallint,

@@ -103,7 +103,7 @@ class Pessoa(db.Model):
     desligamento_motivo = db.Column(db.String(100))
     sexo = db.Column(db.CHAR(1))
     data_nascimento = db.Column(db.Date)
-    identificador_tipo = db.Column(db.SmallInteger, nullable=False)
+    identificador_tipo = db.Column(Enum('CPF', 'RG', 'Certidão', name='tipo_identificador'), nullable=False)
     identificador_numero = db.Column(db.String(32), nullable=False)
     identificador_complemento = db.Column(db.CHAR(2))
     endereco_numero = db.Column(db.SmallInteger)
