@@ -33,9 +33,9 @@ class AddOrEditPessoaForm(FlaskForm):
 	curso_puc = StringField('Curso na PUC', validators=[Optional()])
 	matricula_puc = StringField('Matrícula na PUC', validators=[Optional()])
 	dificuldade = StringField('Dificuldade do aluno', validators=[Optional()])
-	serie = SelectField('Série/Ano', choices=[('1o ano','1o ano'), ('2o ano','2o ano'), ('3o ano','3o ano'), ('4o ano','4o ano'), ('5o ano','5o ano'), ('6o ano','6o ano'), ('7o ano','7o ano'), ('8o ano','8o ano'), ('9o ano','9o ano'), ], validators=[Optional()])
-	escolaridade_nivel = SelectField('Nível de escolaridade', choices=[('Fundamental Completo','Fundamental Completo'), ('Fundamental Incompleto','Fundamental Incompleto'), ('Médio Completo','Médio Completo'), ('Médio Incompleto','Médio Incompleto'), ('Técnico Completo', 'Técnico Completo'), ('Técnico Incompleto', 'Técnico Incompleto')])
-	escolaridade_turno = SelectField('Turno', choices=[('Manha','Manhã'), ('Tarde','Tarde'), ('Noite','Noite')])
+	serie = SelectField('Série/Ano', choices=[('1o ano','1o ano'), ('2o ano','2o ano'), ('3o ano','3o ano'), ('4o ano','4o ano'), ('5o ano','5o ano'), ('6o ano','6o ano'), ('7o ano','7o ano'), ('8o ano','8o ano'), ('9o ano','9o ano') ], validators=[Optional()])
+	escolaridade_nivel = SelectField('Nível de escolaridade', choices=[('Fundamental Completo','Fundamental Completo'), ('Fundamental Incompleto','Fundamental Incompleto'), ('Médio Completo','Médio Completo'), ('Médio Incompleto','Médio Incompleto'), ('Técnico Completo', 'Técnico Completo'), ('Técnico Incompleto', 'Técnico Incompleto')], validators=[Optional()])
+	escolaridade_turno = SelectField('Turno', choices=[('Manha','Manhã'), ('Tarde','Tarde'), ('Noite','Noite')], validators=[Optional()])
 	nome_instituicao = StringField('Nome da instituição de origem', validators=[Optional()])
 	
 	submit = SubmitField('Confirmar')

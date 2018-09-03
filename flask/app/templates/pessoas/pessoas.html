@@ -78,18 +78,18 @@
                 {% for aprendiz in aprendizes %}
                   <tr>
                     <td> {{ aprendiz.nome }}
-                      <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aprendiz.pk_matricula_neam) }}">
                         <i class="fa fa-info-circle fa-lg"></i>
                       </a>
                     </td>
                     <td> {{ aprendiz.email }} </td>
                     <td>
-                      <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aprendiz.pk_matricula_neam) }}">
                         <i class="fa fa-pencil"></i> Editar
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aprendiz.pk_matricula_neam) }}">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>
@@ -131,18 +131,18 @@
                   {% for voluntario in voluntarios %}
                     <tr>
                       <td> {{ voluntario.nome }}
-                        <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                        <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=voluntario.pk_matricula_neam) }}">
                           <i class="fa fa-info-circle fa-lg"></i>
                         </a>
                       </td>
                       <td> {{ voluntario.email }} </td>
                       <td>
-                        <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                        <a href="{{ url_for('pessoas.edit_pessoa', pk_matricula_neam=voluntario.pk_matricula_neam) }}">
                           <i class="fa fa-pencil"></i> Editar
                         </a>
                       </td>
                       <td>
-                        <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                        <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=voluntario.pk_matricula_neam) }}">
                           <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>                      

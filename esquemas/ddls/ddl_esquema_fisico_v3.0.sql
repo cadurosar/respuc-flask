@@ -217,13 +217,13 @@ $tg_requisitos_aprendiz_aluno$ LANGUAGE plpgsql;
 CREATE TRIGGER tg_requisitos_aprendiz_aluno BEFORE INSERT OR UPDATE ON pessoa FOR EACH ROW EXECUTE PROCEDURE verifica_requisitos_aprendiz_aluno();
 
 
-/* trigger para conferir se atributos "matriula_puc" e "curso_puc" não sao null quando tipo==voluntario */
+/* trigger para conferir se atributos "matricula_puc" e "curso_puc" não sao null quando tipo==voluntario */
 CREATE OR REPLACE FUNCTION verifica_requisitos_voluntario() RETURNS trigger as $tg_requisitos_voluntario$
 	BEGIN
 
 		IF (NEW.tipo = 'voluntario') THEN
 
-			IF NEW.matriula_puc IS NULL OR NEW.curso_puc IS NULL THEN
+			IF NEW.matricula_puc IS NULL OR NEW.curso_puc IS NULL THEN
 				RAISE EXCEPTION 'Um voluntário deve possuir os dados de matrícula e curso na PUC.';
 				RETURN NULL;
 			END IF;
