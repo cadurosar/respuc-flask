@@ -56,8 +56,11 @@ def add_pessoa(tipo):
     if form.validate_on_submit():
         pessoa = Pessoa(nome=form.nome.data, email=form.email.data, celular=form.celular.data, foto=form.foto.data, sexo=form.sexo.data, data_nascimento=form.data_nascimento.data, identificador_tipo=form.identificador_tipo.data, identificador_numero=form.identificador_numero.data, identificador_complemento=form.identificador_complemento.data, endereco_numero=form.endereco_numero.data, endereco_rua=form.endereco_rua.data, endereco_complemento=form.endereco_complemento.data, endereco_bairro=form.endereco_bairro.data, endereco_cidade=form.endereco_cidade.data, endereco_uf=form.endereco_uf.data, endereco_cep=form.endereco_cep.data, tipo=tipo, nome_responsavel= '{"'+form.nome_responsavel.data+'"}', telefone_responsavel='{"'+form.telefone_responsavel.data+'"}', profissao_responsavel='{"'+form.profissao_responsavel.data+'"}', curso_puc=form.curso_puc.data, matricula_puc=form.matricula_puc.data, dificuldade='{"'+form.dificuldade.data+'"}', serie=form.serie.data, escolaridade_nivel=form.escolaridade_nivel.data, escolaridade_turno=form.escolaridade_turno.data, nome_instituicao=form.nome_instituicao.data)
 
-        db.session.add(pessoa)
-        db.session.commit()
+        try:
+            db.session.add(pessoa)
+            db.session.commit()
+        except Exception as e:
+            raise e
 
         flash( pessoa.tipo+' criado com sucesso')
         # redirect to usuarios page

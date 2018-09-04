@@ -37,7 +37,7 @@
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
+                      <a href="#" data-href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}" data-toggle="modal" data-target="#modal_deletar_pessoa">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>
@@ -89,7 +89,7 @@
                       </a>
                     </td>
                     <td>
-                      <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aprendiz.pk_matricula_neam) }}">
+                      <a href="#" data-href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=aprendiz.pk_matricula_neam) }}" data-toggle="modal" data-target="#modal_deletar_pessoa">
                         <i class="fa fa-trash"></i> Deletar
                       </a>
                     </td>
@@ -142,7 +142,7 @@
                         </a>
                       </td>
                       <td>
-                        <a href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=voluntario.pk_matricula_neam) }}">
+                        <a href="#" data-href="{{ url_for('pessoas.delete_pessoa', pk_matricula_neam=voluntario.pk_matricula_neam) }}" data-toggle="modal" data-target="#modal_deletar_pessoa">
                           <i class="fa fa-trash"></i> Deletar
                         </a>
                       </td>                      
@@ -163,12 +163,32 @@
               </a>
             </div>
           </div>
-        </div>   
+        </div> 
+
+        <div id="modal_deletar_pessoa" class="modal fade" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Tem certeza que deseja deletar esta pessoa?</h4>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Cancelar</button>
+                <a type="button" class="btn btn-danger btn-lg btn-ok">Deletar</a>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
     </div>
   </div>
 </div>
 
 <script>
+
+$('#modal_deletar_pessoa').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
 
 $(document).ready(function() {
     var table = $('#tabela_alunos').DataTable( {
