@@ -10,9 +10,9 @@
     {% else %}
     	<h1>Editar um {{ tipo }}</h1>
     {% endif %}
+        <hr class="intro-divider">
 
     </div>
-    <br/>
 
     <div class="container">
         {% if add_aluno or add_aprendiz or add_voluntario %}
@@ -24,49 +24,127 @@
     		 {{ form.hidden_tag() }}
              {{ wtf.form_errors(form, hiddens="only") }}
 
-             <div class="">
+            <div class="row">
+                <h3 class="pessoa-sub"> Dados pessoais </h3>
 
-                 {{ wtf.form_field(form.nome) }}
-                 {{ wtf.form_field(form.email) }}
-                 {{ wtf.form_field(form.celular) }}
-                 {{ wtf.form_field(form.foto) }}
-                 {{ wtf.form_field(form.sexo) }}
-                 {{ wtf.form_field(form.data_nascimento) }}
-                 {{ wtf.form_field(form.identificador_tipo) }}
-                 {{ wtf.form_field(form.identificador_numero) }}
-                 {{ wtf.form_field(form.identificador_complemento) }}
-                 {{ wtf.form_field(form.endereco_rua) }}
-                 {{ wtf.form_field(form.endereco_numero) }}
-                 {{ wtf.form_field(form.endereco_complemento) }}
-                 {{ wtf.form_field(form.endereco_bairro) }}
-                 {{ wtf.form_field(form.endereco_cidade) }}
-                 {{ wtf.form_field(form.endereco_uf) }}
-                 {{ wtf.form_field(form.endereco_cep) }}
+                <div class="col-md-4">
+                    {{ wtf.form_field(form.nome) }}
+                </div>
+                <div class="col-md-4">
+                    {{ wtf.form_field(form.email) }}
+                </div>
+                <div class="col-md-2">
+                    {{ wtf.form_field(form.sexo) }}
+                </div>
+                <div class="col-md-2">
+                    {{ wtf.form_field(form.data_nascimento) }}
+                </div>
             </div>
-            <div>
-                 {% if tipo == 'aluno' or tipo == 'aprendiz' %}
-                 	{{ wtf.form_field(form.nome_responsavel) }}
-                 	{{ wtf.form_field(form.telefone_responsavel) }}
-                 	{{ wtf.form_field(form.profissao_responsavel) }}
-                 	{{ wtf.form_field(form.dificuldade) }}
-                 	{{ wtf.form_field(form.serie) }}
-                 	{{ wtf.form_field(form.escolaridade_nivel) }}
-                 	{{ wtf.form_field(form.escolaridade_turno) }}
-                 	{{ wtf.form_field(form.nome_instituicao) }}
-                 {% endif %}
-
-        		 {% if tipo == 'voluntario' %}
-                 	{{ wtf.form_field(form.curso_puc) }}
-                 	{{ wtf.form_field(form.matricula_puc) }}
-                 {% endif %}
-             </div>
-
-             {{ wtf.form_field(form.submit) }}	         
-
-
+            <div class="row">
+                <div class="col-md-2">
+                    {{ wtf.form_field(form.identificador_tipo) }}
+                </div>
+                <div class="col-md-3">
+                    {{ wtf.form_field(form.identificador_numero) }}
+                </div>
+                <div class="col-md-3">
+                    {{ wtf.form_field(form.identificador_complemento) }}
+                </div>
+                <div class="col-md-2">
+                    {{ wtf.form_field(form.celular) }}
+                </div>
+                <div class="col-md-2">
+                    {{ wtf.form_field(form.foto) }}
+                </div>
+            </div>
+            <div class="row">
+                <h3 class="pessoa-sub"> Dados de contato </h3>
+                <div class="col-sm-1">
+                    {{ wtf.form_field(form.endereco_uf) }}
+                </div>
+                <div class="col-sm-2">
+                    {{ wtf.form_field(form.endereco_cidade) }}
+                </div>
+                <div class="col-sm-2">
+                    {{ wtf.form_field(form.endereco_bairro) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ wtf.form_field(form.endereco_rua) }}
+                </div>
+                <div class="col-sm-1">
+                    {{ wtf.form_field(form.endereco_numero) }}
+                </div>
+                <div class="col-sm-1">
+                    {{ wtf.form_field(form.endereco_complemento) }}
+                </div>
+                <div class="col-sm-2">
+                    {{ wtf.form_field(form.endereco_cep) }}
+                </div>
+            </div>
+            {% if tipo == 'aluno' or tipo == 'aprendiz' %}
+            <div class="row">
+                <h3 class="pessoa-sub"> Dados responsável </h3>
+                <div class="col-sm-4">
+                	{{ wtf.form_field(form.nome_responsavel) }}
+                </div>
+                <div class="col-sm-3">
+                	{{ wtf.form_field(form.profissao_responsavel) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ wtf.form_field(form.telefone_responsavel) }}
+                </div>
+            </div>
+            <div class="row">
+                <h3 class="pessoa-sub"> Dados escolaridade </h3>
+                <div class="col-sm-3">
+                	  {{ wtf.form_field(form.nome_instituicao) }}
+                </div>
+                <div class="col-sm-2">
+                	  {{ wtf.form_field(form.serie) }}
+                </div>
+                <div class="col-sm-3">
+                	  {{ wtf.form_field(form.escolaridade_nivel) }}
+                </div>
+                <div class="col-sm-3">
+                	  {{ wtf.form_field(form.escolaridade_turno) }}
+                </div>
+                <div class="col-sm-3">
+                    {{ wtf.form_field(form.dificuldade) }}
+                </div>
+            </div>
+            {% else %}
+            <div class="row">
+                <h3 class="pessoa-sub"> Dados PUC </h3>
+                <div class="col-sm-4">
+                    {{ wtf.form_field(form.curso_puc) }}
+                </div>
+                <div class="col-sm-2">
+                    {{ wtf.form_field(form.matricula_puc) }}
+                </div>
+            </div>
+            {% endif %}
+            <hr>
+            <div class="center" style="max-width: 135px;">
+                {{ wtf.form_field(form.submit) }}
+            </div>
          </form>
      </div>
 </div>
+
+<script type="text/javascript">
+
+$('#identificador_complemento').parent().hide();  
+    
+$('#identificador_tipo').change(function(){
+    tipo = $(this).val();
+    if(tipo === 'RG' || tipo === 'Certidão')
+        $('#identificador_complemento').parent().show();
+    else
+        $('#identificador_complemento').parent().hide(); 
+
+})
+
+</script>
 
 {% endblock %}
 

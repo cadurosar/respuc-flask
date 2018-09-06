@@ -24,7 +24,7 @@
                 </thead>
                 <tbody>
                 {% for aluno in alunos %}
-                  <tr>
+                  <tr class="taluno">
                     <td> {{ aluno.nome }}
                       <a style="float:right;" href="{{ url_for('pessoas.info_pessoa', pk_matricula_neam=aluno.pk_matricula_neam) }}">
                         <i class="fa fa-info-circle fa-lg"></i>
