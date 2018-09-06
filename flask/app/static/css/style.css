@@ -20,6 +20,10 @@ body, h1, h2, h3 {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+hr {
+  border-top: 1px solid #ccc;
+
+}
 .btn.btn-default {
   background: #4e7ff0 none repeat scroll 0 0;
   border-color: #4e7ff0;
@@ -97,7 +101,16 @@ footer{
   color:#f4fcff;
 }
 
+.form-group {
+  width: 100%;
+  padding-left: 0px;
+}
 
+.pessoa-sub {
+  color: #fff;
+  background-color: #3667a4;
+  padding: 4px 0 4px 4px;
+}
 /*
 palheta
 #bbd9f3

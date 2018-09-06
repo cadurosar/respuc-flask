@@ -85,7 +85,7 @@ DROP TABLE IF EXISTS evento CASCADE;
 CREATE TABLE evento
 (
 	pk_data date NOT NULL,
-	pk_nome char(100) NOT NULL,
+	pk_nome varchar(100) NOT NULL,
 	descricao varchar(200),
 
 	CONSTRAINT evento_pk PRIMARY KEY (pk_data, pk_nome)
