@@ -26,15 +26,19 @@
               <tbody>
               {% for evento in eventos %}
                 <tr>
-                  <td> {{ evento.nome }} </td>
-                  <td> {{ evento.data }} </td>
+                  <td> {{ evento.pk_nome }} 
+                    <a style="float:right;" href="{{ url_for('eventos.info_evento',  nome=evento.pk_nome, data=evento.pk_data) }}">
+                      <i>adicionar pessoas</i>
+                    </a>
+                  </td>
+                  <td> {{ evento.pk_data }} </td>
                   <td>
-                    <a href="{{ url_for('eventos.edit_evento', id=evento.id_evento) }}">
+                    <a href="{{ url_for('eventos.edit_evento', nome=evento.pk_nome, data=evento.pk_data) }}">
                       <i class="fa fa-pencil"></i> Editar
                     </a>
                   </td>
                   <td>
-                    <a href="{{ url_for('eventos.delete_evento', id=evento.id_evento) }}">
+                    <a href="{{ url_for('eventos.delete_evento', nome=evento.pk_nome, data=evento.pk_data) }}">
                       <i class="fa fa-trash"></i> Deletar
                     </a>
                   </td>

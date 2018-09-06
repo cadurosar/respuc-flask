@@ -10,7 +10,7 @@ class AddOrEditEventoForm(FlaskForm):
 	"""
 
 	nome = StringField('Nome do evento', validators=[DataRequired()])
-	dataevento = DateField('Data do evento', format='%Y-%m-%d', validators=[DataRequired()])
+	data = DateField('Data do evento', format='%Y-%m-%d', validators=[DataRequired()])
 	descricao = TextAreaField('Descrição do evento', validators=[DataRequired()])
 
 	submit = SubmitField('Confirmar')

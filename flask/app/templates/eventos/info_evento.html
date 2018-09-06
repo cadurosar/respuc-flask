@@ -1,0 +1,20 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends "base.html" %}
+{% block title %}Info{% endblock %}
+{% block body %}
+<div class="content-section">
+  <div class="center">
+  	<h1> <b>{{ evento.pk_nome }}</b> </h1>
+  	<hr>
+  	<div class="row">
+  		<h3 class="sub"> Detalhes </h3>
+  		<p> <b>Data (aaaa/mm/dd):</b> {{ evento.pk_data }}</p>
+  		<p> <b>Descricao:</b> {{ evento.descricao }} </p>
+	</div>
+	<div class="row">
+		<h3 class="sub">Participantes</h3>
+		{% for participante in participantes %}
+		{% endfor %}
+  </div>
+</div>
+{% endblock %}

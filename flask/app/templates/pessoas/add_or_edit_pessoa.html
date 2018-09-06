@@ -25,7 +25,7 @@
              {{ wtf.form_errors(form, hiddens="only") }}
 
             <div class="row">
-                <h3 class="pessoa-sub"> Dados pessoais </h3>
+                <h3 class="sub"> Dados pessoais </h3>
 
                 <div class="col-md-4">
                     {{ wtf.form_field(form.nome) }}
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="row">
-                <h3 class="pessoa-sub"> Dados de contato </h3>
+                <h3 class="sub"> Dados de contato </h3>
                 <div class="col-sm-1">
                     {{ wtf.form_field(form.endereco_uf) }}
                 </div>
@@ -83,7 +83,7 @@
             </div>
             {% if tipo == 'aluno' or tipo == 'aprendiz' %}
             <div class="row">
-                <h3 class="pessoa-sub"> Dados responsável </h3>
+                <h3 class="sub"> Dados responsável </h3>
                 <div class="col-sm-4">
                 	{{ wtf.form_field(form.nome_responsavel) }}
                 </div>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="row">
-                <h3 class="pessoa-sub"> Dados escolaridade </h3>
+                <h3 class="sub"> Dados escolaridade </h3>
                 <div class="col-sm-3">
                 	  {{ wtf.form_field(form.nome_instituicao) }}
                 </div>
@@ -114,7 +114,7 @@
             </div>
             {% else %}
             <div class="row">
-                <h3 class="pessoa-sub"> Dados PUC </h3>
+                <h3 class="sub"> Dados PUC </h3>
                 <div class="col-sm-4">
                     {{ wtf.form_field(form.curso_puc) }}
                 </div>
